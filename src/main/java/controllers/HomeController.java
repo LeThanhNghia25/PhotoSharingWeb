@@ -1,17 +1,26 @@
 package controllers;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import models.Person;
+import Dao.PhotoService;
+import models.User;
+
 
 @Controller
 public class HomeController {
-    @RequestMapping(value={"/","home"}, method = RequestMethod.GET)
-   public ModelAndView index() {
+	 @Autowired
+	    private PhotoService photoService;
+    @RequestMapping(value={"/"}, method = RequestMethod.GET)
+   public ModelAndView index(Model model) {
+    	 List<User> users = photoService.getAllUsers();
+    	 model.addAttribute("users", users);
     	ModelAndView mv = new ModelAndView("user/index");
     	return mv;
     }

@@ -10,7 +10,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta http-equiv="x-ua-compatible" content="ie=edge" />
-<title><decorator:title default="Master-layout" /></title>
+<title><decorator:title default="PhotoSharing" /></title>
     <!-- MDB icon -->
     <link rel="icon" href="<c:url value="/resources/css/mdb.min.css" />" type="image/x-icon" />
     <!-- Font Awesome -->
