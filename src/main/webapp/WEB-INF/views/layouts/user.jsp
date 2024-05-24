@@ -12,7 +12,7 @@
 <meta http-equiv="x-ua-compatible" content="ie=edge" />
 <title><decorator:title default="PhotoSharing" /></title>
     <!-- MDB icon -->
-    <link rel="icon" href="<c:url value="/resources/css/mdb.min.css" />" type="image/x-icon" />
+     <link rel="icon" href="resources/img/favicon.png" type="image/png">
     <!-- Font Awesome -->
     <link
       rel="stylesheet"
