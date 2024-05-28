@@ -10,7 +10,7 @@
 			<!-- Left elements -->
 			<div class="d-flex">
 				<!-- Brand -->
-				<a class="navbar-brand me-2 mb-1 d-flex align-items-center" href="#">
+				<a class="navbar-brand me-2 mb-1 d-flex align-items-center" href="<%=request.getContextPath()%>/">
 					<img src="resources/img/ptsharing-removebg-preview.png" height="35"
 					alt="MDB Logo" loading="lazy" style="margin-top: 2px;" />
 				</a>
@@ -35,9 +35,14 @@
 			<ul class="navbar-nav flex-row">
 				<!-- Button trigger modal -->
 				<c:if test="${sessionScope.user == null}">
-					<button type="button" class="btn btn-primary" data-mdb-ripple-init
-						onclick="window.location.href='login'">Đăng
-						nhập</button>
+					<div class="d-flex align-items-center">
+						<button id="loginButton" data-mdb-ripple-init type="button"
+							class="btn btn-link px-3 me-2"
+							onclick="window.location.href='login'">Đăng nhập</button>
+						<button id="registerButton" data-mdb-ripple-init type="button"
+							class="btn btn-primary me-3"
+							onclick="window.location.href='registerForm'">Đăng ký</button>
+					</div>
 				</c:if>
 				<c:if test="${sessionScope.sessio != null}">
 					<li class="nav-item me-3 me-lg-1"><a

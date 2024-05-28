@@ -1,6 +1,5 @@
 package Dao;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,18 @@ public class PhotoService {
 		return photoRepository.findAllImg();
 	}
 
-	public User checkUser(String username, String password) {
-		return photoRepository.findUserByUsernameAndPassword(username, password);
+	public User checkUser(String email, String password) {
+		return photoRepository.findUserByUsernameAndPassword(email, password);
 	}
+
+	public void saveUser(User newUser) {
+	    photoRepository.saveUser(newUser);
+	}
+
+	public boolean checkEmailExists(String email) {
+	    User user = photoRepository.findUserByEmail(email);
+	    return user != null;
+	}
+
 
 }

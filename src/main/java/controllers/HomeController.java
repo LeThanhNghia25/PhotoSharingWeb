@@ -1,16 +1,22 @@
 package controllers;
 
+import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import Dao.PhotoService;
 import models.Img;
@@ -23,7 +29,6 @@ public class HomeController {
 
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
 	public ModelAndView index(Model model) {
-
 		List<Img> imgs = photoService.getAllImg();
 		model.addAttribute("imgs", imgs);
 		return new ModelAndView("user/index");
@@ -53,26 +58,74 @@ public class HomeController {
 		return mv;
 	}
 
-	@RequestMapping(value = { "/loginhome" }, method = RequestMethod.POST)
-	public ModelAndView loginhome(@RequestParam("username") String username, @RequestParam("password") String password,
-			HttpSession session, Model model) {
-		User user = photoService.checkUser(username, password);
-		if (user != null) {
-			session.setAttribute("user", user);
-			return new ModelAndView("user/index");
-		} else {
-			model.addAttribute("error", "Sai tên tài khoản hoặc mật khẩu");
-			return new ModelAndView("user/index");
-		}
-	}
+//	@RequestMapping(value = { "/loginhome" }, method = RequestMethod.POST)
+//	public String loginhome(@RequestParam("email") String email, @RequestParam("password") String password,
+//			HttpSession session) {
+//		User user = photoService.checkUser(email, password);
+//		if (user != null) {
+//			session.setAttribute("user", user);
+//			// Chuyển hướng đến trang chính sau khi đăng nhập thành công
+//			return "redirect:/";
+//		} else {
+//			return "redirect:/login?error=true"; // Chuyển hướng về trang đăng nhập và báo lỗi
+//		}
+//	}
+
 	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
 	public ModelAndView login() {
 		ModelAndView mv = new ModelAndView("user/login");
 		return mv;
 	}
+
+	@RequestMapping(value = "/registerForm", method = RequestMethod.GET)
+	public String showRegistrationForm(Model model) {
+		return "user/register";
+	}
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public String register(@RequestParam("username") String username, @RequestParam("birthday") String birthday,
+			@RequestParam("email") String email, @RequestParam("password") String password) {
+		// Create a new User object and set its properties
+		User newUser = new User();
+		newUser.setUsername(username);
+		newUser.setBirthday(Date.valueOf(birthday));
+		newUser.setEmail(email);
+		newUser.setPassword(password);
+		photoService.saveUser(newUser);
+
+		return "user/login";
+	}
+
 	@RequestMapping(value = { "/profile" }, method = RequestMethod.GET)
 	public ModelAndView profile() {
 		ModelAndView mv = new ModelAndView("user/profile");
 		return mv;
 	}
+
+	@PostMapping("/ajaxLogin")
+	@ResponseBody
+	public Map<String, String> ajaxLogin(@RequestParam("email") String email, @RequestParam("password") String password,
+			HttpSession session) {
+		Map<String, String> response = new HashMap<>();
+		User user = photoService.checkUser(email, password);
+		if (user != null) {
+			session.setAttribute("user", user);
+			response.put("status", "success");
+		} else {
+			response.put("status", "error");
+			response.put("message", "Invalid email or password.");
+		}
+		return response;
+	}
+	
+	@PostMapping("/check-email")
+	@ResponseBody
+	public Map<String, Boolean> checkEmail(@RequestParam("email") String email) {
+	    Map<String, Boolean> response = new HashMap<>();
+	    boolean exists = photoService.checkEmailExists(email);
+	    response.put("exists", exists);
+	    return response;
+	}
+
+
 }

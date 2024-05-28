@@ -54,17 +54,29 @@ public class PhotoRepository {
 		return jdbcTemplate.query("SELECT * FROM img", new ImgRowMapper());
 	}
 
-	public User findUserByUsernameAndPassword(String username, String password) {
-		String sql = "SELECT * FROM user WHERE username = ? AND password = ?";
-		List<User> users = jdbcTemplate.query(sql, new Object[] { username, password }, new UserRowMapper());
+	public User findUserByUsernameAndPassword(String email, String password) {
+		String sql = "SELECT * FROM user WHERE email = ? AND password = ?";
+		List<User> users = jdbcTemplate.query(sql, new Object[] { email, password }, new UserRowMapper());
 		if (users.isEmpty()) {
 			return null;
 		} else {
 			return users.get(0);
 		}
 	}
-
-	public static void main(String[] args) {
-
+	
+	public void saveUser(User newUser) {
+	    String sql = "INSERT INTO user (username, password, email, birthday) VALUES (?, ?, ?, ?)";
+	    jdbcTemplate.update(sql, newUser.getUsername(), newUser.getPassword(), newUser.getEmail(), newUser.getBirthday());
 	}
+
+	public User findUserByEmail(String email) {
+	    String sql = "SELECT * FROM user WHERE email = ?";
+	    List<User> users = jdbcTemplate.query(sql, new Object[] { email }, new UserRowMapper());
+	    if (users.isEmpty()) {
+	        return null;
+	    } else {
+	        return users.get(0);
+	    }
+	}
+	
 }
