@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="models.User"%>
+<%
+User currentUser = (User) session.getAttribute("user");
+String username = currentUser != null ? currentUser.getUsername() : "Khách";
+%>
 <!-- Start your project here-->
 <header>
 	<!-- Navbar-->
@@ -10,8 +15,9 @@
 			<!-- Left elements -->
 			<div class="d-flex">
 				<!-- Brand -->
-				<a class="navbar-brand me-2 mb-1 d-flex align-items-center" href="<%=request.getContextPath()%>/">
-					<img src="resources/img/ptsharing-removebg-preview.png" height="35"
+				<a class="navbar-brand me-2 mb-1 d-flex align-items-center"
+					href="<%=request.getContextPath()%>/"> <img
+					src="resources/img/ptsharing-removebg-preview.png" height="35"
 					alt="MDB Logo" loading="lazy" style="margin-top: 2px;" />
 				</a>
 
@@ -44,13 +50,18 @@
 							onclick="window.location.href='registerForm'">Đăng ký</button>
 					</div>
 				</c:if>
-				<c:if test="${sessionScope.sessio != null}">
 					<li class="nav-item me-3 me-lg-1"><a
 						class="nav-link d-sm-flex align-items-sm-center" href="#"> <img
 							src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp"
 							class="rounded-circle" height="22"
 							alt="Black and White Portrait of a Man" loading="lazy" /> <strong
-							class="d-none d-sm-block ms-1">John</strong>
+							class="d-none d-sm-block ms-1"> <%=username%></strong>
+					</a></li>
+				<c:if test="${sessionScope.user != null}">
+					<li class="nav-item me-3 me-lg-1"><a
+						class="nav-link d-sm-flex align-items-sm-center"
+						href="<%=request.getContextPath()%>/logout"> <strong
+							class="d-none d-sm-block ms-1"> Đăng xuất </strong>
 					</a></li>
 					<li class="nav-item me-3 me-lg-1"><a class="nav-link"
 						data-mdb-ripple-init data-mdb-modal-init

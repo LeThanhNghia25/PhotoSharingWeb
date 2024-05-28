@@ -28,10 +28,4 @@ public class PhotoService {
 	    photoRepository.saveUser(newUser);
 	}
 
-	public boolean checkEmailExists(String email) {
-	    User user = photoRepository.findUserByEmail(email);
-	    return user != null;
-	}
-
-
 }

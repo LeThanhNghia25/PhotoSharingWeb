@@ -58,19 +58,6 @@ public class HomeController {
 		return mv;
 	}
 
-//	@RequestMapping(value = { "/loginhome" }, method = RequestMethod.POST)
-//	public String loginhome(@RequestParam("email") String email, @RequestParam("password") String password,
-//			HttpSession session) {
-//		User user = photoService.checkUser(email, password);
-//		if (user != null) {
-//			session.setAttribute("user", user);
-//			// Chuyển hướng đến trang chính sau khi đăng nhập thành công
-//			return "redirect:/";
-//		} else {
-//			return "redirect:/login?error=true"; // Chuyển hướng về trang đăng nhập và báo lỗi
-//		}
-//	}
-
 	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
 	public ModelAndView login() {
 		ModelAndView mv = new ModelAndView("user/login");
@@ -118,14 +105,11 @@ public class HomeController {
 		return response;
 	}
 	
-	@PostMapping("/check-email")
-	@ResponseBody
-	public Map<String, Boolean> checkEmail(@RequestParam("email") String email) {
-	    Map<String, Boolean> response = new HashMap<>();
-	    boolean exists = photoService.checkEmailExists(email);
-	    response.put("exists", exists);
-	    return response;
-	}
-
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session) {
+    	session.invalidate();
+        return "user/login";
+    }
+	
 
 }

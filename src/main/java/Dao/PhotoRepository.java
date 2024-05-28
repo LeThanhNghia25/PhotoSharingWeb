@@ -68,15 +68,5 @@ public class PhotoRepository {
 	    String sql = "INSERT INTO user (username, password, email, birthday) VALUES (?, ?, ?, ?)";
 	    jdbcTemplate.update(sql, newUser.getUsername(), newUser.getPassword(), newUser.getEmail(), newUser.getBirthday());
 	}
-
-	public User findUserByEmail(String email) {
-	    String sql = "SELECT * FROM user WHERE email = ?";
-	    List<User> users = jdbcTemplate.query(sql, new Object[] { email }, new UserRowMapper());
-	    if (users.isEmpty()) {
-	        return null;
-	    } else {
-	        return users.get(0);
-	    }
-	}
 	
 }
