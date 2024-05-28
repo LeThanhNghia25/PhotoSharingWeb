@@ -1,68 +1,71 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <div class="container">
- <section class="vh-100">
-  <div class="container-fluid h-custom">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-md-9 col-lg-6 col-xl-5">
-        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-          class="img-fluid" alt="Sample image">
-      </div>
-      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-        <form action="loginhome" method="post">
-          <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-            <p class="lead fw-normal mb-0 me-3">Đăng ký bằng</p>
-            <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-floating mx-1">
-              <i class="fab fa-facebook-f"></i>
-            </button>
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-            <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-floating mx-1">
-              <i class="fab fa-twitter"></i>
-            </button>
+</head>
+<body>
+	<div class="container">
+		<section class="text-center">
+			<div class="p-5 bg-image"
+				style="background-image: url('https://mdbootstrap.com/img/new/textures/full/171.jpg'); height: 300px;"></div>
+			<div class="card mx-4 mx-md-5 shadow-5-strong bg-body-tertiary"
+				style="margin-top: -100px; backdrop-filter: blur(30px);">
+				<div class="card-body py-5 px-md-5">
+					<div class="row d-flex justify-content-center">
+						<div class="col-lg-8">
+							<h2 class="fw-bold mb-5">Sign up now</h2>
+							<form id="registerForm"
+								action="<%=request.getContextPath()%>/register" method="post">
+								<!-- User Name input -->
+								<div data-mdb-input-init class="form-outline mb-4">
+									<input type="text" id="username" name="username"
+										class="form-control" required /> <label class="form-label"
+										for="username">User Name</label>
+									<div id="usernameError" class="error text-danger"></div>
+								</div>
 
-            <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-floating mx-1">
-              <i class="fab fa-linkedin-in"></i>
-            </button>
-          </div>
+								<!-- Birth Date input -->
+								<div data-mdb-input-init class="form-outline mb-4">
+									<input type="date" id="birthday" name="birthday"
+										class="form-control" required /> <label class="form-label"
+										for="birthday">Birth Date</label>
+									<div id="birthdateError" class="error text-danger"></div>
+								</div>
 
-          <div class="divider d-flex align-items-center my-4">
-            <p class="text-center fw-bold mx-3 mb-0">Or</p>
-          </div>
-   <!-- Email input -->
-          <div data-mdb-input-init class="form-outline mb-4">
-            <input type="text" name="name" id="form3Example3" class="form-control form-control-lg"
-              placeholder="Enter a valid email address" />
-            <label class="form-label" for="form3Example3">Tên</label>
-          </div>
-          <!-- Email input -->
-          <div data-mdb-input-init class="form-outline mb-4">
-            <input type="email" name="username" id="form3Example3" class="form-control form-control-lg"
-              placeholder="Enter a valid email address" />
-            <label class="form-label" for="form3Example3">Email address</label>
-          </div>
-          <!-- Password input -->
-          <div data-mdb-input-init class="form-outline mb-3">
-            <input type="password" name="password" id="form3Example4" class="form-control form-control-lg"
-              placeholder="Enter password" />
-            <label class="form-label" for="form3Example4">Password</label>
-          </div>
+								<!-- Email input -->
+								<div data-mdb-input-init class="form-outline mb-4">
+									<input type="email" id="email" name="email"
+										class="form-control" required /> <label class="form-label" for="email">Email
+										address</label>
+									<div id="emailError" class="error text-danger"></div>
+								</div>
 
-          <div class="d-flex justify-content-between align-items-center">
-            <!-- Checkbox -->
-         
-          </div>
+								<!-- Password input -->
+								<div data-mdb-input-init class="form-outline mb-4">
+									<input type="password" id="password" name="password"
+										class="form-control" required /> <label class="form-label"
+										for="password">Password</label>
+									<div id="passwordError" class="error text-danger"></div>
+								</div>
 
-          <div class="text-center text-lg-start mt-4 pt-2">
-            <input type="submit" value="Đăng ký"></input>
-            <p class="small fw-bold mt-2 pt-1 mb-0">Đã có tài khoản? <a href="#!"
-                class="link-danger">Đăng nhập</a></p>
-          </div>
+								<!-- Display error message -->
+								<div id="errorMessage" class="text-danger mb-4"
+									style="display: none;"></div>
 
-        </form>
-      </div>
-    </div>
-  </div>
-
-</section>
-</div>
-<!-- Pills content -->
+								<!-- Submit button -->
+								<button type="submit" id="registerButton"
+									class="btn btn-primary btn-block mb-4">Sign up</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</body>
+</html>
