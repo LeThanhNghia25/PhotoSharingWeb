@@ -1,6 +1,9 @@
 package Dao;
 
 import java.util.List;
+
+import javax.xml.stream.events.Comment;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +30,9 @@ public class PhotoService {
 	public void saveUser(User newUser) {
 	    photoRepository.saveUser(newUser);
 	}
+
+    public Img getImgById(int id) {
+        return photoRepository.findImgById(id);
+    }
 
 }

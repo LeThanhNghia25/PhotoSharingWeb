@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import Dao.PhotoService;
+import models.Comment;
 import models.Img;
 import models.User;
 
@@ -111,5 +112,11 @@ public class HomeController {
         return "user/login";
     }
 	
+    @RequestMapping(value = "/imageDetails", method = RequestMethod.GET)
+    public String getImageDetails(@RequestParam("id") int id, Model model) {
+        Img img = photoService.getImgById(id);
+        model.addAttribute("img", img);
+        return "user/details";
+    }
 
 }

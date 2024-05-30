@@ -69,4 +69,14 @@ public class PhotoRepository {
 	    jdbcTemplate.update(sql, newUser.getUsername(), newUser.getPassword(), newUser.getEmail(), newUser.getBirthday());
 	}
 	
+    public Img findImgById(int id) {
+        String sql = "SELECT * FROM img WHERE id = ?";
+        List<Img> imgs = jdbcTemplate.query(sql, new Object[] { id }, new ImgRowMapper());
+        if (imgs.isEmpty()) {
+            return null;
+        } else {
+            return imgs.get(0);
+        }
+    }
+	
 }
