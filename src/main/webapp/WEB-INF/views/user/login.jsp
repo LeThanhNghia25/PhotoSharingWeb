@@ -17,31 +17,42 @@
 				<div class="row d-flex justify-content-center">
 					<div class="col-lg-8">
 						<h2 class="fw-bold mb-5">Login</h2>
-						<form id="loginForm">
+						<form id="loginForm" action="login" method="post">
 							<!-- Email input -->
 							<div data-mdb-input-init class="form-outline mb-4">
-								<input type="email" id="email" name="email" class="form-control" />
-								<label for="email" class="form-label">Email address</label>
+								<input type="email" id="email" name="email" class="form-control"
+									required /> <label for="email" class="form-label">Email
+									address</label>
 							</div>
 
 							<!-- Password input -->
 							<div data-mdb-input-init class="form-outline mb-4">
-								<input type="password" id="password" name="password" class="form-control" />
-								<label class="form-label" for="password">Password</label>
+								<input type="password" id="password" name="password"
+									class="form-control" required /> <label class="form-label"
+									for="password">Password</label>
 							</div>
-							<!-- Submit button -->
-							<button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+
 							<!-- Error message -->
-							<div id="error-message" class="alert alert-danger" style="display:none;"></div>
+							<div id="error-message" class="alert alert-danger"
+								style="${not empty errorMessage ? 'display:block;' : 'display:none;'}">${errorMessage}</div>
+
+							<!-- Submit button -->
+							<button type="submit" class="btn btn-primary btn-block mb-4">Sign
+								in</button>
+
 							<!-- Register buttons -->
 							<div class="text-center">
-								<p>Not a member? <a href="<%=request.getContextPath()%>/register">Register</a></p>
+								<p>
+									Not a member? <a href="<%=request.getContextPath()%>/register">Register</a>
+								</p>
 								<p>or sign up with:</p>
-								<button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+								<button type="button" data-mdb-button-init data-mdb-ripple-init
+									class="btn btn-link btn-floating mx-1">
 									<i class="fab fa-facebook-f"></i>
 								</button>
 							</div>
 						</form>
+
 
 					</div>
 				</div>
@@ -65,15 +76,23 @@ $(document).ready(function(){
             },
             success: function(response) {
                 if(response.status === "success") {
-                    window.location.href = "<%=request.getContextPath()%>/";
-                } else {
-                    $("#error-message").text(response.message).show();
-                }
-            },
-            error: function() {
-                $("#error-message").text("An error occurred during login. Please try again.").show();
-            }
-        });
-    });
-});
+                    window.location.href = "<%=request.getContextPath()%>
+	/";
+															} else {
+																$(
+																		"#error-message")
+																		.text(
+																				response.message)
+																		.show();
+															}
+														},
+														error : function() {
+															$("#error-message")
+																	.text(
+																			"An error occurred during login. Please try again.")
+																	.show();
+														}
+													});
+										});
+					});
 </script>

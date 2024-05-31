@@ -1,7 +1,7 @@
+<%@page import="models.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="models.User"%>
 <%
 User currentUser = (User) session.getAttribute("user");
 String username = currentUser != null ? currentUser.getUsername() : "Khách";
@@ -15,10 +15,10 @@ String username = currentUser != null ? currentUser.getUsername() : "Khách";
 			<!-- Left elements -->
 			<div class="d-flex">
 				<!-- Brand -->
-				<a class="navbar-brand me-2 mb-1 d-flex align-items-center"
-					href="<%=request.getContextPath()%>/"> <img
-					src="resources/img/ptsharing-removebg-preview.png" height="35"
-					alt="MDB Logo" loading="lazy" style="margin-top: 2px;" />
+				<a class="navbar-brand me-2 mb-1 d-flex align-items-center" href="#">
+					<img
+					src="<c:url value='resources/img/ptsharing-removebg-preview.png' />"
+					height="35" alt="MDB Logo" loading="lazy" style="margin-top: 2px;" />
 				</a>
 
 
@@ -40,6 +40,7 @@ String username = currentUser != null ? currentUser.getUsername() : "Khách";
 			<!-- Right elements -->
 			<ul class="navbar-nav flex-row">
 				<!-- Button trigger modal -->
+				<!-- Button trigger modal -->
 				<c:if test="${sessionScope.user == null}">
 					<div class="d-flex align-items-center">
 						<button id="loginButton" data-mdb-ripple-init type="button"
@@ -50,13 +51,13 @@ String username = currentUser != null ? currentUser.getUsername() : "Khách";
 							onclick="window.location.href='registerForm'">Đăng ký</button>
 					</div>
 				</c:if>
-					<li class="nav-item me-3 me-lg-1"><a
-						class="nav-link d-sm-flex align-items-sm-center" href="#"> <img
-							src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp"
-							class="rounded-circle" height="22"
-							alt="Black and White Portrait of a Man" loading="lazy" /> <strong
-							class="d-none d-sm-block ms-1"> <%=username%></strong>
-					</a></li>
+				<li class="nav-item me-3 me-lg-1"><a
+					class="nav-link d-sm-flex align-items-sm-center" href="#"> <img
+						src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp"
+						class="rounded-circle" height="22"
+						alt="Black and White Portrait of a Man" loading="lazy" /> <strong
+						class="d-none d-sm-block ms-1"> <%=username%></strong>
+				</a></li>
 				<c:if test="${sessionScope.user != null}">
 					<li class="nav-item me-3 me-lg-1"><a
 						class="nav-link d-sm-flex align-items-sm-center"
@@ -119,9 +120,10 @@ String username = currentUser != null ? currentUser.getUsername() : "Khách";
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form style="width: 26rem;">
+				<form action="uploadimage" method="post"
+					enctype="multipart/form-data" style="width: 26rem;">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Tải ảnh lên</h5>
 						<button type="button" class="btn-close" data-mdb-ripple-init
 							data-mdb-dismiss="modal" aria-label="Close"></button>
 					</div>
@@ -129,31 +131,39 @@ String username = currentUser != null ? currentUser.getUsername() : "Khách";
 
 						<!-- Name input -->
 						<div data-mdb-input-init class="form-outline mb-4">
-							<input type="text" id="form4Example1" class="form-control" /> <label
-								class="form-label" for="form4Example1">Name</label>
+							<input type="text" id="form4Example1" name="title"
+								class="form-control" /> <label class="form-label"
+								for="form4Example1">Tiêu đề</label>
 						</div>
 
 						<!-- upload file -->
+
 						<div data-mdb-input-init class="form-outline mb-4">
-							<label class="form-label" for="customFile">Default file
-								input example</label> <input type="file" class="form-control"
-								id="customFile" />
-						</div>
+    <label class="form-label" for="customFile">Chọn ảnh của bạn</label>
+    <input type="file" id="imageUpload" name="url" class="form-control" />
+</div>
+<button id="checkImageButton" class="btn btn-primary">Check Image</button>
 						<!-- Message input -->
 						<div data-mdb-input-init class="form-outline mb-4">
-							<textarea class="form-control" id="form4Example3" rows="4"></textarea>
-							<label class="form-label" for="form4Example3">Message</label>
+							<textarea class="form-control" id="form4Example3" name="content"
+								rows="4"></textarea>
+							<label class="form-label" for="form4Example3">Nội dung</label>
 						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
 							data-mdb-ripple-init data-mdb-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" data-mdb-ripple-init>Save
-							changes</button>
+						<button type="submit" id="checkImage" class="btn btn-secondary"
+							data-mdb-ripple-init data-mdb-dismiss="modal">Đăng bài</button>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
+
 	<!-- Navbar -->
+	<script type="text/javascript"
+		src="<c:url value="/resources/js/mdb.umd.min.js" /> " /></script>
+	<script type="text/javascript"
+		src="<c:url value='/resources/js/checkimg.js' />"></script>
 </header>

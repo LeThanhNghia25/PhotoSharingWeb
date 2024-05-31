@@ -11,6 +11,8 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta http-equiv="x-ua-compatible" content="ie=edge" />
 <title><decorator:title default="PhotoSharing-Admin" /></title>
+<link rel="icon" href=" <c:url value="resources/img/favicon.png" />"
+	type="image/png">
 <!-- Font Awesome -->
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v6.0.0/css/all.css" />

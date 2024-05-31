@@ -9,9 +9,4 @@ public class Comment extends Entry {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void setUser(User user) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

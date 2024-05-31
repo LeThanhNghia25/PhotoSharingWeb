@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
+	pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <header>
 	<!-- Sidebar -->
 	<nav id="sidebarMenu"
@@ -11,7 +11,8 @@
 					class="list-group-item list-group-item-action py-2"
 					data-mdb-ripple-init aria-current="true"> <i
 					class="fas fa-tachometer-alt fa-fw me-3"></i><span>Bảng tin</span>
-				</a> <a href="admin/post" id="postLink"
+				</a> <a href="${pageContext.request.contextPath}/admin/post"
+					id="postLink"
 					class="list-group-item list-group-item-action py-2 active"
 					data-mdb-ripple-init> <i class="fas fa-chart-area fa-fw me-3"></i><span>Bài
 						viết</span>
@@ -27,8 +28,8 @@
 					class="list-group-item list-group-item-action py-2"
 					data-mdb-ripple-init> <i class="fas fa-calendar fa-fw me-3"></i><span>Phản
 						hồi</span>
-				</a> <a href="admin/user" id="usersLink"
-					class="list-group-item list-group-item-action py-2"
+				</a> <a href="${pageContext.request.contextPath}/admin/user"
+					id="usersLink" class="list-group-item list-group-item-action py-2"
 					data-mdb-ripple-init> <i class="fas fa-users fa-fw me-3"></i><span>Users</span>
 				</a>
 			</div>
@@ -50,7 +51,7 @@
 
 			<!-- Brand -->
 			<a class="navbar-brand" href="#"> <img
-				src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png"
+				src="<c:url value='resources/img/ptsharing-removebg-preview.png' />"
 				height="25" alt="" loading="lazy" />
 			</a>
 			<!-- Search form -->

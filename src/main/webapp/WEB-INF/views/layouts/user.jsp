@@ -12,7 +12,8 @@
 <meta http-equiv="x-ua-compatible" content="ie=edge" />
 <title><decorator:title default="PhotoSharing" /></title>
     <!-- MDB icon -->
-     <link rel="icon" href="resources/img/favicon.png" type="image/png">
+   
+     <link rel="icon" href=" <c:url value="resources/img/favicon.png" />" type="image/png">
     <!-- Font Awesome -->
     <link
       rel="stylesheet"
@@ -45,6 +46,5 @@
 	<!-- MDB -->
 	<script type="text/javascript"
 		src="<c:url value="/resources/js/mdb.umd.min.js" /> " /></script>
-
 </body>
 </html>
