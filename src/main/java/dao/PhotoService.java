@@ -52,4 +52,8 @@ public class PhotoService {
 	public boolean isEmailExist(String email) {
 		return photoRepository.isEmailExist(email);
 	}
+	public Img findImgById(int id) {
+		return photoRepository.findImgById(id);
+		
+	}
 }

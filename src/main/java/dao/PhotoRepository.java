@@ -131,6 +131,11 @@ public class PhotoRepository {
 			return users.get(0);
 		}
 	}
+	public Img findImgById(int id) {
+		String sql = "SELECT img.id, img.title, img.content, img.img, img.createdTime, img.status, user.id, user.email, catalog.id,"
+				+ " catalog.catalogname FROM img JOIN user ON img.creator = user.id JOIN catalog ON img.cate = catalog.id WHERE img.id = ?";
+	    return jdbcTemplate.queryForObject(sql, new Object[]{id}, new ImgAdminRowMapper());
+	}
 
 	public static void main(String[] args) {
 

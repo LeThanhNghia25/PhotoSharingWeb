@@ -36,7 +36,7 @@
 													<a href="#"><p class="fw-bold mb-1">${img.title}</p></a>
 													<button type="button"
 														class="btn btn-link btn-sm btn-rounded"
-														onclick="showForm(this)">Xem</button>
+														onclick="window.location.href='${pageContext.request.contextPath}/detail?fromitem=${img.id}'">Xem</button>
 													<button type="button"
 														class="btn btn-link btn-sm btn-rounded"
 														onclick="showForm(this)">Sửa</button>
