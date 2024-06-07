@@ -1,7 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
+						$("#loginForm")
+								.submit(
+										function(e) {
+											e.preventDefault(); // prevent form submission and page reload
+											var formData = $(this).serialize(); // serialize form data
+											$
+													.ajax({
+														type : "POST",
+														url : "${pageContext.request.contextPath}/loginForm",
+														data : formData,
+														success : function(
+																response) {
+															if (response === "success") {
+																window.location.href = '${pageContext.request.contextPath}/home';
+															} else {
+																$(
+																		"#error-message")
+																		.html(
+																				response);
+															}
+														},
+														error : function() {
+															$("#error-message")
+																	.html(
+																			"Lỗi không xác định.");
+														}
+													});
+										});
+					});
+</script>
+
 <div class="container">
 	<!-- Section: Design Block -->
 	<section class="text-center">
@@ -16,32 +51,43 @@
 
 				<div class="row d-flex justify-content-center">
 					<div class="col-lg-8">
-						<h2 class="fw-bold mb-5">Login</h2>
-						<form id="loginForm">
+						<h2 class="fw-bold mb-5">Đăng nhập</h2>
+						<form:form id="loginForm" modelAttribute="user" action="loginForm"
+							method="post">
 							<!-- Email input -->
 							<div data-mdb-input-init class="form-outline mb-4">
-								<input type="email" id="email" name="email" class="form-control" />
-								<label for="email" class="form-label">Email address</label>
+								<form:input path="email" id="email" cssClass="form-control"
+									required="true" />
+								<label for="email" class="form-label">Email của bạn</label>
 							</div>
 
 							<!-- Password input -->
 							<div data-mdb-input-init class="form-outline mb-4">
-								<input type="password" id="password" name="password" class="form-control" />
-								<label class="form-label" for="password">Password</label>
+								<form:password path="password" id="password"
+									cssClass="form-control" required="true" />
+								<label class="form-label" for="password">Mật khẩu</label>
 							</div>
-							<!-- Submit button -->
-							<button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
 							<!-- Error message -->
-							<div id="error-message" class="alert alert-danger" style="display:none;"></div>
+							<div id="error-message" class="eror" role="alert"
+								></div>
+							<!-- Submit button -->
+							<button type="submit" class="btn btn-primary btn-block mb-4">Đăng
+								nhập</button>
+
 							<!-- Register buttons -->
 							<div class="text-center">
-								<p>Not a member? <a href="<%=request.getContextPath()%>/register">Register</a></p>
-								<p>or sign up with:</p>
-								<button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+								<p>
+									Chưa có tài khoản? <a
+										href="${pageContext.request.contextPath}/register">Đăng ký</a>
+								</p>
+								<p>Hoặc đăng nhập bằng:</p>
+								<button type="button" data-mdb-button-init data-mdb-ripple-init
+									class="btn btn-link btn-floating mx-1">
 									<i class="fab fa-facebook-f"></i>
 								</button>
 							</div>
-						</form>
+						</form:form>
+
 
 					</div>
 				</div>
@@ -49,31 +95,11 @@
 		</div>
 	</section>
 	<!-- Section: Design Block -->
+<style>
+#error-message {
+  color: #721c24; /* Màu chữ đỏ đậm */
+  padding: 10px; /* Khoảng cách giữa nội dung và viền */
+
+
+</style>
 </div>
-
-<script>
-$(document).ready(function(){
-    $("#loginForm").submit(function(event){
-        event.preventDefault(); // Prevent the default form submission
-
-        $.ajax({
-            type: "POST",
-            url: "<%=request.getContextPath()%>/ajaxLogin",
-            data: {
-                email: $("#email").val(),
-                password: $("#password").val()
-            },
-            success: function(response) {
-                if(response.status === "success") {
-                    window.location.href = "<%=request.getContextPath()%>/";
-                } else {
-                    $("#error-message").text(response.message).show();
-                }
-            },
-            error: function() {
-                $("#error-message").text("An error occurred during login. Please try again.").show();
-            }
-        });
-    });
-});
-</script>

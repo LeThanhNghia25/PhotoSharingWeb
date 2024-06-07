@@ -1,0 +1,91 @@
+/* styles.css */
+
+body {
+	padding-top: 70px;
+	/* Adjust this value based on the height of your header */
+}
+
+.content-wrapper {
+	border: 0.1em solid #ddd; /* Sử dụng đơn vị em cho bo viền */
+	border-radius: 1.5em; /* Sử dụng đơn vị em cho bo tròn */
+	padding: 2em; /* Sử dụng đơn vị em cho padding */
+	margin-top: 2em; /* Sử dụng đơn vị em cho margin top */
+	background-color: #f9f9f9;
+}
+
+.img-rounded {
+	border-radius: 1.5em; /* Sử dụng đơn vị em cho bo tròn */
+	margin-bottom: 2em; /* Sử dụng đơn vị em cho margin bottom */
+}
+
+.media-comment {
+	border-top: 1px solid #eee;
+	padding-top: 10px;
+	margin-top: 10px;
+}
+
+.col-md-8 {
+	display: flex;
+	flex-direction: column;
+	align-items: center; /* căn giữa nội dung */
+}
+
+.col-md-4 {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start; /* căn trái nội dung */
+}
+
+.img-fluid {
+	max-width: 100%;
+	/* hình ảnh sẽ không vượt quá kích thước của container */
+	height: auto;
+}
+
+.img-rounded {
+	border-radius: 15px;
+	margin-bottom: 20px; /* tạo khoảng cách giữa hình ảnh và nội dung */
+}
+
+.media-comment {
+	border-top: 1px solid #eee;
+	padding-top: 10px;
+	margin-top: 10px;
+	display: flex;
+	align-items: flex-start; /* căn trái các bình luận */
+}
+
+.media-comment img {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%; /* làm hình tròn cho avatar */
+	margin-right: 15px;
+	/* tạo khoảng cách giữa hình ảnh và nội dung bình luận */
+}
+
+.comment-form-wrapper {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    width: 100%; /* Đảm bảo phần nhập comment có chiều rộng 100% */
+}
+
+.comment-form-wrapper textarea {
+	resize: none;
+	border: none; /* Loại bỏ viền cho textarea */
+	background-color: transparent; /* Xóa màu nền của textarea */
+	width: 100%;
+	height: auto;
+}
+
+.comment-form-wrapper .input-group-append .btn {
+    border-top-left-radius: 5px; /* Bo tròn đỉnh trái của nút */
+    border-bottom-left-radius: 5px; /* Bo tròn đỉnh trái của nút */
+    border-top-right-radius: 5px; /* Bo tròn đỉnh phải của nút */
+    border-bottom-right-radius: 5px; /* Bo tròn đỉnh phải của nút */
+}
+
+.comment-form-wrapper .input-group-append .btn i {
+	font-size: 1.2em;
+}

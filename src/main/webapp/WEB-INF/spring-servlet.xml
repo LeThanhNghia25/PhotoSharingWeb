@@ -12,9 +12,11 @@
 						">
 	<!-- chỉ ra các package chứa các lớp java được đăng ký như là các bean -->
 	<context:component-scan
-		base-package="controllers" />
+		base-package="controllers/user" />
+	<context:component-scan
+		base-package="controllers/admin" />
 	<context:component-scan base-package="models" />
-	<context:component-scan base-package="Dao" />
+	<context:component-scan base-package="dao" />
 	<!-- chỉ tìm kiếm các bean trong cùng context application mà nó được định 
 		nghĩa -->
 	<context:annotation-config />
@@ -23,6 +25,8 @@
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/resources/**"
 		location="/resources/" />
+
+
 	<!-- cấu hình bean xác định view sẽ được sinh ra (thư mục chứa các view, 
 		đuôi tệp tin view) -->
 	<bean id="viewResolver"
@@ -44,5 +48,10 @@
 	<bean id="jdbcTemplate"
 		class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- Cấu hình bộ phân giải multipart -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10485760" /> <!-- 10MB -->
 	</bean>
 </beans>

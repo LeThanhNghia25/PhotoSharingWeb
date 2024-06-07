@@ -10,6 +10,9 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta http-equiv="x-ua-compatible" content="ie=edge" />
+<link rel="icon"
+	href="${pageContext.request.contextPath}/resources/img/favicon.png"
+	type="image/png" />
 <title><decorator:title default="PhotoSharing-Admin" /></title>
 <!-- Font Awesome -->
 <link rel="stylesheet"
@@ -22,10 +25,7 @@
 	href="<c:url value="/resources/css/mdb.min.css" />" />
 <!-- Custom styles -->
 <link rel="stylesheet" href="<c:url value="/resources/css/admin.css" />" />
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
-	integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
-	crossorigin="anonymous"></script>
+
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/layouts/admin/header.jsp"%>

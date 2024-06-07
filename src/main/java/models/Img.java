@@ -1,23 +1,25 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import models.*;
 
-public class Img extends Entry {
+public class Img extends entry {
 	private int id;
-	private List<Comment> commnet = new ArrayList<Comment>();
-	private Category category;
+	private List<comment> commnet = new ArrayList<comment>();
 
 	public Img() {
 
 	}
 
-	public Img(int id, String title, String content, String img, String createdTime, User creator, String status,
-			Category category) {
-		super(status, content, img, createdTime, creator, status);
+	public Img(int id, String title, String content, String img, String createdTime, user creator, catalog cata,
+			String status) {
+		super(title, content, img, createdTime, creator, cata, status);
+		this.id = id;
+		this.title = title;
+		this.content = content;
+		this.img = img;
 	}
 
 	public int getId() {
@@ -28,20 +30,12 @@ public class Img extends Entry {
 		this.id = id;
 	}
 
-	public List<Comment> getCommnet() {
+	public List<comment> getCommnet() {
 		return commnet;
 	}
 
-	public void setCommnet(List<Comment> commnet) {
+	public void setCommnet(List<comment> commnet) {
 		this.commnet = commnet;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
 	}
 
 }
