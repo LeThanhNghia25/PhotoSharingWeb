@@ -5,16 +5,16 @@ public class entry {
 	protected String content;
 	protected String img;
 	protected String createdTime;
-	protected user creator;
+	protected User creator;
 	protected catalog cata;
-	protected String status;
+	protected boolean enabled;
 
 	public entry() {
 
 	}
 
-	public entry(String title, String content, String img, String createdTime, user creator, catalog cata,
-			String status) {
+	public entry(String title, String content, String img, String createdTime, User creator, catalog cata,
+			boolean enabled) {
 		super();
 		this.title = title;
 		this.content = content;
@@ -22,7 +22,7 @@ public class entry {
 		this.createdTime = createdTime;
 		this.creator = creator;
 		this.cata = cata;
-		this.status = status;
+		this.enabled = enabled;
 	}
 
 	public String getTitle() {
@@ -57,11 +57,11 @@ public class entry {
 		this.createdTime = createdTime;
 	}
 
-	public user getCreator() {
+	public User getCreator() {
 		return creator;
 	}
 
-	public void setCreator(user creator) {
+	public void setCreator(User creator) {
 		this.creator = creator;
 	}
 
@@ -73,12 +73,14 @@ public class entry {
 		this.cata = cata;
 	}
 
-	public String getStatus() {
-		return status;
+	public boolean getEnabled() {
+		return enabled;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
+
+
 
 }

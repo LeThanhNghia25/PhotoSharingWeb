@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import dao.PhotoService;
 import models.Img;
 import models.catalog;
-import models.user;
+import models.User;
 
 @Controller
 public class uploadimg {
@@ -45,8 +45,8 @@ public class uploadimg {
 			file.transferTo(dest);
 			img.setImg("resources/img/" + file.getOriginalFilename());
 			img.setCreatedTime(new SimpleDateFormat("dd-MM-yyyy").format(new java.util.Date()));
-			img.setStatus("ok");
-			user user = (user) session.getAttribute("user");
+			img.setEnabled(true);
+			User user = (User) session.getAttribute("user");
 			img.setCreator(user);
 			catalog ct = new catalog();
 			ct.setCatalogname("ok");

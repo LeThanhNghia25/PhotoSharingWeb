@@ -54,7 +54,7 @@
 											<p class="text-muted mb-0">${img.creator.email}</p>
 										</td>
 										<td><span
-											class="badge badge-success rounded-pill d-inline">${img.status}</span></td>
+											class="badge badge-success rounded-pill d-inline">${img.enabled}</span></td>
 										<td><p class="text-muted mb-0"></p>${img.cata.catalogname}</td>
 										<td>
 											<p class="fw-bold mb-1">${img.createdTime}</p>
@@ -96,12 +96,12 @@
 												</div>
 
 												<!-- Trạng thái -->
-												<label class="label" for="status">Trạng thái</label>
-												<form:select path="status" id="status"
+												<label class="label" for="enabled">Trạng thái</label>
+												<form:select path="enabled" id="enabled"
 													cssClass="form-select mb-4"
 													aria-label="Default select example">
-													<form:option value="ok" label="ok" />
-													<form:option value="off" label="off" />
+													<form:option value="true" label="Enabled" />
+													<form:option value="false" label="Disabled" />
 
 												</form:select>
 

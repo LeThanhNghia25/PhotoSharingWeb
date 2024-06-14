@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!-- Start your project here-->
 <header>
 	<!-- Navbar-->
@@ -13,8 +15,8 @@
 				<!-- Brand -->
 				<a class="navbar-brand me-2 mb-1 d-flex align-items-center"
 					href="${pageContext.request.contextPath}/home"> <img
-					src="${pageContext.request.contextPath}/resources/img/ptsharing-removebg-preview.png" height="30"
-					alt="MDB Logo" loading="lazy" style="margin-top: 2px;" />
+					src="${pageContext.request.contextPath}/resources/img/ptsharing-removebg-preview.png"
+					height="30" alt="MDB Logo" loading="lazy" style="margin-top: 2px;" />
 				</a>
 
 
@@ -40,7 +42,7 @@
 			<ul class="navbar-nav flex-row">
 				<!-- Button trigger modal -->
 				<!-- Button trigger modal -->
-				<c:if test="${sessionScope.user == null}">
+				<c:if test="${empty pageContext.request.userPrincipal}">
 					<div class="d-flex align-items-center">
 						<button id="loginButton" data-mdb-ripple-init type="button"
 							class="btn btn-link px-3 me-2"
@@ -52,7 +54,7 @@
 							ký</button>
 					</div>
 				</c:if>
-				<c:if test="${sessionScope.user != null}">
+				<c:if test="${not empty pageContext.request.userPrincipal}">
 					<li class="nav-item me-3 me-lg-1"><a class="nav-link"
 						href="uploadImage"> <span><i
 								class="fas fa-plus-circle fa-lg"></i></span>
@@ -100,7 +102,7 @@
 									class="rounded-circle" height="22"
 									alt="Black and White Portrait of a Man" loading="lazy" /> <strong
 									class="d-none d-sm-block ms-1"></strong>
-									${sessionScope.user.username}
+									${pageContext.request.userPrincipal.name}
 							</a></li>
 
 							<li><a class="dropdown-item" href="#">Some news</a></li>

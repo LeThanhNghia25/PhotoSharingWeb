@@ -2,45 +2,6 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
-						$("#registerForm")
-								.submit(
-										function(e) {
-											e.preventDefault(); // prevent form submission and page reload
-											var formData = $(this).serialize(); // serialize form data
-											$
-													.ajax({
-														type : "POST",
-														url : "${pageContext.request.contextPath}/registerForm",
-														data : formData,
-														success : function(
-																response) {
-															if (response === "success") {
-																window.location.href = '${pageContext.request.contextPath}/home';
-															} else if (response === "email_exist") {
-																$(
-																		"#email-error")
-																		.html(
-																				"Email này đã tồn tại");
-															} else {
-																$(
-																		"#error-message")
-																		.html(
-																				response);
-															}
-														},
-														error : function() {
-															$("#error-message")
-																	.html(
-																			"Lỗi không xác định.");
-														}
-													});
-										});
-					});
-</script>
 <div class="container">
 	<section class="text-center">
 		<div class="p-5 bg-image"
@@ -51,8 +12,8 @@
 				<div class="row d-flex justify-content-center">
 					<div class="col-lg-8">
 						<h2 class="fw-bold mb-5">Đăng ký ngay</h2>
-						<form:form id="registerForm" modelAttribute="user"
-							action="registerForm" method="post">
+						<form id="registerForm" modelAttribute="user"
+							action="/register" method="post">
 							<!-- Username input -->
 							<div data-mdb-input-init class="form-outline mb-4">
 								<form:input path="username" id="username"
@@ -80,7 +41,7 @@
 									cssClass="form-control" required="true" />
 								<label class="form-label" for="password">Mật khẩu</label>
 
-								<form:input path="status" id="status" value="active"
+								<form:input path="enabled" id="enabled" value="true"
 									cssClass="form-control" type="hidden" />
 								<!-- Error message -->
 								<div id="error-message" class="error-message"></div>
@@ -90,7 +51,7 @@
 							<button type="submit" class="btn btn-primary btn-block mb-4">Đăng
 								ký</button>
 
-						</form:form>
+						</form>
 					</div>
 				</div>
 			</div>
