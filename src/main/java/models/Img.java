@@ -13,14 +13,15 @@ public class Img extends entry {
 
 	}
 
-	public Img(int id, String title, String content, String img, String createdTime, user creator, catalog cata,
-			String status) {
-		super(title, content, img, createdTime, creator, cata, status);
+
+
+	public Img(int id, List<comment> commnet) {
+		super();
 		this.id = id;
-		this.title = title;
-		this.content = content;
-		this.img = img;
+		this.commnet = commnet;
 	}
+
+
 
 	public int getId() {
 		return id;

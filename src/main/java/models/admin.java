@@ -1,6 +1,6 @@
 package models;
 
-public class admin extends user {
+public class admin extends User {
 	private String adminCode;
 
 	public String getAdminCode() {

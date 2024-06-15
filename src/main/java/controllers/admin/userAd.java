@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import models.Img;
-import models.user;
+import models.User;
 import dao.PhotoService;
 
 @Controller
@@ -19,9 +19,9 @@ public class userAd {
 	private PhotoService photoService;
 
 	@PostMapping("/admin/updateuser")
-	public String updateImg(@ModelAttribute("user") user user, Model model) {
+	public String updateImg(@ModelAttribute("user") User user, Model model) {
 		photoService.updateUserAd(user);
-		List<user> users = photoService.getAllUsers();
+		List<User> users = photoService.getAllUsers();
 		model.addAttribute("users", users);
 
 		return "redirect:/admin/user";
@@ -29,9 +29,9 @@ public class userAd {
 	}
 
 	@GetMapping("/admin/deleteuser")
-	public String deleteUser(@ModelAttribute("user") user user, Model model) {
+	public String deleteUser(@ModelAttribute("user") User user, Model model) {
 		photoService.deleteUser(user.getId());
-		List<user> users = photoService.getAllUsers();
+		List<User> users = photoService.getAllUsers();
 		model.addAttribute("users", users);
 		return "redirect:/admin/user";
 

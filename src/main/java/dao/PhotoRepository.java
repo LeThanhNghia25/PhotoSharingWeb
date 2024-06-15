@@ -11,23 +11,23 @@ import org.springframework.stereotype.Repository;
 
 import models.Img;
 import models.catalog;
-import models.user;
+import models.User;
 
 @Repository
 public class PhotoRepository {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	private static class UserRowMapper implements RowMapper<user> {
+	private static class UserRowMapper implements RowMapper<User> {
 		@Override
-		public user mapRow(ResultSet rs, int rowNum) throws SQLException {
-			user user = new user();
+		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+			User user = new User();
 			user.setId(rs.getInt("id"));
 			user.setUsername(rs.getString("username"));
 			user.setPassword(rs.getString("password"));
 			user.setEmail(rs.getString("email"));
 			user.setBirthday(rs.getDate("birthday"));
-			user.setStatus(rs.getString("status"));
+			user.setEnabled(rs.getBoolean("enabled"));
 			return user;
 		}
 	}
@@ -41,7 +41,7 @@ public class PhotoRepository {
 			img.setContent(rs.getString("content"));
 			img.setImg(rs.getString("img"));
 			img.setCreatedTime(rs.getString("createdTime"));
-			img.setStatus(rs.getString("status"));
+			img.setEnabled(rs.getBoolean("enabled"));
 			return img;
 		}
 
@@ -56,7 +56,7 @@ public class PhotoRepository {
 			img.setContent(rs.getString("content"));
 			img.setImg(rs.getString("img"));
 			img.setCreatedTime(rs.getString("createdTime"));
-			user creator = new user();
+			User creator = new User();
 			creator.setId(rs.getInt("id"));
 			creator.setEmail(rs.getString("email"));
 			img.setCreator(creator);
@@ -64,13 +64,13 @@ public class PhotoRepository {
 			cata.setId(rs.getInt("id"));
 			cata.setCatalogname(rs.getString("catalogname"));
 			img.setCata(cata);
-			img.setStatus(rs.getString("status"));
+			img.setEnabled(rs.getBoolean("enabled"));
 
 			return img;
 		}
 	}
 
-	public List<user> findAllUser() {
+	public List<User> findAllUser() {
 		return jdbcTemplate.query("SELECT * FROM user", new UserRowMapper());
 	}
 
@@ -79,21 +79,21 @@ public class PhotoRepository {
 	}
 
 	public List<Img> findAllImgAdmin() {
-		String sql = "SELECT img.id, img.title, img.content, img.img, img.createdTime, img.status, user.id, user.email, catalog.id,"
+		String sql = "SELECT img.id, img.title, img.content, img.img, img.createdTime, img.enabled, user.id, user.email, catalog.id,"
 				+ " catalog.catalogname FROM img JOIN user ON img.creator = user.id JOIN catalog ON img.cate = catalog.id";
 		return jdbcTemplate.query(sql, new ImgAdminRowMapper());
 	}
 
 	public int saveImg(Img img) {
-		String sql = "INSERT INTO img (title, content, img, createdTime, creator, cate, status ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO img (title, content, img, createdTime, creator, cate, enabled ) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		return jdbcTemplate.update(sql, img.getTitle(), img.getContent(), img.getImg(), img.getCreatedTime(),
-				img.getCreator().getUsername(), img.getStatus(), img.getCata().getCatalogname());
+				img.getCreator().getUsername(), img.getEnabled(), img.getCata().getCatalogname());
 	}
 
 	public int updateImg(Img img) {
-		String sql = "UPDATE img SET title = ?, content = ?, img = ?, createdTime = ?, status = ? WHERE id = ?";
+		String sql = "UPDATE img SET title = ?, content = ?, img = ?, createdTime = ?, enabled = ? WHERE id = ?";
 		return jdbcTemplate.update(sql, img.getTitle(), img.getContent(), img.getImg(), img.getCreatedTime(),
-				img.getStatus(), img.getId());
+				img.getEnabled(), img.getId());
 	}
 
 	public int deleteImg(int imgId) {
@@ -105,15 +105,15 @@ public class PhotoRepository {
 		String sql = "DELETE FROM user WHERE id = ?";
 		return jdbcTemplate.update(sql, idUser);
 	}
-	public int updateUserAD(user user) {
-		String sql = "UPDATE user SET username = ?, status = ? WHERE id = ?";
-		return jdbcTemplate.update(sql, user.getUsername(), user.getStatus(), user.getId());
+	public int updateUserAD(User user) {
+		String sql = "UPDATE user SET username = ?, enabled = ? WHERE id = ?";
+		return jdbcTemplate.update(sql, user.getUsername(), user.getEnabled(), user.getId());
 	}
 
-	public void RegistorUser(user newUser) {
-		String sql = "INSERT INTO user (username, password, email, birthday, status) VALUES (?, ?, ?, ?, ?)";
+	public void RegistorUser(User newUser) {
+		String sql = "INSERT INTO user (username, password, email, birthday, enabled) VALUES (?, ?, ?, ?, ?)";
 		jdbcTemplate.update(sql, newUser.getUsername(), newUser.getPassword(), newUser.getEmail(),
-				newUser.getBirthday(), newUser.getStatus());
+				newUser.getBirthday(), newUser.getEnabled());
 	}
 
 	public boolean isEmailExist(String email) {
@@ -122,9 +122,9 @@ public class PhotoRepository {
 		return count > 0;
 	}
 
-	public user findUserByEmailAndPassword(String email, String password) {
+	public User findUserByEmailAndPassword(String email, String password) {
 		String sql = "SELECT * FROM user WHERE email = ? AND password = ?";
-		List<user> users = jdbcTemplate.query(sql, new Object[] { email, password }, new UserRowMapper());
+		List<User> users = jdbcTemplate.query(sql, new Object[] { email, password }, new UserRowMapper());
 		if (users.isEmpty()) {
 			return null;
 		} else {
@@ -132,7 +132,7 @@ public class PhotoRepository {
 		}
 	}
 	public Img findImgById(int id) {
-		String sql = "SELECT img.id, img.title, img.content, img.img, img.createdTime, img.status, user.id, user.email, catalog.id,"
+		String sql = "SELECT img.id, img.title, img.content, img.img, img.createdTime, img.enabled, user.id, user.email, catalog.id,"
 				+ " catalog.catalogname FROM img JOIN user ON img.creator = user.id JOIN catalog ON img.cate = catalog.id WHERE img.id = ?";
 	    return jdbcTemplate.queryForObject(sql, new Object[]{id}, new ImgAdminRowMapper());
 	}

@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import models.Img;
-import models.user;
+import models.User;
 
 @Service
 public class PhotoService {
 	@Autowired
 	private PhotoRepository photoRepository;
 
-	public List<user> getAllUsers() {
+	public List<User> getAllUsers() {
 		return photoRepository.findAllUser();
 	}
 
@@ -38,14 +38,14 @@ public class PhotoService {
 	public int deleteUser(int idUser) {
 		return photoRepository.deleteUser(idUser);
 	}
-	public int updateUserAd(user user) {
+	public int updateUserAd(User user) {
 		return photoRepository.updateUserAD(user);
 	}
-	public void RegistorUser(user newUser) {
+	public void RegistorUser(User newUser) {
 		photoRepository.RegistorUser(newUser);
 	}
 
-	public user checkUser(String email, String password) {
+	public User checkUser(String email, String password) {
 		return photoRepository.findUserByEmailAndPassword(email, password);
 	}
 

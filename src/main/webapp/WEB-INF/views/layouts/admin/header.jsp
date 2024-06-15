@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <header>
 	<!-- Sidebar -->
 	<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
@@ -90,9 +93,10 @@
 				</a>
 					<ul class="dropdown-menu dropdown-menu-end"
 						aria-labelledby="navbarDropdownMenuLink">
+						<li>${pageContext.request.userPrincipal.name}</li>
 						<li><a class="dropdown-item" href="#">My profile</a></li>
 						<li><a class="dropdown-item" href="#">Settings</a></li>
-						<li><a class="dropdown-item" href="#">Logout</a></li>
+						<li><a class="dropdown-item"href="${pageContext.request.contextPath}/logout">Logout</a></li>
 					</ul></li>
 			</ul>
 		</div>

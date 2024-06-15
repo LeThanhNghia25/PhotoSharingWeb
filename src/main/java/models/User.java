@@ -1,42 +1,66 @@
 package models;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class user {
+@Entity
+@Table(name = "user")
+public class User {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int id;
 	@NotEmpty(message = "Username không được trống")
+	@Column(name = "username", nullable = false)
 	private String username;
 
 	@NotEmpty(message = "Password không được trống")
 	@Size(min = 6, message = "Password phải có ít nhất 6 ký tự")
+	@Column(name = "password", nullable = false)
 	private String password;
 
 	private String describe;
 
 	@NotEmpty(message = "Email không được trống")
 	@Email(message = "Email không hợp lệ")
+	@Column(name = "email", nullable = false)
 	private String email;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 
-	private String status;
+	@Column(name = "enabled")
+	private boolean enabled;
 
-	public user() {
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+	private Set<UserRole> userRoles;
+
+	public User() {
 
 	}
 
-	public user(int id, @NotEmpty(message = "Username không được trống") String username,
+	
+
+	public User(int id, @NotEmpty(message = "Username không được trống") String username,
 			@NotEmpty(message = "Password không được trống") @Size(min = 6, message = "Password phải có ít nhất 6 ký tự") String password,
 			String describe,
 			@NotEmpty(message = "Email không được trống") @Email(message = "Email không hợp lệ") String email,
-			@DateTimeFormat(pattern = "yyyy-MM-dd") Date birthday, String status) {
+			Date birthday, boolean enabled, Set<UserRole> userRoles) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -44,8 +68,11 @@ public class user {
 		this.describe = describe;
 		this.email = email;
 		this.birthday = birthday;
-		this.status = status;
+		this.enabled = enabled;
+		this.userRoles = userRoles;
 	}
+
+
 
 	public int getId() {
 		return id;
@@ -95,12 +122,33 @@ public class user {
 		this.birthday = birthday;
 	}
 
-	public String getStatus() {
-		return status;
+
+
+	public boolean getEnabled() {
+		return enabled;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
+
+
+
+	public Set<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+
+
+	public void setUserRoles(Set<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}
+
+
+
+
+
 
 }
