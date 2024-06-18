@@ -50,7 +50,7 @@
 							nhập</button>
 						<button id="registerButton" data-mdb-ripple-init type="button"
 							class="btn btn-primary me-3"
-							onclick="window.location.href='${pageContext.request.contextPath}/registor'">Đăng
+							onclick="window.location.href='${pageContext.request.contextPath}/register'">Đăng
 							ký</button>
 					</div>
 				</c:if>

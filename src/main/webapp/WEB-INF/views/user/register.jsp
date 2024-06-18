@@ -12,8 +12,9 @@
 				<div class="row d-flex justify-content-center">
 					<div class="col-lg-8">
 						<h2 class="fw-bold mb-5">Đăng ký ngay</h2>
-						<form id="registerForm" modelAttribute="user"
-							action="/register" method="post">
+						<form:form id="registerForm" modelAttribute="user"
+							action="${pageContext.request.contextPath}/register"
+							method="post">
 							<!-- Username input -->
 							<div data-mdb-input-init class="form-outline mb-4">
 								<form:input path="username" id="username"
@@ -50,8 +51,10 @@
 							<!-- Submit button -->
 							<button type="submit" class="btn btn-primary btn-block mb-4">Đăng
 								ký</button>
-
-						</form>
+							<c:if test="${param.errMsg != null }">
+								<div class="alert alert-danger">${errMsg}</div>
+							</c:if>
+						</form:form>
 					</div>
 				</div>
 			</div>

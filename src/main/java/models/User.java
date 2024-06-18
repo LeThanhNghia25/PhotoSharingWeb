@@ -3,6 +3,7 @@ package models;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,11 +21,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "user")
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
+
 	@NotEmpty(message = "Username không được trống")
 	@Column(name = "username", nullable = false)
 	private String username;
@@ -34,7 +36,8 @@ public class User {
 	@Column(name = "password", nullable = false)
 	private String password;
 
-	private String describe;
+	@Column(name = "description")
+	private String description;
 
 	@NotEmpty(message = "Email không được trống")
 	@Email(message = "Email không hợp lệ")
@@ -47,14 +50,12 @@ public class User {
 	@Column(name = "enabled")
 	private boolean enabled;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<UserRole> userRoles;
 
 	public User() {
 
 	}
-
-	
 
 	public User(int id, @NotEmpty(message = "Username không được trống") String username,
 			@NotEmpty(message = "Password không được trống") @Size(min = 6, message = "Password phải có ít nhất 6 ký tự") String password,
@@ -65,14 +66,12 @@ public class User {
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.describe = describe;
+		this.description = describe;
 		this.email = email;
 		this.birthday = birthday;
 		this.enabled = enabled;
 		this.userRoles = userRoles;
 	}
-
-
 
 	public int getId() {
 		return id;
@@ -98,12 +97,12 @@ public class User {
 		this.password = password;
 	}
 
-	public String getDescribe() {
-		return describe;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDescribe(String describe) {
-		this.describe = describe;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getEmail() {
@@ -122,33 +121,20 @@ public class User {
 		this.birthday = birthday;
 	}
 
-
-
 	public boolean getEnabled() {
 		return enabled;
 	}
-
-
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
 
-
-
 	public Set<UserRole> getUserRoles() {
 		return userRoles;
 	}
 
-
-
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
 	}
-
-
-
-
-
 
 }
