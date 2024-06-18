@@ -15,7 +15,7 @@ public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")
@@ -30,18 +30,24 @@ public class UserRole {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserRole(Long id, User user, Role role) {
+	public UserRole(int id, User user, Role role) {
 		super();
 		this.id = id;
 		this.user = user;
 		this.role = role;
 	}
 
-	public Long getId() {
+	public UserRole(User user, Role role) {
+		super();
+		this.user = user;
+		this.role = role;
+	}
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import dao.CustomUserDetails;
 import dao.PhotoService;
 import models.Img;
 import models.User;
@@ -28,10 +26,6 @@ public class homeAd {
         List<Img> imgs = photoService.getAllImgAdmin();
         model.addAttribute("imgs", imgs);
         model.addAttribute("img", new Img());
-
-        // Lấy thông tin người dùng đang đăng nhập
-        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("user", user);
 
         // Thêm thông điệp chào mừng
         model.addAttribute("mess", "Welcome to admin page");

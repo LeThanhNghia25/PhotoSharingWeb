@@ -1,41 +1,44 @@
 package controllers.user;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import dao.PhotoService;
+import dao.UserService;
 import models.User;
 
 @Controller
 public class login {
 	@Autowired
-	private PhotoService photoService;
+	private UserService userDetailsService; 
 	
-    @RequestMapping("/login")
-    public ModelAndView login(@RequestParam(value = "error", required = false) String error, Model model, HttpSession session) {
-        if (session.getAttribute("user") != null) {
-            return new ModelAndView("redirect:/");
-        }
-        model.addAttribute("user", new User());
-        return new ModelAndView("user/login");
+    @GetMapping("/login")
+    public String login() {     
+        return "user/login";
     }
 
-    @RequestMapping("/register")
+    @GetMapping("/register")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new User()); // Ensure 'User' is your model class
-        return "user/register"; // Make sure this matches your JSP path
+        model.addAttribute("user", new User());
+        return "user/register"; 
+    }
+    
+    @PostMapping("/register")
+    public String register(Model model, @ModelAttribute(value="user") User user) {
+    	String errMsg = "";
+    	if(user.getEmail().length() > 1) {
+    		if(this.userDetailsService.addUser(user)==true)
+    			return "redirect:/login";
+    		else errMsg = "Da co loi xay ra !";
+    	}else errMsg = "Da co account dang ky voi email nay";
+        model.addAttribute("errMsg", errMsg);
+        return "user/register";  
     }
 
     @RequestMapping("/logout")

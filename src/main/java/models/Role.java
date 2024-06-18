@@ -16,7 +16,7 @@ public class Role {
 	@Id
 	@Column(name = "Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private int id;
 	@Column(name = "name")
 	private String name;
 	
@@ -28,18 +28,18 @@ public class Role {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Role(Long id, String name, Set<UserRole> roleUsers) {
+	public Role(int id, String name, Set<UserRole> roleUsers) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.roleUsers = roleUsers;
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
