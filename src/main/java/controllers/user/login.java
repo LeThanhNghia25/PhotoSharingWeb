@@ -46,4 +46,9 @@ public class login {
         session.removeAttribute("user");
         return "redirect:/";
     }
+    
+    @GetMapping("/accessDenied")
+    public String accessDenied() {
+        return "user/accessDenied";
+    }
 }

@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `photosharingweb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `photosharingweb`;
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: photosharingweb
@@ -203,12 +201,12 @@ CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(100) DEFAULT NULL,
   `password` varchar(200) DEFAULT NULL,
-  `describe` varchar(600) DEFAULT NULL,
+  `description` varchar(600) DEFAULT NULL,
   `email` varchar(150) DEFAULT NULL,
   `birthday` date DEFAULT NULL,
   `enabled` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -217,7 +215,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Anh Quaan','$2a$10$i3Q7wFNDc357iDa6rJyN7.jrQ3okAJa4lIUBmZ8.vYZlg3xungsUG',NULL,'quanquan174@yahoo.com','1985-08-15',1), (2,'Nghia','$2a$10$i3Q7wFNDc357iDa6rJyN7.jrQ3okAJa4lIUBmZ8.vYZlg3xungsUG',NULL,'lethanhnghia0938@gmail.com','2002-05-02',1),(3,'quan@gmail.com','$2a$10$i3Q7wFNDc357iDa6rJyN7.jrQ3okAJa4lIUBmZ8.vYZlg3xungsUG',NULL,'sample@example.com','2111-12-31',1),(4,'leb','$2a$10$i3Q7wFNDc357iDa6rJyN7.jrQ3okAJa4lIUBmZ8.vYZlg3xungsUG',NULL,'leb@gmail.com','2024-05-30',1);
+INSERT INTO `user` VALUES (1,'Anh Quaan','$2a$10$i3Q7wFNDc357iDa6rJyN7.jrQ3okAJa4lIUBmZ8.vYZlg3xungsUG',NULL,'quanquan174@yahoo.com','1985-08-15',1),(2,'Nghia','$2a$10$i3Q7wFNDc357iDa6rJyN7.jrQ3okAJa4lIUBmZ8.vYZlg3xungsUG',NULL,'lethanhnghia0938@gmail.com','2002-05-02',1),(3,'quan@gmail.com','$2a$10$i3Q7wFNDc357iDa6rJyN7.jrQ3okAJa4lIUBmZ8.vYZlg3xungsUG',NULL,'sample@example.com','2111-12-31',1),(4,'leb','$2a$10$i3Q7wFNDc357iDa6rJyN7.jrQ3okAJa4lIUBmZ8.vYZlg3xungsUG',NULL,'leb@gmail.com','2024-05-30',1),(5,'abc','$2a$10$.ghI/d28dXvEz/gM0.vmruPhRvQTlCemECKetwjcZIo5O5a2ynBmK',NULL,'abc@gmail.com','2024-06-08',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -237,7 +235,7 @@ CREATE TABLE `users_roles` (
   KEY `roleId` (`roleId`),
   CONSTRAINT `users_roles_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`),
   CONSTRAINT `users_roles_ibfk_2` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -246,7 +244,7 @@ CREATE TABLE `users_roles` (
 
 LOCK TABLES `users_roles` WRITE;
 /*!40000 ALTER TABLE `users_roles` DISABLE KEYS */;
-INSERT INTO `users_roles` VALUES (1,1,1),(2,2,1),(3,3,2),(4,4,2);
+INSERT INTO `users_roles` VALUES (1,1,1),(2,2,1),(3,3,2),(4,4,2),(5,5,2);
 /*!40000 ALTER TABLE `users_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -259,4 +257,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-15  1:03:02
+-- Dump completed on 2024-06-19 13:30:32

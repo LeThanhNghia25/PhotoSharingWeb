@@ -16,46 +16,46 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableWebSecurity
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"models","dao"})
+@ComponentScan(basePackages = {"models", "dao"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	@Autowired
-	private UserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-	@Bean
-	BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	}
-	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-	    http.csrf(csrf -> csrf.disable())
-	        .authorizeRequests(auth -> auth
-	            .antMatchers("/", "/home", "/login", "/register").permitAll()
-	            .antMatchers("/details").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-	            .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-	            .anyRequest().authenticated())
-	        .formLogin(login -> login
-	            .loginPage("/login")
-	            .loginProcessingUrl("/spring_security_login")
-	            .usernameParameter("email")
-	            .passwordParameter("password")
-	            .defaultSuccessUrl("/home", true)
-	            .failureUrl("/login?error"))
-	        .logout(logout -> logout
-	            .logoutUrl("/logout")
-	            .logoutSuccessUrl("/login")
-	            .invalidateHttpSession(true)
-	            .deleteCookies("JSESSIONID"));
-	}
+    @Bean
+    BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
 
-	@Bean
-	WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web.ignoring().antMatchers("/resources/**");
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+            .authorizeRequests(auth -> auth
+                .antMatchers("/", "/home", "/login", "/register", "/resources/**").permitAll()
+                .antMatchers("/details").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                .anyRequest().authenticated())
+            .formLogin(login -> login
+                .loginPage("/login")
+                .loginProcessingUrl("/spring_security_login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/home", true)
+                .failureUrl("/login?error"))
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID"))
+            .exceptionHandling().accessDeniedPage("/accessDenied");
+    }
+
+    @Bean
+    WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/resources/**");
+    }
 }
