@@ -55,6 +55,15 @@
 					</div>
 				</c:if>
 				<c:if test="${not empty pageContext.request.userPrincipal}">
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<div>
+							<a href="<c:url value="/admin/post"/>"
+								class="d-flex align-items-center"><button id="loginButton"
+									data-mdb-ripple-init type="button"
+									class="btn btn-link px-3 me-2"
+									>ADMIN PAGE</button></a>
+						</div>
+					</sec:authorize>
 					<li class="nav-item me-3 me-lg-1"><a class="nav-link"
 						href="uploadImage"> <span><i
 								class="fas fa-plus-circle fa-lg"></i></span>

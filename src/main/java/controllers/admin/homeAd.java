@@ -20,15 +20,12 @@ public class homeAd {
 	@Autowired
 	private PhotoService photoService;
 	
-	@RequestMapping(value = { "/admin", "/admin/post" }, method = RequestMethod.GET)
+	@GetMapping(value = { "/admin", "/admin/post" })
     public String admin(Model model) {
         // Lấy danh sách ảnh từ photoService
         List<Img> imgs = photoService.getAllImgAdmin();
         model.addAttribute("imgs", imgs);
         model.addAttribute("img", new Img());
-
-        // Thêm thông điệp chào mừng
-        model.addAttribute("mess", "Welcome to admin page");
 
         return "admin/index";
     }
