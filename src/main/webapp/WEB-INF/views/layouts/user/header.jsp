@@ -4,9 +4,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<!-- Start your project here-->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<base href="http://localhost:8080/PhotoSharingWeb/" />
+
+<!-- Start your project here -->
 <header>
-	<!-- Navbar-->
+	<!-- Navbar -->
 	<nav
 		class="navbar navbar-expand-lg navbar-light bg-body-tertiary fixed-top">
 		<div class="container-fluid justify-content-between">
@@ -18,29 +21,28 @@
 					src="${pageContext.request.contextPath}/resources/img/ptsharing-removebg-preview.png"
 					height="30" alt="MDB Logo" loading="lazy" style="margin-top: 2px;" />
 				</a>
-
-
 			</div>
 			<!-- Left elements -->
+
 			<!-- Center elements -->
 			<ul class="navbar-nav flex-row d-none d-md-flex">
-				<!-- Search form -->
-				<form>
+				<!-- Thêm vào phần Search form -->
+				<form id="searchForm" class="position-relative">
 					<div class="input-group rounded">
-						<input type="search" class="form-control rounded"
+						<input type="search" id="search_name" class="form-control rounded"
 							placeholder="Search" aria-label="Search"
 							aria-describedby="search-addon" /> <span
 							class="input-group-text border-0" id="search-addon"> <i
 							class="fas fa-search"></i>
 						</span>
 					</div>
+					<ul id="output_search" class="list-group position-absolute"></ul>
 				</form>
 			</ul>
 			<!-- Center elements -->
 
 			<!-- Right elements -->
 			<ul class="navbar-nav flex-row">
-				<!-- Button trigger modal -->
 				<!-- Button trigger modal -->
 				<c:if test="${empty pageContext.request.userPrincipal}">
 					<div class="d-flex align-items-center">
@@ -58,10 +60,10 @@
 					<sec:authorize access="hasRole('ROLE_ADMIN')">
 						<div>
 							<a href="<c:url value="/admin/post"/>"
-								class="d-flex align-items-center"><button id="loginButton"
-									data-mdb-ripple-init type="button"
-									class="btn btn-link px-3 me-2"
-									>ADMIN PAGE</button></a>
+								class="d-flex align-items-center">
+								<button id="adminButton" data-mdb-ripple-init type="button"
+									class="btn btn-link px-3 me-2">ADMIN PAGE</button>
+							</a>
 						</div>
 					</sec:authorize>
 					<li class="nav-item me-3 me-lg-1"><a class="nav-link"
@@ -75,7 +77,6 @@
 							<i class="fas fa-comments fa-lg"></i> <span
 							class="badge rounded-pill badge-notification bg-danger">6</span>
 					</a>
-
 						<ul class="dropdown-menu dropdown-menu-end"
 							aria-labelledby="navbarDropdownMenuLink">
 							<li><a class="dropdown-item" href="#">Some news</a></li>
@@ -110,10 +111,8 @@
 									src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp"
 									class="rounded-circle" height="22"
 									alt="Black and White Portrait of a Man" loading="lazy" /> <strong
-									class="d-none d-sm-block ms-1"></strong>
-									${pageContext.request.userPrincipal.name}
+									class="d-none d-sm-block ms-1">${pageContext.request.userPrincipal.name}</strong>
 							</a></li>
-
 							<li><a class="dropdown-item" href="#">Some news</a></li>
 							<li><a class="dropdown-item" href="#">Another news</a></li>
 							<li><a class="dropdown-item"
@@ -121,15 +120,67 @@
 						</ul></li>
 				</c:if>
 			</ul>
-
 			<!-- Right elements -->
 		</div>
 	</nav>
-
-
 	<!-- Navbar -->
 	<script type="text/javascript"
-		src="<c:url value="/resources/js/mdb.umd.min.js" /> " /></script>
+		src="<c:url value="/resources/js/mdb.umd.min.js" /> "></script>
 	<script type="text/javascript"
 		src="<c:url value='/resources/js/checkimg.js' />"></script>
+	<!-- Thêm script để xử lý sự kiện tìm kiếm -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#search_name').on('keyup', function() {
+				let query = $(this).val().trim();
+				if (query.length > 0) {
+					$.ajax({
+						url : '/PhotoSharingWeb/search',
+						method : 'GET',
+						data : {
+							query : query
+						},
+						success : function(response) {
+							$('#output_search').html(response);
+							$('#output_search').show();
+						}
+					});
+				} else {
+					$('#output_search').html('');
+					$('#output_search').hide();
+				}
+			});
+
+			$(document).click(function(e) {
+				if (!$(e.target).closest('#searchForm').length) {
+					$('#output_search').hide();
+				}
+			});
+		});
+	</script>
+
+
+
 </header>
+
+<style>
+#output_search {
+	z-index: 1000;
+	width: 100%;
+	max-height: 300px;
+	overflow-y: auto;
+	background-color: white;
+	border: 1px solid #ccc;
+	display: none; /* Ban đầu ẩn kết quả tìm kiếm */
+	position: absolute; /* Đảm bảo vị trí overlay */
+}
+
+.list-group-item {
+	display: flex;
+	align-items: center;
+}
+
+.list-group-item img {
+	margin-right: 10px;
+}
+</style>

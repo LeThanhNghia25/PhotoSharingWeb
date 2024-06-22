@@ -35,12 +35,15 @@ public class PhotoService {
 	public int delete(int imgId) {
 		return photoRepository.deleteImg(imgId);
 	}
+
 	public int deleteUser(int idUser) {
 		return photoRepository.deleteUser(idUser);
 	}
+
 	public int updateUserAd(User user) {
 		return photoRepository.updateUserAD(user);
 	}
+
 	public void RegistorUser(User newUser) {
 		photoRepository.RegistorUser(newUser);
 	}
@@ -52,8 +55,13 @@ public class PhotoService {
 	public boolean isEmailExist(String email) {
 		return photoRepository.isEmailExist(email);
 	}
+
 	public Img findImgById(int id) {
 		return photoRepository.findImgById(id);
-		
 	}
+
+	 public List<Img> searchImgs(String query) {
+	        return photoRepository.searchImgs(query);
+	    }
+
 }
