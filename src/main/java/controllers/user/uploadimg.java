@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import dao.PhotoService;
 import models.Img;
-import models.catalog;
+import models.Catalog;
 import models.User;
 
 @Controller
@@ -48,7 +48,7 @@ public class uploadimg {
 			img.setEnabled(true);
 			User user = (User) session.getAttribute("user");
 			img.setCreator(user);
-			catalog ct = new catalog();
+			Catalog ct = new Catalog();
 			ct.setCatalogname("ok");
 			img.setCata(ct);
 

@@ -1,19 +1,18 @@
 package models;
 
-public class entry {
+public class Entry {
 	protected String title;
 	protected String content;
 	protected String img;
 	protected String createdTime;
 	protected User creator;
-	protected catalog cata;
+	protected Catalog cata;
 	protected boolean enabled;
 
-	public entry() {
-
+	public Entry() {
 	}
 
-	public entry(String title, String content, String img, String createdTime, User creator, catalog cata,
+	public Entry(String title, String content, String img, String createdTime, User creator, Catalog cata,
 			boolean enabled) {
 		super();
 		this.title = title;
@@ -65,11 +64,11 @@ public class entry {
 		this.creator = creator;
 	}
 
-	public catalog getCata() {
+	public Catalog getCata() {
 		return cata;
 	}
 
-	public void setCata(catalog cata) {
+	public void setCata(Catalog cata) {
 		this.cata = cata;
 	}
 
@@ -80,7 +79,5 @@ public class entry {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-
-
 
 }

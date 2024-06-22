@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import models.Img;
-import models.catalog;
+import models.Catalog;
 import models.User;
 
 @Repository
@@ -60,7 +60,7 @@ public class PhotoRepository {
 			creator.setId(rs.getInt("id"));
 			creator.setEmail(rs.getString("email"));
 			img.setCreator(creator);
-			catalog cata = new catalog();
+			Catalog cata = new Catalog();
 			cata.setId(rs.getInt("id"));
 			cata.setCatalogname(rs.getString("catalogname"));
 			img.setCata(cata);
@@ -136,8 +136,10 @@ public class PhotoRepository {
 				+ " catalog.catalogname FROM img JOIN user ON img.creator = user.id JOIN catalog ON img.cate = catalog.id WHERE img.id = ?";
 	    return jdbcTemplate.queryForObject(sql, new Object[]{id}, new ImgAdminRowMapper());
 	}
+	
+	public List<Img> searchImgs(String query) {
+        String sql = "SELECT * FROM img WHERE title LIKE ?";
+        return jdbcTemplate.query(sql, new Object[]{"%" + query + "%"}, new ImgRowMapper());
+    }
 
-	public static void main(String[] args) {
-
-	}
 }
