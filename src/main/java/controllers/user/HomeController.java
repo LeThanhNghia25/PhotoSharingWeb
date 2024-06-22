@@ -28,8 +28,9 @@ public class HomeController {
         return new ModelAndView("user/index");
     }
     
-    @GetMapping("/search")
-    public @ResponseBody String search(@RequestParam("query") String query) {
+    @GetMapping("/liveSearch")
+    @ResponseBody
+    public String liveSearch(@RequestParam("query") String query) {
         List<Img> imgs = photoService.searchImgs(query);
         StringBuilder output = new StringBuilder();
         
@@ -45,5 +46,15 @@ public class HomeController {
             }
         }
         return output.toString();
-    } 
+    }
+
+    // Mapping for search results page
+    @RequestMapping(value = "/searchResults", method = RequestMethod.GET)
+    public String searchResults(@RequestParam("query") String query, Model model) {
+        List<Img> searchResults = photoService.searchImgs(query);
+        model.addAttribute("search_name", query); // Use query as search_name
+        model.addAttribute("imgs", searchResults);
+        return "user/searchResults"; // Return the view name
+    }
+
 }

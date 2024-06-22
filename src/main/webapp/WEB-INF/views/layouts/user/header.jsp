@@ -27,13 +27,18 @@
 			<!-- Center elements -->
 			<ul class="navbar-nav flex-row d-none d-md-flex">
 				<!-- Thêm vào phần Search form -->
-				<form id="searchForm" class="position-relative">
+				<form id="searchForm"
+					action="${pageContext.request.contextPath}/searchResults"
+					method="GET" class="position-relative">
 					<div class="input-group rounded">
-						<input type="search" id="search_name" class="form-control rounded"
-							placeholder="Search" aria-label="Search"
-							aria-describedby="search-addon" /> <span
-							class="input-group-text border-0" id="search-addon"> <i
-							class="fas fa-search"></i>
+						<input type="search" id="search_name" name="query"
+							class="form-control rounded" placeholder="Search"
+							aria-label="Search" aria-describedby="search-addon" /> <span
+							class="input-group-text border-0" id="search-addon">
+							<button type="button" id="searchIcon"
+								class="input-group-text border-0">
+								<i class="fas fa-search"></i>
+							</button>
 						</span>
 					</div>
 					<ul id="output_search" class="list-group position-absolute"></ul>
@@ -130,33 +135,56 @@
 		src="<c:url value='/resources/js/checkimg.js' />"></script>
 	<!-- Thêm script để xử lý sự kiện tìm kiếm -->
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$('#search_name').on('keyup', function() {
-				let query = $(this).val().trim();
-				if (query.length > 0) {
-					$.ajax({
-						url : '/PhotoSharingWeb/search',
-						method : 'GET',
-						data : {
-							query : query
-						},
-						success : function(response) {
-							$('#output_search').html(response);
-							$('#output_search').show();
-						}
-					});
-				} else {
-					$('#output_search').html('');
-					$('#output_search').hide();
-				}
-			});
+		$(document)
+				.ready(
+						function() {
+							// Handling keyup event for live search
+							$('#search_name').on('keyup', function() {
+								let query = $(this).val().trim();
+								if (query.length > 0) {
+									$.ajax({
+										url : '/PhotoSharingWeb/liveSearch',
+										method : 'GET',
+										data : {
+											query : query
+										},
+										success : function(response) {
+											$('#output_search').html(response);
+											$('#output_search').show();
+										},
+										error : function(xhr, status, error) {
+											console.error('Error:', error);
+										}
+									});
+								} else {
+									$('#output_search').empty();
+									$('#output_search').hide();
+								}
+							});
 
-			$(document).click(function(e) {
-				if (!$(e.target).closest('#searchForm').length) {
-					$('#output_search').hide();
-				}
-			});
-		});
+							// Handling click event for search icon
+							$('#searchIcon')
+									.on(
+											'click',
+											function() {
+												var query = $('#search_name')
+														.val();
+												if (query.length > 0) {
+													window.location.href = '/PhotoSharingWeb/searchResults?query='
+															+ query;
+												}
+											});
+
+							// Hide search results on click outside the search form
+							$(document)
+									.click(
+											function(e) {
+												if (!$(e.target).closest(
+														'#searchForm').length) {
+													$('#output_search').hide();
+												}
+											});
+						});
 	</script>
 
 
