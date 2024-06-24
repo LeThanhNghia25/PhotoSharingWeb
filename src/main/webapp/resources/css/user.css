@@ -26,3 +26,7 @@
 .card {
 	margin-top: 100px;	
 }
+.error-message {
+  color: #721c24; /* Màu chữ đỏ đậm */
+  padding: 10px; /* Khoảng cách giữa nội dung và viền */
+}

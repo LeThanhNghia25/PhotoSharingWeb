@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
 	prefix="decorator"%>
@@ -10,9 +10,8 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta http-equiv="x-ua-compatible" content="ie=edge" />
-<link rel="icon"
-	href="${pageContext.request.contextPath}/resources/img/favicon.png"
-	type="image/png" />
+<link rel="icon" href="${pageContext.request.contextPath}/resources/avatar/logo.png " />
+
 <title><decorator:title default="PhotoSharing-Admin" /></title>
 <!-- Font Awesome -->
 <link rel="stylesheet"
@@ -25,7 +24,8 @@
 	href="<c:url value="/resources/css/mdb.min.css" />" />
 <!-- Custom styles -->
 <link rel="stylesheet" href="<c:url value="/resources/css/admin.css" />" />
-
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-3.6.3.min.js"></script>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/layouts/admin/header.jsp"%>

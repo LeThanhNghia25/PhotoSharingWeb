@@ -2,9 +2,9 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<c:if test="${sessionScope.admin != null}">
 <header>
+
 	<!-- Sidebar -->
 	<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
     <div class="position-sticky">
@@ -19,12 +19,12 @@
                 data-mdb-ripple-init>
                 <i class="fas fa-chart-area fa-fw me-3"></i><span>Bài viết</span>
             </a>
-            <a href="${pageContext.request.contextPath}/admin/category" id="categoryLink"
-                class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/admin/category' ? 'active' : ''}"
+            <a href="${pageContext.request.contextPath}/admin/cate" id="categoryLink"
+                class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/admin/cate' ? 'active' : ''}"
                 data-mdb-ripple-init>
                 <i class="fas fa-lock fa-fw me-3"></i><span>Chuyên mục</span>
             </a>
-            <a href="#" id="feedbackLink"
+            <a href="${pageContext.request.contextPath}/admin/feedback" id="feedbackLink"
                 class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/feedback' ? 'active' : ''}"
                 data-mdb-ripple-init>
                 <i class="fas fa-calendar fa-fw me-3"></i><span>Phản hồi</span>
@@ -37,6 +37,7 @@
         </div>
     </div>
 </nav>
+
 	<!-- Sidebar -->
 
 	<!-- Navbar -->
@@ -54,7 +55,7 @@
 			<!-- Brand -->
 			<a class="navbar-brand me-2 mb-1 d-flex align-items-center"
 				href="${pageContext.request.contextPath}/admin"> <img
-				src="${pageContext.request.contextPath}/resources/img/ptsharing-removebg-preview.png"
+				src="${pageContext.request.contextPath}/resources/avatar/icont.png"
 				height="30" alt="MDB Logo" loading="lazy" style="margin-top: 2px;" />
 			</a>
 			<!-- Search form -->
@@ -88,15 +89,12 @@
 					class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center"
 					href="#" id="navbarDropdownMenuLink" role="button"
 					data-mdb-dropdown-init aria-expanded="false"> <img
-						src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg"
-						class="rounded-circle" height="22" alt="" loading="lazy" />
+						src="${pageContext.request.contextPath}/${sessionScope.admin.avatar}"
+						class="rounded-circle" height="22" alt="" loading="lazy" /> ${sessionScope.admin.username}
 				</a>
 					<ul class="dropdown-menu dropdown-menu-end"
 						aria-labelledby="navbarDropdownMenuLink">
-						<li>${pageContext.request.userPrincipal.name}</li>
-						<li><a class="dropdown-item" href="#">My profile</a></li>
-						<li><a class="dropdown-item" href="#">Settings</a></li>
-						<li><a class="dropdown-item"href="${pageContext.request.contextPath}/logout">Logout</a></li>
+						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logoutad">Đăng xuất</a></li>
 					</ul></li>
 			</ul>
 		</div>
@@ -104,3 +102,4 @@
 	</nav>
 </header>
 <!--Main Navigation-->
+</c:if>

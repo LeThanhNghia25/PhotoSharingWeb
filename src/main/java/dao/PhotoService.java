@@ -5,19 +5,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import models.Img;
-import models.User;
+import models.admin;
+import models.catalog;
+import models.comment;
+import models.user;
 
 @Service
 public class PhotoService {
 	@Autowired
 	private PhotoRepository photoRepository;
 
-	public List<User> getAllUsers() {
+	public List<user> getAllUsers() {
 		return photoRepository.findAllUser();
 	}
 
 	public List<Img> getAllImg() {
 		return photoRepository.findAllImg();
+	}
+
+	public List<catalog> getAllCate() {
+		return photoRepository.findAllCate();
 	}
 
 	public List<Img> getAllImgAdmin() {
@@ -36,20 +43,28 @@ public class PhotoService {
 		return photoRepository.deleteImg(imgId);
 	}
 
+	public int deleteCate(int cateId) {
+		return photoRepository.deleteCate(cateId);
+	}
+
 	public int deleteUser(int idUser) {
 		return photoRepository.deleteUser(idUser);
 	}
 
-	public int updateUserAd(User user) {
+	public int updateUserAd(user user) {
 		return photoRepository.updateUserAD(user);
 	}
 
-	public void RegistorUser(User newUser) {
+	public void RegistorUser(user newUser) {
 		photoRepository.RegistorUser(newUser);
 	}
 
-	public User checkUser(String email, String password) {
+	public user checkUser(String email, String password) {
 		return photoRepository.findUserByEmailAndPassword(email, password);
+	}
+
+	public admin checkAdmin(String username, String password) {
+		return photoRepository.findAdminByEmailAndPassword(username, password);
 	}
 
 	public boolean isEmailExist(String email) {
@@ -58,10 +73,40 @@ public class PhotoService {
 
 	public Img findImgById(int id) {
 		return photoRepository.findImgById(id);
+
 	}
 
-	 public List<Img> searchImgs(String query) {
-	        return photoRepository.searchImgs(query);
-	    }
+	public user findUserById(int id) {
+		return photoRepository.findUserById(id);
+	}
 
+	public List<Img> findAllImgByUserId(int userId) {
+		return photoRepository.findAllImgByUserId(userId);
+	}
+
+	public List<comment> showallcomment(int idpost) {
+		return photoRepository.showallcomment(idpost);
+	}
+
+	public int insertComment(comment comment) {
+		return photoRepository.insertComment(comment);
+	}
+	public int saveCate(catalog catalog) {
+		return photoRepository.saveCate(catalog);
+	}
+	public int updateavatar(user user) {
+		return photoRepository.updateavatar(user);
+	}
+
+	public int updateProfile(user user) {
+		return photoRepository.updateProfile(user);
+	}
+
+	public boolean checkPassword(user user) {
+		return photoRepository.checkPassword(user);
+	}
+
+	public int updatePassword(user user) {
+		return photoRepository.updatePassword(user);
+	}
 }

@@ -13,7 +13,7 @@
 <title><decorator:title default="PhotoSharing" /></title>
 <!-- MDB icon -->
 
-<link rel="icon" href=" <c:url value="resources/img/favicon.png" />"
+<link rel="icon" href=" <c:url value="resources/avatar/logo.png" />"
 	type="image/png">
 <!-- Font Awesome -->
 <link rel="stylesheet"
@@ -29,9 +29,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
 <!-- BT5 -->
 <script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-	crossorigin="anonymous"></script>
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" href="<c:url value="/resources/css/user.css" />" />
 <script

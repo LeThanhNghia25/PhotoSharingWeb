@@ -1,76 +1,52 @@
 package models;
 
 import java.util.Date;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity
-@Table(name = "user")
-public class User {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+public class user {
 	private int id;
-
 	@NotEmpty(message = "Username không được trống")
-	@Column(name = "username", nullable = false)
 	private String username;
 
 	@NotEmpty(message = "Password không được trống")
 	@Size(min = 6, message = "Password phải có ít nhất 6 ký tự")
-	@Column(name = "password", nullable = false)
 	private String password;
 
-	@Column(name = "description")
-	private String description;
+	private String avatar;
+
+	private String describe;
 
 	@NotEmpty(message = "Email không được trống")
 	@Email(message = "Email không hợp lệ")
-	@Column(name = "email", nullable = false)
 	private String email;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 
-	@Column(name = "enabled")
-	private boolean enabled;
+	private String status;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<UserRole> userRoles;
-
-	public User() {
+	public user() {
 
 	}
 
-	public User(int id, @NotEmpty(message = "Username không được trống") String username,
+	public user(int id, @NotEmpty(message = "Username không được trống") String username,
 			@NotEmpty(message = "Password không được trống") @Size(min = 6, message = "Password phải có ít nhất 6 ký tự") String password,
 			String describe,
 			@NotEmpty(message = "Email không được trống") @Email(message = "Email không hợp lệ") String email,
-			Date birthday, boolean enabled, Set<UserRole> userRoles) {
+			@DateTimeFormat(pattern = "yyyy-MM-dd") Date birthday, String status) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.description = describe;
+		this.describe = describe;
 		this.email = email;
 		this.birthday = birthday;
-		this.enabled = enabled;
-		this.userRoles = userRoles;
+		this.status = status;
 	}
 
 	public int getId() {
@@ -97,12 +73,20 @@ public class User {
 		this.password = password;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getAvatar() {
+		return avatar;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public String getDescribe() {
+		return describe;
+	}
+
+	public void setDescribe(String describe) {
+		this.describe = describe;
 	}
 
 	public String getEmail() {
@@ -121,20 +105,12 @@ public class User {
 		this.birthday = birthday;
 	}
 
-	public boolean getEnabled() {
-		return enabled;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
-	public Set<UserRole> getUserRoles() {
-		return userRoles;
-	}
-
-	public void setUserRoles(Set<UserRole> userRoles) {
-		this.userRoles = userRoles;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

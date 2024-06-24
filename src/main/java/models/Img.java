@@ -3,18 +3,25 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Img extends Entry {
-	private int id;
-	private List<Comment> commnent = new ArrayList<Comment>();
+import javax.validation.constraints.NotEmpty;
 
+import models.*;
+
+public class Img extends entry {
+	private int id;
+	private List<comment> commnet = new ArrayList<comment>();
+	private int userid;
 	public Img() {
 
 	}
 
-	public Img(int id, List<Comment> commnet) {
-		super();
+	public Img(int id, @NotEmpty(message = "Tiêu đề không được trống") String title, String content, String img, String createdTime, user creator, catalog cata,
+			String status) {
+		super(title, content, img, createdTime, creator, cata, status);
 		this.id = id;
-		this.commnent = commnet;
+		this.title = title;
+		this.content = content;
+		this.img = img;
 	}
 
 	public int getId() {
@@ -25,12 +32,20 @@ public class Img extends Entry {
 		this.id = id;
 	}
 
-	public List<Comment> getCommnet() {
-		return commnent;
+	public List<comment> getCommnet() {
+		return commnet;
 	}
 
-	public void setCommnet(List<Comment> commnet) {
-		this.commnent = commnet;
+	public void setCommnet(List<comment> commnet) {
+		this.commnet = commnet;
+	}
+
+	public int getUserid() {
+		return userid;
+	}
+
+	public void setUserid(int userid) {
+		this.userid = userid;
 	}
 
 }

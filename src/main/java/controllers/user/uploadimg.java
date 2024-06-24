@@ -6,19 +6,22 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import dao.PhotoService;
 import models.Img;
-import models.Catalog;
-import models.User;
+import models.catalog;
+import models.user;
 
 @Controller
 public class uploadimg {
@@ -26,46 +29,53 @@ public class uploadimg {
 	private PhotoService photoService;
 
 	@GetMapping("/uploadImage")
-	public String updateImg(Model model) {
+	public String updateImg(Model model,HttpSession session) {
 		model.addAttribute("img", new Img());
+		user loggedInUser = (user) session.getAttribute("user");
+		if (loggedInUser == null) {
+			return "redirect:/login";
+		}
 		return "user/uploadImage";
 	}
 
 	@PostMapping("/uploadImg")
-	public String uploadImage(@ModelAttribute("img") Img img, Model model, @RequestParam("url") MultipartFile file,
-			HttpSession session) {
-		if (file.isEmpty()) {
-			model.addAttribute("message", "No file selected");
-			return "user/uploadImage";
+	public @ResponseBody String uploadImage(@Valid @ModelAttribute("img") Img img, BindingResult bindingResult,
+			Model model, @RequestParam("url") MultipartFile file,@RequestParam("checkvalueimg") String checkvalueimg, HttpSession session)
+			throws IllegalStateException, IOException {
+	
+		if (bindingResult.hasErrors()) {
+			StringBuilder errors = new StringBuilder();
+			bindingResult.getAllErrors().forEach(error -> errors.append(error.getDefaultMessage()).append("<br/>"));
+			return errors.toString();
 		}
-		try {
-			// Save file to the specified directory
-			String uploadDir = "C:\\Users\\Quan Phan\\Desktop\\CDWeb\\PhotoSharingWeb\\src\\main\\webapp\\resources\\img\\";
-			File dest = new File(uploadDir + file.getOriginalFilename());
-			file.transferTo(dest);
-			img.setImg("resources/img/" + file.getOriginalFilename());
-			img.setCreatedTime(new SimpleDateFormat("dd-MM-yyyy").format(new java.util.Date()));
-			img.setEnabled(true);
-			User user = (User) session.getAttribute("user");
-			img.setCreator(user);
-			Catalog ct = new Catalog();
-			ct.setCatalogname("ok");
-			img.setCata(ct);
-
-			int result = photoService.saveImg(img);
-			if (result > 0) {
-				model.addAttribute("message", "Tải ảnh lên thành công!");
-			} else {
-				model.addAttribute("message", "Tải ảnh lên thất bại!");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			model.addAttribute("message", "File upload failed");
-			return "user/uploadImage";
+		  if (file.isEmpty()) {
+		        return "fileemty";
+		    }
+		String uploadDir = "C:\\Users\\Quan Phan\\Desktop\\CDWeb\\PhotoSharingWeb\\src\\main\\webapp\\resources\\img\\";
+		File dest = new File(uploadDir + file.getOriginalFilename());
+		file.transferTo(dest);
+		img.setImg("resources/img/" + file.getOriginalFilename());
+		img.setCreatedTime(new SimpleDateFormat("dd-MM-yyyy").format(new java.util.Date()));
+		user user = (user) session.getAttribute("user");
+		img.setCreator(user);
+		catalog ct = new catalog();
+		if (file.getOriginalFilename().endsWith(".gif")) {
+			ct.setId(2);
+		} else {
+			ct.setId(1);
 		}
+		 int checkValue = Integer.parseInt(checkvalueimg);
+		img.setCata(ct);
+		if(checkValue > 65) {
+			img.setStatus("off");
+		}else {
+			img.setStatus("ok");
+		}
+	
+		photoService.saveImg(img);
 
 		List<Img> imgs = photoService.getAllImg();
 		model.addAttribute("imgs", imgs);
-		return "redirect:/home";
+		return "success";
 	}
 }

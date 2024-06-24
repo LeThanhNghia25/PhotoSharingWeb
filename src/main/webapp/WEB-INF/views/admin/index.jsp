@@ -33,17 +33,15 @@
 										<td>
 											<div class="d-flex align-items-center">
 												<div class="ms-3">
-													<a href="#"><p class="fw-bold mb-1">${img.title}</p></a>
-													<button type="button"
-														class="btn btn-link btn-sm btn-rounded"
-														onclick="window.location.href='${pageContext.request.contextPath}/detail?fromitem=${img.id}'">Xem</button>
-													<button type="button"
-														class="btn btn-link btn-sm btn-rounded"
-														onclick="showForm(this)">Sửa</button>
+													<a
+														href="${pageContext.request.contextPath}/detai?fromitem=${img.id}">${img.title}</a>
 													<form:form
 														action="${pageContext.request.contextPath}/admin/deleteimg"
 														method="get" modelAttribute="img">
 														<form:hidden path="id" value="${img.id}" />
+														<button type="button"
+															class="btn btn-link btn-sm btn-rounded"
+															onclick="showForm(this)">Sửa</button>
 														<button type="submit"
 															class="btn btn-link btn-sm btn-rounded">Xóa</button>
 													</form:form>
@@ -54,7 +52,16 @@
 											<p class="text-muted mb-0">${img.creator.email}</p>
 										</td>
 										<td><span
-											class="badge badge-success rounded-pill d-inline">${img.enabled}</span></td>
+											class="badge rounded-pill d-inline 
+                                            <c:choose>
+                                                <c:when test="${img.status == 'ok'}">
+                                                    badge-success
+                                                </c:when>
+                                                <c:otherwise>
+                                                    badge-danger
+                                                </c:otherwise>
+                                            </c:choose>">
+												${img.status} </span></td>
 										<td><p class="text-muted mb-0"></p>${img.cata.catalogname}</td>
 										<td>
 											<p class="fw-bold mb-1">${img.createdTime}</p>
@@ -96,13 +103,12 @@
 												</div>
 
 												<!-- Trạng thái -->
-												<label class="label" for="enabled">Trạng thái</label>
-												<form:select path="enabled" id="enabled"
+												<label class="label" for="status">Trạng thái</label>
+												<form:select path="status" id="status"
 													cssClass="form-select mb-4"
 													aria-label="Default select example">
-													<form:option value="true" label="Enabled" />
-													<form:option value="false" label="Disabled" />
-
+													<form:option value="ok" label="ok" />
+													<form:option value="off" label="off" />
 												</form:select>
 
 												<!-- Text input -->
