@@ -10,7 +10,7 @@ public class entry {
 	protected String content;
 	protected String img;
 	protected String createdTime;
-	protected user creator;
+	protected User creator;
 	protected catalog cata;
 	protected String status;
 
@@ -19,7 +19,7 @@ public class entry {
 	}
 
 	public entry(@NotBlank(message = "Tiêu đề không được để trống") String title, String content,
-			String img, String createdTime, user creator, catalog cata,
+			String img, String createdTime, User creator, catalog cata,
 			String status) {
 		super();
 		this.title = title;
@@ -31,7 +31,7 @@ public class entry {
 		this.status = status;
 	}
 
-	public entry(int idpost, String content, String createdTime, user creator) {
+	public entry(int idpost, String content, String createdTime, User creator) {
 		super();
 		this.idpost = idpost;
 		this.content = content;
@@ -80,11 +80,11 @@ public class entry {
 		this.createdTime = createdTime;
 	}
 
-	public user getCreator() {
+	public User getCreator() {
 		return creator;
 	}
 
-	public void setCreator(user creator) {
+	public void setCreator(User creator) {
 		this.creator = creator;
 	}
 

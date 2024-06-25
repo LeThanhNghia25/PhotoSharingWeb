@@ -2,62 +2,6 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
-						$("#registerForm")
-								.submit(
-										function(e) {
-											e.preventDefault(); // prevent form submission and page reload
-											var formData = $(this).serialize(); // serialize form data
-											$
-													.ajax({
-														type : "POST",
-														url : "${pageContext.request.contextPath}/registerForm",
-														data : formData,
-														success : function(
-																response) {
-															if (response === "success") {
-																$(
-																		"#alert-success")
-																		.html(
-																				'<div class="alert alert-success alert-dismissible fade show" role="alert">'
-																						+ '<strong>Success!</strong> Đăng ký thành công.'
-																						+ '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'
-																						+ '</div>');
-																$(
-																		".alert-success")
-																		.fadeIn()
-																		.delay(
-																				2000)
-																		.fadeOut();
-																setTimeout(
-																		function() {
-																			window.location.href = '${pageContext.request.contextPath}/home';
-																		}, 2000); // 2000 milliseconds = 2 seconds
-
-															} else if (response === "email_exist") {
-																$(
-																		"#email-error")
-																		.html(
-																				"Email này đã tồn tại");
-															} else {
-																$(
-																		"#error-message")
-																		.html(
-																				response);
-															}
-														},
-														error : function() {
-															$("#error-message")
-																	.html(
-																			"Lỗi không xác định.");
-														}
-													});
-										});
-					});
-</script>
 <div class="container">
 	<section class="text-center">
 		<div class="p-5 bg-image"

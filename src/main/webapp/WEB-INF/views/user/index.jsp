@@ -12,7 +12,7 @@
                     <div class="bg-image hover-overlay shadow-1-strong rounded"
                          data-mdb-ripple-init data-mdb-ripple-color="light">
                         <img src="${img.img}" class="w-100 rounded-15px" alt="" />
-                        <a href="detai?fromitem=${img.id}">
+                        <a href="detail?fromitem=${img.id}">
                             <div class="mask" style="background-color: hsla(0, 0%, 98%, 0.2)"></div>
                         </a>
                     </div>

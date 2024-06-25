@@ -5,17 +5,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import models.Img;
+import models.User;
 import models.admin;
 import models.catalog;
 import models.comment;
-import models.user;
+
 
 @Service
 public class PhotoService {
 	@Autowired
 	private PhotoRepository photoRepository;
 
-	public List<user> getAllUsers() {
+	public List<User> getAllUsers() {
 		return photoRepository.findAllUser();
 	}
 
@@ -51,15 +52,15 @@ public class PhotoService {
 		return photoRepository.deleteUser(idUser);
 	}
 
-	public int updateUserAd(user user) {
+	public int updateUserAd(User user) {
 		return photoRepository.updateUserAD(user);
 	}
 
-	public void RegistorUser(user newUser) {
+	public void RegistorUser(User newUser) {
 		photoRepository.RegistorUser(newUser);
 	}
 
-	public user checkUser(String email, String password) {
+	public User checkUser(String email, String password) {
 		return photoRepository.findUserByEmailAndPassword(email, password);
 	}
 
@@ -76,7 +77,7 @@ public class PhotoService {
 
 	}
 
-	public user findUserById(int id) {
+	public User findUserById(int id) {
 		return photoRepository.findUserById(id);
 	}
 
@@ -94,19 +95,24 @@ public class PhotoService {
 	public int saveCate(catalog catalog) {
 		return photoRepository.saveCate(catalog);
 	}
-	public int updateavatar(user user) {
+	public int updateavatar(User user) {
 		return photoRepository.updateavatar(user);
 	}
 
-	public int updateProfile(user user) {
+	public int updateProfile(User user) {
 		return photoRepository.updateProfile(user);
 	}
 
-	public boolean checkPassword(user user) {
+	public boolean checkPassword(User user) {
 		return photoRepository.checkPassword(user);
 	}
 
-	public int updatePassword(user user) {
+	public int updatePassword(User user) {
 		return photoRepository.updatePassword(user);
 	}
+
+	public List<Img> searchImgs(String query) {
+        return photoRepository.searchImgs(query);
+    }
+
 }

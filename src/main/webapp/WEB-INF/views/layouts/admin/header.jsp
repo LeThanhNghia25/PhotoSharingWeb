@@ -2,41 +2,43 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<c:if test="${sessionScope.admin != null}">
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <header>
 
 	<!-- Sidebar -->
-	<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
-    <div class="position-sticky">
-        <div class="list-group list-group-flush mx-3 mt-4">
-            <a href="#" id="dashboardLink"
-                class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/' ? 'active' : ''}"
-                data-mdb-ripple-init aria-current="true">
-                <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Bảng tin</span>
-            </a>
-            <a href="${pageContext.request.contextPath}/admin/post" id="postLink"
-                class="list-group-item list-group-item-action py-2  ${pageContext.request.servletPath == '/admin/post' ? 'active' : ''}"
-                data-mdb-ripple-init>
-                <i class="fas fa-chart-area fa-fw me-3"></i><span>Bài viết</span>
-            </a>
-            <a href="${pageContext.request.contextPath}/admin/cate" id="categoryLink"
-                class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/admin/cate' ? 'active' : ''}"
-                data-mdb-ripple-init>
-                <i class="fas fa-lock fa-fw me-3"></i><span>Chuyên mục</span>
-            </a>
-            <a href="${pageContext.request.contextPath}/admin/feedback" id="feedbackLink"
-                class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/feedback' ? 'active' : ''}"
-                data-mdb-ripple-init>
-                <i class="fas fa-calendar fa-fw me-3"></i><span>Phản hồi</span>
-            </a>
-            <a href="${pageContext.request.contextPath}/admin/user" id="usersLink"
-                class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/admin/user' ? 'active' : ''}"
-                data-mdb-ripple-init>
-                <i class="fas fa-users fa-fw me-3"></i><span>Tác giả</span>
-            </a>
-        </div>
-    </div>
-</nav>
+	<nav id="sidebarMenu"
+		class="collapse d-lg-block sidebar collapse bg-white">
+		<div class="position-sticky">
+			<div class="list-group list-group-flush mx-3 mt-4">
+				<a href="#" id="dashboardLink"
+					class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/' ? 'active' : ''}"
+					data-mdb-ripple-init aria-current="true"> <i
+					class="fas fa-tachometer-alt fa-fw me-3"></i><span>Bảng tin</span>
+				</a> <a href="${pageContext.request.contextPath}/admin/post"
+					id="postLink"
+					class="list-group-item list-group-item-action py-2  ${pageContext.request.servletPath == '/admin/post' ? 'active' : ''}"
+					data-mdb-ripple-init> <i class="fas fa-chart-area fa-fw me-3"></i><span>Bài
+						viết</span>
+				</a> <a href="${pageContext.request.contextPath}/admin/cate"
+					id="categoryLink"
+					class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/admin/cate' ? 'active' : ''}"
+					data-mdb-ripple-init> <i class="fas fa-lock fa-fw me-3"></i><span>Chuyên
+						mục</span>
+				</a> <a href="${pageContext.request.contextPath}/admin/feedback"
+					id="feedbackLink"
+					class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/feedback' ? 'active' : ''}"
+					data-mdb-ripple-init> <i class="fas fa-calendar fa-fw me-3"></i><span>Phản
+						hồi</span>
+				</a> <a href="${pageContext.request.contextPath}/admin/user"
+					id="usersLink"
+					class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/admin/user' ? 'active' : ''}"
+					data-mdb-ripple-init> <i class="fas fa-users fa-fw me-3"></i><span>Tác
+						giả</span>
+				</a>
+			</div>
+		</div>
+	</nav>
 
 	<!-- Sidebar -->
 
@@ -67,39 +69,46 @@
 			</form>
 
 			<!-- Right links -->
-			<ul class="navbar-nav ms-auto d-flex flex-row">
-				<!-- Notification dropdown -->
-				<li class="nav-item dropdown"><a
-					class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#"
-					id="navbarDropdownMenuLink" role="button" data-mdb-dropdown-init
-					aria-expanded="false"> <i class="fas fa-bell"></i> <span
-						class="badge rounded-pill badge-notification bg-danger">1</span>
-				</a>
-					<ul class="dropdown-menu dropdown-menu-end"
-						aria-labelledby="navbarDropdownMenuLink">
-						<li><a class="dropdown-item" href="#">Some news</a></li>
-						<li><a class="dropdown-item" href="#">Another news</a></li>
-						<li><a class="dropdown-item" href="#">Something else</a></li>
-					</ul></li>
-
-
-
-				<!-- Avatar -->
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center"
-					href="#" id="navbarDropdownMenuLink" role="button"
-					data-mdb-dropdown-init aria-expanded="false"> <img
-						src="${pageContext.request.contextPath}/${sessionScope.admin.avatar}"
-						class="rounded-circle" height="22" alt="" loading="lazy" /> ${sessionScope.admin.username}
-				</a>
-					<ul class="dropdown-menu dropdown-menu-end"
-						aria-labelledby="navbarDropdownMenuLink">
-						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logoutad">Đăng xuất</a></li>
-					</ul></li>
+			<ul class="navbar-nav flex-row d-none d-md-flex">
+				<!-- Search form -->
+				<c:if test="${not empty pageContext.request.userPrincipal}">
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<div>
+							<a href="<c:url value="/home"/>"
+								class="d-flex align-items-center">
+								<button id="adminButton" data-mdb-ripple-init type="button"
+									class="btn btn-link px-3 me-2">USER PAGE</button>
+							</a>
+						</div>
+					</sec:authorize>
+					<li class="nav-item dropdown me-3 me-lg-1"><a
+						data-mdb-dropdown-init
+						class="nav-link dropdown-toggle hidden-arrow" href="#"
+						id="navbarDropdownMenuLink" role="button" aria-expanded="false">
+							<i class="fas fa-chevron-circle-down fa-lg"></i>
+					</a>
+						<ul class="dropdown-menu dropdown-menu-end"
+							aria-labelledby="navbarDropdownMenuLink">
+							<li class="nav-item me-3 me-lg-1"><a
+								class="nav-link d-sm-flex align-items-sm-center" href="#"> <img
+									src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp"
+									class="rounded-circle" height="22"
+									alt="Black and White Portrait of a Man" loading="lazy" /> <strong
+									class="d-none d-sm-block ms-1">${pageContext.request.userPrincipal.name}</strong>
+							</a></li>
+							<li><a class="dropdown-item"
+								href="${pageContext.request.contextPath}/editprofile">Thông
+									tin</a></li>
+							<li><a class="dropdown-item"
+								href="${pageContext.request.contextPath}/repass">Đổi mật
+									khẩu</a></li>
+							<li><a class="dropdown-item"
+								href="${pageContext.request.contextPath}/logout">Đăng xuất</a></li>
+						</ul></li>
+				</c:if>
 			</ul>
 		</div>
 		<!-- Container wrapper -->
 	</nav>
 </header>
 <!--Main Navigation-->
-</c:if>

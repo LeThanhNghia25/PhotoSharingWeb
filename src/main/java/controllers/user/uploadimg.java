@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import dao.PhotoService;
 import models.Img;
 import models.catalog;
-import models.user;
+import models.User;
 
 @Controller
 public class uploadimg {
@@ -29,12 +29,9 @@ public class uploadimg {
 	private PhotoService photoService;
 
 	@GetMapping("/uploadImage")
-	public String updateImg(Model model,HttpSession session) {
+	public String updateImg(Model model) {
 		model.addAttribute("img", new Img());
-		user loggedInUser = (user) session.getAttribute("user");
-		if (loggedInUser == null) {
-			return "redirect:/login";
-		}
+		
 		return "user/uploadImage";
 	}
 
@@ -56,7 +53,7 @@ public class uploadimg {
 		file.transferTo(dest);
 		img.setImg("resources/img/" + file.getOriginalFilename());
 		img.setCreatedTime(new SimpleDateFormat("dd-MM-yyyy").format(new java.util.Date()));
-		user user = (user) session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		img.setCreator(user);
 		catalog ct = new catalog();
 		if (file.getOriginalFilename().endsWith(".gif")) {

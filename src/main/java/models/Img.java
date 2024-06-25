@@ -15,7 +15,7 @@ public class Img extends entry {
 
 	}
 
-	public Img(int id, @NotEmpty(message = "Tiêu đề không được trống") String title, String content, String img, String createdTime, user creator, catalog cata,
+	public Img(int id, @NotEmpty(message = "Tiêu đề không được trống") String title, String content, String img, String createdTime, User creator, catalog cata,
 			String status) {
 		super(title, content, img, createdTime, creator, cata, status);
 		this.id = id;

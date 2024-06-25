@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import dao.PhotoRepository;
 import dao.PhotoService;
 import models.Img;
-import models.user;
+import models.User;
 
 @Controller
 public class profile {
@@ -20,7 +20,7 @@ public class profile {
 
 	@GetMapping("/profile")
 	public String profiles(@RequestParam("id") int userId, Model model) {
-		user user = photoService.findUserById(userId);
+		User user = photoService.findUserById(userId);
 		model.addAttribute("user", user);
 		List<Img> imgs = photoService.findAllImgByUserId(userId);
 		model.addAttribute("imgs", imgs);

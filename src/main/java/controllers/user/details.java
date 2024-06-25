@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import dao.PhotoService;
 import models.Img;
 import models.comment;
-import models.user;
+import models.User;
 
 @Controller
 public class details {
 	@Autowired
 	private PhotoService photoService;
 
-	@GetMapping("/detai")
+	@GetMapping("/detail")
 	public String replyTopic(@RequestParam(name = "fromitem") int fromitem, Model model) {
 		Img img = photoService.findImgById(fromitem);
 		List<comment> comments = photoService.showallcomment(fromitem);
@@ -43,10 +43,10 @@ public class details {
 		comment.setIdpost(comment.getIdpost());
 		comment.setContent(comment.getContent());
 		comment.setCreatedTime(new SimpleDateFormat("dd-MM-yyyy").format(new java.util.Date()));
-		user user = (user) session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		comment.setCreator(user);
 		photoService.insertComment(comment);
 
-		 return "redirect:/detai?fromitem=" + fromitem;
+		 return "redirect:/detail?fromitem=" + fromitem;
 	}
 }

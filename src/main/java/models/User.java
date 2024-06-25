@@ -1,49 +1,75 @@
 package models;
 
-import java.util.Date;
 
+import java.util.Date;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class user {
+@Entity
+@Table(name = "user")
+public class User {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int id;
+
 	@NotEmpty(message = "Username không được trống")
+	@Column(name = "username", nullable = false)
 	private String username;
 
 	@NotEmpty(message = "Password không được trống")
 	@Size(min = 6, message = "Password phải có ít nhất 6 ký tự")
+	@Column(name = "password", nullable = false)
 	private String password;
-
+	
 	private String avatar;
 
-	private String describe;
+	@Column(name = "description")
+	private String description;
 
 	@NotEmpty(message = "Email không được trống")
 	@Email(message = "Email không hợp lệ")
+	@Column(name = "email", nullable = false)
 	private String email;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 
+	@Column(name = "status")
 	private String status;
 
-	public user() {
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<UserRole> userRoles;
+
+	public User() {
 
 	}
 
-	public user(int id, @NotEmpty(message = "Username không được trống") String username,
+	public User(int id, @NotEmpty(message = "Username không được trống") String username,
 			@NotEmpty(message = "Password không được trống") @Size(min = 6, message = "Password phải có ít nhất 6 ký tự") String password,
-			String describe,
+			String description,
 			@NotEmpty(message = "Email không được trống") @Email(message = "Email không hợp lệ") String email,
 			@DateTimeFormat(pattern = "yyyy-MM-dd") Date birthday, String status) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.describe = describe;
+		this.description = description;
 		this.email = email;
 		this.birthday = birthday;
 		this.status = status;
@@ -81,14 +107,6 @@ public class user {
 		this.avatar = avatar;
 	}
 
-	public String getDescribe() {
-		return describe;
-	}
-
-	public void setDescribe(String describe) {
-		this.describe = describe;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -111,6 +129,22 @@ public class user {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Set<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(Set<UserRole> userRoles) {
+		this.userRoles = userRoles;
 	}
 
 }

@@ -15,19 +15,15 @@ import dao.PhotoService;
 import models.Img;
 import models.admin;
 import models.catalog;
-import models.user;
+import models.User;
 
 @Controller
 public class homeAd {
 	@Autowired
 	private PhotoService photoService;
 
-	@GetMapping("/admin/post")
-	public String adminpost(Model model, HttpSession session) {
-		admin loggedAdmin = (admin) session.getAttribute("admin");
-		if (loggedAdmin == null) {
-			return "redirect:/admin";
-		}
+	@GetMapping(value={"/admin/post", "/admin"})
+	public String adminpost(Model model) {		
 		List<Img> imgs = photoService.getAllImgAdmin();
 		model.addAttribute("imgs", imgs);
 		model.addAttribute("img", new Img());
@@ -35,24 +31,16 @@ public class homeAd {
 	}
 
 	@GetMapping("/admin/user")
-	public String aduser(Model model, @ModelAttribute("user") user user, HttpSession session) {
-		admin loggedAdmin = (admin) session.getAttribute("admin");
-		if (loggedAdmin == null) {
-			return "redirect:/admin";
-		}
+	public String aduser(Model model, @ModelAttribute("user") User user) {
 		model.addAttribute("user", user);
-		List<user> users = photoService.getAllUsers();
+		List<User> users = photoService.getAllUsers();
 		model.addAttribute("users", users);
 		return "admin/user";
 
 	}
 
 	@GetMapping("/admin/cate")
-	public String adcate(Model model, HttpSession session) {
-		admin loggedAdmin = (admin) session.getAttribute("admin");
-		if (loggedAdmin == null) {
-			return "redirect:/admin";
-		}
+	public String adcate(Model model) {
 		List<catalog> catalogs = photoService.getAllCate();
 		model.addAttribute("catelog", new catalog());
 		model.addAttribute("cates", catalogs);
@@ -61,11 +49,7 @@ public class homeAd {
 	}
 
 	@GetMapping("/admin/feedback")
-	public String adfeedback(Model model, HttpSession session) {
-		admin loggedAdmin = (admin) session.getAttribute("admin");
-		if (loggedAdmin == null) {
-			return "redirect:/admin";
-		}
+	public String adfeedback(Model model) {
 		return "admin/comment";
 
 	}

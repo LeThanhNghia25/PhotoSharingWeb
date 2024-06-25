@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import dao.PhotoService;
-import models.user;
+import models.User;
 
 @Controller
 public class repassword {
@@ -21,8 +21,8 @@ public class repassword {
 
 	@GetMapping("/repass")
 	public String repas(Model model,HttpSession session) {
-		model.addAttribute("user", new user());
-		user loggedInUser = (user) session.getAttribute("user");
+		model.addAttribute("user", new User());
+		User loggedInUser = (User) session.getAttribute("user");
 		if (loggedInUser == null) {
 			return "redirect:/login";
 		}
@@ -30,10 +30,10 @@ public class repassword {
 	}
 
 	@PostMapping("/repassword")
-	public @ResponseBody String repasswrod(@ModelAttribute("user") user user, @RequestParam String passwordnew,
+	public @ResponseBody String repasswrod(@ModelAttribute("user") User user, @RequestParam String passwordnew,
 			@RequestParam String repasswordnew, Model model, HttpSession session) {
 
-		user loggedInUser = (user) session.getAttribute("user");
+		User loggedInUser = (User) session.getAttribute("user");
 	
 		user.setId(loggedInUser.getId()); // Ensure the ID is set
 		boolean check = photoService.checkPassword(user);

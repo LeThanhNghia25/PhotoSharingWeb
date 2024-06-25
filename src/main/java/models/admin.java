@@ -2,7 +2,7 @@ package models;
 
 import java.util.Date;
 
-public class admin extends user {
+public class admin extends User {
 	private String adminCode;
 
 	public admin() {

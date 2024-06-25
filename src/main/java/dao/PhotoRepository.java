@@ -13,22 +13,22 @@ import models.Img;
 import models.admin;
 import models.catalog;
 import models.comment;
-import models.user;
+import models.User;
 
 @Repository
 public class PhotoRepository {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	private static class UserRowMapper implements RowMapper<user> {
+	private static class UserRowMapper implements RowMapper<User> {
 		@Override
-		public user mapRow(ResultSet rs, int rowNum) throws SQLException {
-			user user = new user();
+		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+			User user = new User();
 			user.setId(rs.getInt("id"));
 			user.setUsername(rs.getString("username"));
 			user.setPassword(rs.getString("password"));
 			user.setAvatar(rs.getString("avatar"));
-			user.setDescribe(rs.getString("describe"));
+			user.setDescription(rs.getString("description"));
 			user.setEmail(rs.getString("email"));
 			user.setBirthday(rs.getDate("birthday"));
 			user.setStatus(rs.getString("status"));
@@ -86,7 +86,7 @@ public class PhotoRepository {
 			img.setContent(rs.getString("content"));
 			img.setImg(rs.getString("img"));
 			img.setCreatedTime(rs.getString("createdTime"));
-			user creator = new user();
+			User creator = new User();
 			creator.setId(rs.getInt("id"));
 			creator.setUsername(rs.getString("username"));
 			creator.setEmail(rs.getString("email"));
@@ -109,7 +109,7 @@ public class PhotoRepository {
 			int idpost = rs.getInt("idpost");
 			String content = rs.getString("content");
 			String createdTime = rs.getString("createdTime");
-			user creator = new user();
+			User creator = new User();
 			creator.setId(rs.getInt("userid"));
 			creator.setUsername(rs.getString("username"));
 			creator.setAvatar(rs.getString("avatar"));
@@ -117,7 +117,7 @@ public class PhotoRepository {
 		}
 	}
 
-	public List<user> findAllUser() {
+	public List<User> findAllUser() {
 		return jdbcTemplate.query("SELECT * FROM user", new UserRowMapper());
 	}
 
@@ -163,12 +163,12 @@ public class PhotoRepository {
 		return jdbcTemplate.update(sql, idUser);
 	}
 
-	public int updateUserAD(user user) {
+	public int updateUserAD(User user) {
 		String sql = "UPDATE user SET username = ?, status = ? WHERE id = ?";
 		return jdbcTemplate.update(sql, user.getUsername(), user.getStatus(), user.getId());
 	}
 
-	public void RegistorUser(user newUser) {
+	public void RegistorUser(User newUser) {
 		String sql = "INSERT INTO user (username, password,avatar, email, birthday, status) VALUES (?, ?, ?, ?, ?, ?)";
 		jdbcTemplate.update(sql, newUser.getUsername(), newUser.getPassword(), newUser.getAvatar(), newUser.getEmail(),
 				newUser.getBirthday(), newUser.getStatus());
@@ -180,9 +180,9 @@ public class PhotoRepository {
 		return count > 0;
 	}
 
-	public user findUserByEmailAndPassword(String email, String password) {
+	public User findUserByEmailAndPassword(String email, String password) {
 		String sql = "SELECT * FROM user WHERE email = ? AND password = ?";
-		List<user> users = jdbcTemplate.query(sql, new Object[] { email, password }, new UserRowMapper());
+		List<User> users = jdbcTemplate.query(sql, new Object[] { email, password }, new UserRowMapper());
 		if (users.isEmpty()) {
 			return null;
 		} else {
@@ -206,7 +206,7 @@ public class PhotoRepository {
 		return imgs.isEmpty() ? null : imgs.get(0);
 	}
 
-	public user findUserById(int id) {
+	public User findUserById(int id) {
 		String sql = "SELECT * from user WHERE user.id = ?";
 		return jdbcTemplate.queryForObject(sql, new Object[] { id }, new UserRowMapper());
 	}
@@ -227,26 +227,31 @@ public class PhotoRepository {
 				comment.getContent());
 	}
 
-	public int updateavatar(user user) {
+	public int updateavatar(User user) {
 		String sql = "UPDATE user SET avatar = ? WHERE id = ?";
 		return jdbcTemplate.update(sql, user.getAvatar(), user.getId());
 	}
 
-	public int updateProfile(user user) {
+	public int updateProfile(User user) {
 		String sql = "UPDATE user SET username = ?, `describe` = ?, birthday = ? WHERE id = ?";
-		return jdbcTemplate.update(sql, user.getUsername(), user.getDescribe(), user.getBirthday(), user.getId());
+		return jdbcTemplate.update(sql, user.getUsername(), user.getDescription(), user.getBirthday(), user.getId());
 	}
 
-	public boolean checkPassword(user user) {
+	public boolean checkPassword(User user) {
 		String sql = "SELECT COUNT(*) FROM user WHERE id = ? AND password = ?";
 		int count = jdbcTemplate.queryForObject(sql, Integer.class, user.getId(), user.getPassword());
 		return count == 1;
 	}
 
-	public int updatePassword(user user) {
+	public int updatePassword(User user) {
 		String sql = "UPDATE user SET password = ? WHERE id = ?";
 		return jdbcTemplate.update(sql, user.getPassword(), user.getId());
 	}
+	
+	public List<Img> searchImgs(String query) {
+        String sql = "SELECT * FROM img WHERE title LIKE ?";
+        return jdbcTemplate.query(sql, new Object[]{"%" + query + "%"}, new ImgRowMapper());
+    }
 
 	public static void main(String[] args) {
 

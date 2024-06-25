@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import dao.PhotoService;
-import models.user;
+import models.User;
 
 @Controller
 public class updateprofile {
@@ -27,11 +27,8 @@ public class updateprofile {
 	private PhotoService photoService;
 
 	@GetMapping("/editprofile")
-	public String viewedit(HttpSession session) {
-		user loggedInUser = (user) session.getAttribute("user");
-		if (loggedInUser == null) {
-			return "redirect:/login";
-		}
+	public String viewedit() {
+	
 		return "user/editprofile";
 	}
 
@@ -40,19 +37,19 @@ public class updateprofile {
 			@RequestParam("describe") String describe, @RequestParam("birthday") String birthday, HttpSession session)
 			throws ParseException {
 		int userId = Integer.parseInt(id);
-		user user = photoService.findUserById(userId);
+		User user = photoService.findUserById(userId);
 
 		if (user == null) {
 			return "error"; // Thêm xử lý lỗi nếu người dùng không tồn tại
 		}
 
 		user.setUsername(username);
-		user.setDescribe(describe);
+		user.setDescription(describe);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date birthdays = dateFormat.parse(birthday);
 		user.setBirthday(birthdays);
 		photoService.updateProfile(user);
-		user updatedUser = photoService.findUserById(userId);
+		User updatedUser = photoService.findUserById(userId);
 		session.setAttribute("user", updatedUser);
 		return "success";
 	}
@@ -61,7 +58,7 @@ public class updateprofile {
 	public @ResponseBody String uploadavatar(@RequestParam("id") String id, @RequestParam("avatar") MultipartFile file,
 			HttpSession session) throws IllegalStateException, IOException {
 		String uploadDir = "C:\\Users\\Quan Phan\\Desktop\\CDWeb\\PhotoSharingWeb\\src\\main\\webapp\\resources\\avatar\\";
-		user user = new user();
+		User user = new User();
 		int ids = Integer.parseInt(id);
 		File dest = new File(uploadDir + file.getOriginalFilename());
 		file.transferTo(dest);
@@ -69,7 +66,7 @@ public class updateprofile {
 		user.setAvatar("resources/avatar/" + file.getOriginalFilename());
 		photoService.updateavatar(user);
 		session.setAttribute("user", user);
-		user updatedUser = photoService.findUserById(ids);
+		User updatedUser = photoService.findUserById(ids);
 		session.setAttribute("user", updatedUser);
 		return "success";
 

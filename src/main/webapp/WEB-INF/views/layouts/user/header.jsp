@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!-- Start your project here-->
 <header>
 	<!-- Navbar-->
@@ -23,24 +25,7 @@
 			<!-- Center elements -->
 			<ul class="navbar-nav flex-row d-none d-md-flex">
 				<!-- Search form -->
-				<form>
-					<div class="input-group rounded">
-						<input type="search" class="form-control rounded"
-							placeholder="Search" aria-label="Search"
-							aria-describedby="search-addon" /> <span
-							class="input-group-text border-0" id="search-addon"> <i
-							class="fas fa-search"></i>
-						</span>
-					</div>
-				</form>
-			</ul>
-			<!-- Center elements -->
-
-			<!-- Right elements -->
-			<ul class="navbar-nav flex-row">
-				<!-- Button trigger modal -->
-				<!-- Button trigger modal -->
-				<c:if test="${sessionScope.user == null}">
+				<c:if test="${empty pageContext.request.userPrincipal}">
 					<div class="d-flex align-items-center">
 						<button id="loginButton" data-mdb-ripple-init type="button"
 							class="btn btn-link px-3 me-2"
@@ -48,11 +33,20 @@
 							nhập</button>
 						<button id="registerButton" data-mdb-ripple-init type="button"
 							class="btn btn-primary me-3"
-							onclick="window.location.href='${pageContext.request.contextPath}/registor'">Đăng
+							onclick="window.location.href='${pageContext.request.contextPath}/register'">Đăng
 							ký</button>
 					</div>
 				</c:if>
-				<c:if test="${sessionScope.user != null}">
+				<c:if test="${not empty pageContext.request.userPrincipal}">
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<div>
+							<a href="<c:url value="/admin/post"/>"
+								class="d-flex align-items-center">
+								<button id="adminButton" data-mdb-ripple-init type="button"
+									class="btn btn-link px-3 me-2">ADMIN PAGE</button>
+							</a>
+						</div>
+					</sec:authorize>
 					<li class="nav-item me-3 me-lg-1"><a class="nav-link"
 						href="uploadImage"> <span><i
 								class="fas fa-plus-circle fa-lg"></i></span>
@@ -64,7 +58,6 @@
 							<i class="fas fa-comments fa-lg"></i> <span
 							class="badge rounded-pill badge-notification bg-danger">6</span>
 					</a>
-
 						<ul class="dropdown-menu dropdown-menu-end"
 							aria-labelledby="navbarDropdownMenuLink">
 							<li><a class="dropdown-item" href="#">Some news</a></li>
@@ -95,16 +88,18 @@
 						<ul class="dropdown-menu dropdown-menu-end"
 							aria-labelledby="navbarDropdownMenuLink">
 							<li class="nav-item me-3 me-lg-1"><a
-								class="nav-link d-sm-flex align-items-sm-center"
-								href="profile?id=${sessionScope.user.id}"> <img
-									src="${sessionScope.user.avatar}" class="rounded-circle"
-									height="22" alt="Black and White Portrait of a Man"
-									loading="lazy" /> <strong class="d-none d-sm-block ms-1"></strong>
-									${sessionScope.user.username}
+								class="nav-link d-sm-flex align-items-sm-center" href="#"> <img
+									src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp"
+									class="rounded-circle" height="22"
+									alt="Black and White Portrait of a Man" loading="lazy" /> <strong
+									class="d-none d-sm-block ms-1">${pageContext.request.userPrincipal.name}</strong>
 							</a></li>
-
-							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/editprofile">Thông tin</a></li>
-							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/repass">Đổi mật khẩu</a></li>
+							<li><a class="dropdown-item"
+								href="${pageContext.request.contextPath}/editprofile">Thông
+									tin</a></li>
+							<li><a class="dropdown-item"
+								href="${pageContext.request.contextPath}/repass">Đổi mật
+									khẩu</a></li>
 							<li><a class="dropdown-item"
 								href="${pageContext.request.contextPath}/logout">Đăng xuất</a></li>
 						</ul></li>

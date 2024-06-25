@@ -35,10 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
             .authorizeRequests(auth -> auth
-                .antMatchers("/", "/home/**", "/login", "/register", "/resources/**", "/liveSearch", "/searchResults", "/detail").permitAll()
-                .antMatchers("/details").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                .antMatchers("/", "/home/**", "/login", "/register", "/resources/**", "/liveSearch", "/searchResults", "/detail", "/profile").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                .anyRequest().authenticated())
+                .anyRequest().hasAnyAuthority("ROLE_USER", "ROLE_ADMIN"))
             .formLogin(login -> login
                 .loginPage("/login")
                 .loginProcessingUrl("/spring_security_login")
@@ -53,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID"))
             .exceptionHandling().accessDeniedPage("/accessDenied");
     }
+
 
     @Bean
     WebSecurityCustomizer webSecurityCustomizer() {

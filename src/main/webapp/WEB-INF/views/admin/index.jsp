@@ -34,7 +34,7 @@
 											<div class="d-flex align-items-center">
 												<div class="ms-3">
 													<a
-														href="${pageContext.request.contextPath}/detai?fromitem=${img.id}">${img.title}</a>
+														href="${pageContext.request.contextPath}/detail?fromitem=${img.id}">${img.title}</a>
 													<form:form
 														action="${pageContext.request.contextPath}/admin/deleteimg"
 														method="get" modelAttribute="img">
@@ -146,9 +146,8 @@
 </main>
 <!--Main layout-->
 <!-- MDB -->
-<script type="text/javascript" src="js/mdb.umd.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/mdb.umd.min.js"></script>
 <!-- Custom scripts -->
-<script type="text/javascript" src="js/admin.js"></script>
 <script>
 	function showForm(button) {
 		// Find the closest row
