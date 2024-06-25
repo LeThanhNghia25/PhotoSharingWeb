@@ -89,14 +89,14 @@ $(document).ready(function() {
 			<div class="col-lg-4">
 				<div class="card mb-4">
 					<div class="card-body text-center">
-						<img id="avatar" src="${sessionScope.user.avatar}" alt="avatar"
+						<img id="avatar" src="${user.avatar}" alt="avatar"
 							class="rounded-circle img-fluid" style="width: 150px;">
-						<h5 class="my-3">${sessionScope.user.username}</h5>
+						<h5 class="my-3">${user.username}</h5>
 						<form id="updateavatar" action="updateavatar" method="post"
 							enctype="multipart/form-data">
 							<div class="form-group mb-4">
 								<input type="hidden" name="id" id="id"
-									value="${sessionScope.user.id}" class="form-control" /> <label
+									value="${user.id}" class="form-control" /> <label
 									for="file" class="form-label">Chọn ảnh</label> <input
 									name="avatar" type="file" id="avatarupload"
 									class="form-control" onchange="previewImage(this)" />
@@ -107,7 +107,7 @@ $(document).ready(function() {
 						</form>	
 							<div id="alert-success"></div>
 						 <div id="erroravatar" style="color: red;"></div>
-						<p class="text-muted mb-1">${sessionScope.user.describe}</p>
+						<p class="text-muted mb-1">${user.description}</p>
 					</div>
 				</div>
 			</div>
@@ -124,26 +124,26 @@ $(document).ready(function() {
 								enctype="multipart/form-data">
 								<div class="form-group mb-4">
 									<input type="hidden" name="id" id="id"
-										value="${sessionScope.user.id}" class="form-control" /> <label
+										value="${user.id}" class="form-control" /> <label
 										for="username" class="form-label">Tên của bạn</label> <input
 										type="text" name="username" id="username"
-										value="${sessionScope.user.username}" class="form-control" />
+										value="${user.username}" class="form-control" />
 
 								</div>
 								<div class="form-group mb-4">
 									<label for="email" class="form-label">Email</label> <input
 										type="email" name="email" id="email" class="form-control"
-										value="${sessionScope.user.email}" />
+										value="${user.email}" />
 								</div>
 								<div class="form-group mb-4">
 									<label for="birthday" class="form-label">Ngày sinh</label> <input
 										type="date" name="birthday" id="birthday"
-										value="${sessionScope.user.birthday}" class="form-control" />
+										value="${user.birthday}" class="form-control" />
 								</div>
 								<div class="form-group mb-4">
-									<label for="describe" class="form-label">Nội dung</label>
-									<textarea name="describe" class="form-control" id="describe"
-										rows="4">${sessionScope.user.describe}</textarea>
+									<label for="description" class="form-label">Nội dung</label>
+									<textarea name="description" class="form-control" id="description"
+										rows="4">${user.description}</textarea>
 								</div>
 
 								<div class="modal-footer">
@@ -164,4 +164,3 @@ $(document).ready(function() {
 		</div>
 	</div>
 </section>
-

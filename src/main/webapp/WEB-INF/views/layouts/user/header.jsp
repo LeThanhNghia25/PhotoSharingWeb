@@ -4,9 +4,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<!-- Start your project here-->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<base href="http://localhost:8080/PhotoSharingWeb/" />
+
+<!-- Start your project here -->
 <header>
-	<!-- Navbar-->
+	<!-- Navbar -->
 	<nav
 		class="navbar navbar-expand-lg navbar-light bg-body-tertiary fixed-top">
 		<div class="container-fluid justify-content-between">
@@ -15,16 +18,37 @@
 				<!-- Brand -->
 				<a class="navbar-brand me-2 mb-1 d-flex align-items-center"
 					href="${pageContext.request.contextPath}/home"> <img
-					src="${pageContext.request.contextPath}/resources/avatar/icont.png"
+					src="${pageContext.request.contextPath}/resources/img/ptsharing-removebg-preview.png"
 					height="30" alt="MDB Logo" loading="lazy" style="margin-top: 2px;" />
 				</a>
-
-
 			</div>
 			<!-- Left elements -->
+
 			<!-- Center elements -->
 			<ul class="navbar-nav flex-row d-none d-md-flex">
-				<!-- Search form -->
+				<!-- Thêm vào phần Search form -->
+				<form id="searchForm"
+					action="${pageContext.request.contextPath}/searchResults"
+					method="GET" class="position-relative">
+					<div class="input-group rounded">
+						<input type="search" id="search_name" name="query"
+							class="form-control rounded" placeholder="Search"
+							aria-label="Search" aria-describedby="search-addon" /> <span
+							class="input-group-text border-0" id="search-addon">
+							<button type="button" id="searchIcon"
+								class="input-group-text border-0">
+								<i class="fas fa-search"></i>
+							</button>
+						</span>
+					</div>
+					<ul id="output_search" class="list-group position-absolute"></ul>
+				</form>
+			</ul>
+			<!-- Center elements -->
+
+			<!-- Right elements -->
+			<ul class="navbar-nav flex-row">
+				<!-- Button trigger modal -->
 				<c:if test="${empty pageContext.request.userPrincipal}">
 					<div class="d-flex align-items-center">
 						<button id="loginButton" data-mdb-ripple-init type="button"
@@ -105,13 +129,90 @@
 						</ul></li>
 				</c:if>
 			</ul>
-
 			<!-- Right elements -->
 		</div>
 	</nav>
-
-
 	<!-- Navbar -->
 	<script type="text/javascript"
-		src="<c:url value="/resources/js/mdb.umd.min.js" /> " /></script>
+		src="<c:url value="/resources/js/mdb.umd.min.js" /> "></script>
+	<script type="text/javascript"
+		src="<c:url value='/resources/js/checkimg.js' />"></script>
+	<!-- Thêm script để xử lý sự kiện tìm kiếm -->
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							// Handling keyup event for live search
+							$('#search_name').on('keyup', function() {
+								let query = $(this).val().trim();
+								if (query.length > 0) {
+									$.ajax({
+										url : '/PhotoSharingWeb/liveSearch',
+										method : 'GET',
+										data : {
+											query : query
+										},
+										success : function(response) {
+											$('#output_search').html(response);
+											$('#output_search').show();
+										},
+										error : function(xhr, status, error) {
+											console.error('Error:', error);
+										}
+									});
+								} else {
+									$('#output_search').empty();
+									$('#output_search').hide();
+								}
+							});
+
+							// Handling click event for search icon
+							$('#searchIcon')
+									.on(
+											'click',
+											function() {
+												var query = $('#search_name')
+														.val();
+												if (query.length > 0) {
+													window.location.href = '/PhotoSharingWeb/searchResults?query='
+															+ query;
+												}
+											});
+
+							// Hide search results on click outside the search form
+							$(document)
+									.click(
+											function(e) {
+												if (!$(e.target).closest(
+														'#searchForm').length) {
+													$('#output_search').hide();
+												}
+											});
+						});
+	</script>
+
+
+
 </header>
+
+<style>
+#output_search {
+	z-index: 1000;
+	width: 100%;
+	max-height: 300px;
+	overflow-y: auto;
+	background-color: white;
+	border: 1px solid #ccc;
+	display: none; /* Ban đầu ẩn kết quả tìm kiếm */
+	position: absolute; /* Đảm bảo vị trí overlay */
+}
+
+.list-group-item {
+	display: flex;
+	align-items: center;
+}
+
+.list-group-item img {
+	margin-right: 10px;
+}
+</style>
