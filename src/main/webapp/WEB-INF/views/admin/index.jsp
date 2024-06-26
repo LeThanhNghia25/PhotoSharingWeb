@@ -145,8 +145,6 @@
 	</div>
 </main>
 <!--Main layout-->
-<!-- MDB -->
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/mdb.umd.min.js"></script>
 <!-- Custom scripts -->
 <script>
 	function showForm(button) {

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
@@ -18,9 +19,12 @@
 				<!-- Brand -->
 				<a class="navbar-brand me-2 mb-1 d-flex align-items-center"
 					href="${pageContext.request.contextPath}/home"> <img
-					src="${pageContext.request.contextPath}/resources/img/ptsharing-removebg-preview.png"
+					src="${pageContext.request.contextPath}/resources/avatar/icont.png"
 					height="30" alt="MDB Logo" loading="lazy" style="margin-top: 2px;" />
 				</a>
+				<button id="registerButton" data-mdb-ripple-init type="button"
+							class="btn btn-primary me-3"
+							onclick="window.location.href='${pageContext.request.contextPath}/searchquery'">Tìm kiếm nhanh</button>
 			</div>
 			<!-- Left elements -->
 
@@ -35,7 +39,7 @@
 							class="form-control rounded" placeholder="Search"
 							aria-label="Search" aria-describedby="search-addon" /> <span
 							class="input-group-text border-0" id="search-addon">
-							<button type="button" id="searchIcon"
+							<button type="submit" id="searchIcon"
 								class="input-group-text border-0">
 								<i class="fas fa-search"></i>
 							</button>
@@ -43,12 +47,14 @@
 					</div>
 					<ul id="output_search" class="list-group position-absolute"></ul>
 				</form>
+
 			</ul>
 			<!-- Center elements -->
 
 			<!-- Right elements -->
 			<ul class="navbar-nav flex-row">
 				<!-- Button trigger modal -->
+				
 				<c:if test="${empty pageContext.request.userPrincipal}">
 					<div class="d-flex align-items-center">
 						<button id="loginButton" data-mdb-ripple-init type="button"
@@ -75,34 +81,9 @@
 						href="uploadImage"> <span><i
 								class="fas fa-plus-circle fa-lg"></i></span>
 					</a></li>
-					<li class="nav-item dropdown me-3 me-lg-1"><a
-						data-mdb-dropdown-init
-						class="nav-link dropdown-toggle hidden-arrow" href="#"
-						id="navbarDropdownMenuLink" role="button" aria-expanded="false">
-							<i class="fas fa-comments fa-lg"></i> <span
-							class="badge rounded-pill badge-notification bg-danger">6</span>
-					</a>
-						<ul class="dropdown-menu dropdown-menu-end"
-							aria-labelledby="navbarDropdownMenuLink">
-							<li><a class="dropdown-item" href="#">Some news</a></li>
-							<li><a class="dropdown-item" href="#">Another news</a></li>
-							<li><a class="dropdown-item" href="#">Something else
-									here</a></li>
-						</ul></li>
-					<li class="nav-item dropdown me-3 me-lg-1"><a
-						data-mdb-dropdown-init
-						class="nav-link dropdown-toggle hidden-arrow" href="#"
-						id="navbarDropdownMenuLink" role="button" aria-expanded="false">
-							<i class="fas fa-bell fa-lg"></i> <span
-							class="badge rounded-pill badge-notification bg-danger">12</span>
-					</a>
-						<ul class="dropdown-menu dropdown-menu-end"
-							aria-labelledby="navbarDropdownMenuLink">
-							<li><a class="dropdown-item" href="#">Some news</a></li>
-							<li><a class="dropdown-item" href="#">Another news</a></li>
-							<li><a class="dropdown-item" href="#">Something else
-									here</a></li>
-						</ul></li>
+
+
+
 					<li class="nav-item dropdown me-3 me-lg-1"><a
 						data-mdb-dropdown-init
 						class="nav-link dropdown-toggle hidden-arrow" href="#"
@@ -112,11 +93,12 @@
 						<ul class="dropdown-menu dropdown-menu-end"
 							aria-labelledby="navbarDropdownMenuLink">
 							<li class="nav-item me-3 me-lg-1"><a
-								class="nav-link d-sm-flex align-items-sm-center" href="#"> <img
-									src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp"
+								class="nav-link d-sm-flex align-items-sm-center"
+								href="${pageContext.request.contextPath}/profile?id=${user.id}">
+									<img src="${pageContext.request.contextPath}/${user.avatar}"
 									class="rounded-circle" height="22"
 									alt="Black and White Portrait of a Man" loading="lazy" /> <strong
-									class="d-none d-sm-block ms-1">${pageContext.request.userPrincipal.name}</strong>
+									class="d-none d-sm-block ms-1">${user.username}</strong>
 							</a></li>
 							<li><a class="dropdown-item"
 								href="${pageContext.request.contextPath}/editprofile">Thông
@@ -128,6 +110,26 @@
 								href="${pageContext.request.contextPath}/logout">Đăng xuất</a></li>
 						</ul></li>
 				</c:if>
+				<!-- Updated Language Switcher with ?fromitem= -->
+				<li class="nav-item dropdown me-3 me-lg-1"><a
+					data-mdb-dropdown-init
+					class="nav-link dropdown-toggle hidden-arrow" href="#"
+					id="languageDropdown" role="button" aria-expanded="false"> <i
+						class="fas fa-globe"></i>
+				</a>
+					<ul class="dropdown-menu dropdown-menu-end"
+						aria-labelledby="languageDropdown">
+						<li><a class="dropdown-item"
+							href="?fromitem=${param.fromitem != null ? param.fromitem : 1}&id=${param.id != null ? param.id : 1}&lang=vi">
+								<spring:message code="language.vietnamese" />
+						</a></li>
+						<li><a class="dropdown-item"
+							href="?fromitem=${param.fromitem != null ? param.fromitem : 1}&id=${param.id != null ? param.id : 1}&lang=en">
+								<spring:message code="language.english" />
+						</a></li>
+					</ul></li>
+
+
 			</ul>
 			<!-- Right elements -->
 		</div>
@@ -135,8 +137,6 @@
 	<!-- Navbar -->
 	<script type="text/javascript"
 		src="<c:url value="/resources/js/mdb.umd.min.js" /> "></script>
-	<script type="text/javascript"
-		src="<c:url value='/resources/js/checkimg.js' />"></script>
 	<!-- Thêm script để xử lý sự kiện tìm kiếm -->
 	<script type="text/javascript">
 		$(document)
@@ -191,7 +191,34 @@
 						});
 	</script>
 
+	<script>
+		//script.js
+		// dảm bảo đoạn mã chỉ dc thực thi sau khi toàn bộ html  chạy xong
+		document
+				.addEventListener(
+						'DOMContentLoaded',
+						function() {
+							const fromItemValue = 123; // Thay thế với giá trị thực của bạn
+							const contextPath = getContextPath(); // Hàm lấy context path, phụ thuộc vào cách bạn triển khai
 
+							const url = `${contextPath}/yourEndpoint?fromitem=${fromItemValue}`;
+
+							const xhr = new XMLHttpRequest();
+							xhr.open('GET', url, true);
+							xhr.onreadystatechange = function() {
+								if (xhr.readyState === 4 && xhr.status === 200) {
+									// Xử lý dữ liệu trả về từ máy chủ (nếu cần)
+									console.log(xhr.responseText);
+								}
+							};
+							xhr.send();
+						});
+
+		function getContextPath() {
+			return window.location.pathname.substring(0,
+					window.location.pathname.indexOf("/", 2));
+		}
+	</script>
 
 </header>
 

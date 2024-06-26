@@ -5,7 +5,9 @@
 $(document).ready(function() {
     $("#uploadImg").submit(function(e) {
         e.preventDefault();
+
         var formData = new FormData(this);
+
         $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath}/uploadImg",
@@ -31,7 +33,11 @@ $(document).ready(function() {
             error: function() {
                 $("#error-message").html("Lỗi không xác định.");
             }
-            </script>
+        });
+    });
+});
+
+</script>
 <div class="row d-flex justify-content-center">
 	<div class="col-md-12 col-lg-10 col-xl-8">
 		<div class="card">
@@ -58,12 +64,12 @@ $(document).ready(function() {
 								<!-- Error message -->
 								<div id="error-message" class="error-message" role="alert"></div>
 								<div class="form-group mb-4">
-									<input type="hidden" name="checkvalueimg" id="checkvalueimg">
+								<input type="hidden" name="checkvalueimg" id="checkvalueimg">
 									<label for="file" class="form-label">Chọn ảnh</label> <input
 										name="url" type="file" id="imageUpload" class="form-control"
 										onchange="previewImage(this)" />
 								</div>
-								<div id="firearm-probability">Kiểm tra...</div>
+								<div id="noffi-probability">Kiểm tra...</div>
 								<!-- Error message -->
 								<div id="emtyimg" class="error-message" role="alert"></div>
 								<div class="form-group mb-4">
@@ -84,63 +90,91 @@ $(document).ready(function() {
 				</div>
 			</div>
 		</div>
+    
 
+<script>
+async function moderationImg(file) {
+    try {
+        const formData = new FormData();
+        formData.append('media', file);
+        formData.append('models', 'nudity-2.1,weapon,gore-2.0');
+        formData.append('api_user', '1046694070');
+        formData.append('api_secret', '5njUn86MUDjfxrus8B5VvcLiB2G8kpbX');
 
+        const response = await fetch('https://api.sightengine.com/1.0/check.json', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const firearmProbability = data.weapon.classes.firearm;
+        const goreProbability = data.gore.prob;
+        const nudityProbability = data.nudity.sexual_activity;
+
+        const adjustedFirearmProbability = firearmProbability * 100;
+        const adjustedGoreProbability = goreProbability * 100;
+        const adjustedNudityProbability = nudityProbability * 100;
+
+        // Construct the combined message
+        let combinedMessage = "";
+
+     // Check firearm probability
+        if (adjustedFirearmProbability < 50) {
+            combinedMessage += '<span style="color: green;">Không có nội dung súng đạn, bạo lực</span><br>';
+        } else {
+            combinedMessage += '<span style="color: red;">Phát hiện ảnh có chứa súng đạn, bạo lực (' + adjustedFirearmProbability + '%) bạn vẫn muốn đăng?</span><br>';
+        }
+
+        // Check gore probability
+        if (adjustedGoreProbability < 50) {
+            combinedMessage += '<span style="color: green;">Không có nội dung máu me kinh hoàng</span><br>';
+        } else {
+            combinedMessage += '<span style="color: red;">Phát hiện ảnh có chứa nội dung máu me kinh hoàng (' + adjustedGoreProbability + '%) bạn vẫn muốn đăng?</span><br>';
+        }
+
+        // Check nudity probability
+        if (adjustedNudityProbability < 50) {
+            combinedMessage += '<span style="color: green;">Không có nội dung khiêu dâm</span>';
+        } else {
+            combinedMessage += '<span style="color: red;">Phát hiện ảnh có chứa nội dung khiêu dâm (' + adjustedNudityProbability + '%) bạn vẫn muốn đăng?</span>';
+        }
+
+        // Update the div content with the combined message
+        document.getElementById("noffi-probability").innerHTML = combinedMessage;
+
+        // Set hidden input value for firearm probability
+        document.getElementById("checkvalueimg").value = adjustedFirearmProbability;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById("firearm-probability").innerText = 'Lỗi vui lòng thử lại';
+    }
+}
+
+// Handle when the user selects a new image file
+document.getElementById('imageUpload').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    moderationImg(file);
+});
+</script>
+
+		
 
 		<script>
-                 async function moderationImg(file) {
-                try {
-                    const formData = new FormData();
-                    formData.append('media', file);  // 'media' là tên tham số cần thiết lập bởi Sightengine API
-                    formData.append('models', 'weapon,gore-2.0');
-                    formData.append('api_user', '1046694070');
-                    formData.append('api_secret', '5njUn86MUDjfxrus8B5VvcLiB2G8kpbX');
-                    const response = await fetch('https://api.sightengine.com/1.0/check.json', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    const data = await response.json();
-                    const firearmProbability = data.weapon.classes.firearm;
-                    const adjustedProbability = firearmProbability * 100;
-                    // Update the div content with the firearm probability
-                
-                 // Kiểm tra xác suất và hiển thị thông báo
-               if (adjustedProbability < 50) {
-                // Chuỗi màu xanh lá cây
-                document.getElementById("firearm-probability").innerHTML = `<span style="color: green;">Ảnh phù hợp</span>`;
-            } else {
-                // Chuỗi màu đỏ với giá trị adjustedProbability
-            	document.getElementById("firearm-probability").innerHTML = `<span style="color: red;">Phát hiện ảnh có chứa súng đạn (` + adjustedProbability + `%) bạn vẫn muốn đăng?</span>`;
-            }
-                 document.getElementById("checkvalueimg").value = adjustedProbability;
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                    document.getElementById("firearm-probability").innerText = 'Lỗi vui lòng thử lại';
-                }
-            }
-            // Xử lý khi người dùng chọn một file ảnh mới
-            document.getElementById('imageUpload').addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                moderationImg(file);
-            });
-                </script>
-
-
-		<script>
-            			function previewImage(input) {
-            				if (input.files && input.files[0]) {
-            					var reader = new FileReader();
-            					reader.onload = function(e) {
-            						$('#imagePreview').attr('src', e.target.result);
-            						$('#imagePreview').show();
-            					}
-            					reader.readAsDataURL(input.files[0]);
-            				}
-            			}
-            		</script>
+			function previewImage(input) {
+				if (input.files && input.files[0]) {
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						$('#imagePreview').attr('src', e.target.result);
+						$('#imagePreview').show();
+					}
+					reader.readAsDataURL(input.files[0]);
+				}
+			}
+		</script>
 
 	</div>
 

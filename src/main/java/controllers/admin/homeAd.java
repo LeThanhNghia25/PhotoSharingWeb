@@ -1,5 +1,6 @@
 package controllers.admin;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,37 +11,50 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import dao.PhotoService;
+import dao.UserService;
 import models.Img;
 import models.admin;
 import models.catalog;
 import models.User;
 
 @Controller
+@RequestMapping("/admin")
 public class homeAd {
 	@Autowired
 	private PhotoService photoService;
+	@Autowired
+	private UserService userService;
 
-	@GetMapping(value={"/admin/post", "/admin"})
-	public String adminpost(Model model) {		
+	@GetMapping("/post")
+	public String adminpost( Model model,Principal principal) {
+		String email = principal.getName();
+		User userss = userService.getUsers(email);
+		model.addAttribute("user", userss);
 		List<Img> imgs = photoService.getAllImgAdmin();
 		model.addAttribute("imgs", imgs);
 		model.addAttribute("img", new Img());
 		return "admin/index";
 	}
 
-	@GetMapping("/admin/user")
-	public String aduser(Model model, @ModelAttribute("user") User user) {
-		model.addAttribute("user", user);
+	@GetMapping("/user")
+	public String aduser(Model model, @ModelAttribute("user") User user, Principal principal) {
+		String email = principal.getName();
+		User userss = userService.getUsers(email);
+		model.addAttribute("user", userss);
 		List<User> users = photoService.getAllUsers();
 		model.addAttribute("users", users);
 		return "admin/user";
 
 	}
 
-	@GetMapping("/admin/cate")
-	public String adcate(Model model) {
+	@GetMapping("/cate")
+	public String adcate(Model model,Principal principal) {
+		String email = principal.getName();
+		User userss = userService.getUsers(email);
+		model.addAttribute("user", userss);
 		List<catalog> catalogs = photoService.getAllCate();
 		model.addAttribute("catelog", new catalog());
 		model.addAttribute("cates", catalogs);
@@ -48,26 +62,30 @@ public class homeAd {
 
 	}
 
-	@GetMapping("/admin/feedback")
-	public String adfeedback(Model model) {
+	@GetMapping("/feedback")
+	public String adfeedback(Model model,Principal principal) {
+		String email = principal.getName();
+		User user = userService.getUsers(email);
+		model.addAttribute("user", user);
 		return "admin/comment";
 
 	}
-	@PostMapping("/admin/updateformimg")
+
+	@PostMapping("/updateformimg")
 	public String updateImg(@ModelAttribute("img") Img img, Model model) {
 		List<Img> imgs = photoService.getAllImgAdmin();
 		model.addAttribute("imgs", imgs);
 		photoService.updateImg(img);
-		return "redirect:/admin";
+		return "redirect:/admin/post";
 
 	}
 
-	@GetMapping("/admin/deleteimg")
+	@GetMapping("/deleteimg")
 	public String deleteImg(@ModelAttribute("img") Img img, Model model) {
 		List<Img> imgs = photoService.getAllImgAdmin();
 		model.addAttribute("imgs", imgs);
 		photoService.delete(img.getId());
-		return "redirect:/admin";
+		return "redirect:/admin/post";
 
 	}
 }

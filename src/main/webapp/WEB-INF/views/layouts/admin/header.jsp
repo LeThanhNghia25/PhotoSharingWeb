@@ -27,7 +27,7 @@
 						mục</span>
 				</a> <a href="${pageContext.request.contextPath}/admin/feedback"
 					id="feedbackLink"
-					class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/feedback' ? 'active' : ''}"
+					class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/admin/feedback' ? 'active' : ''}"
 					data-mdb-ripple-init> <i class="fas fa-calendar fa-fw me-3"></i><span>Phản
 						hồi</span>
 				</a> <a href="${pageContext.request.contextPath}/admin/user"
@@ -56,18 +56,11 @@
 
 			<!-- Brand -->
 			<a class="navbar-brand me-2 mb-1 d-flex align-items-center"
-				href="${pageContext.request.contextPath}/admin"> <img
+				href="${pageContext.request.contextPath}/admin/post"> <img
 				src="${pageContext.request.contextPath}/resources/avatar/icont.png"
 				height="30" alt="MDB Logo" loading="lazy" style="margin-top: 2px;" />
 			</a>
-			<!-- Search form -->
-			<form class="d-none d-md-flex input-group w-auto my-auto">
-				<input autocomplete="off" type="search" class="form-control rounded"
-					placeholder='Search (ctrl + "/" to focus)' style="min-width: 225px" />
-				<span class="input-group-text border-0"><i
-					class="fas fa-search"></i></span>
-			</form>
-
+			<h3>Trang quản trị</h3>
 			<!-- Right links -->
 			<ul class="navbar-nav flex-row d-none d-md-flex">
 				<!-- Search form -->
@@ -91,17 +84,14 @@
 							aria-labelledby="navbarDropdownMenuLink">
 							<li class="nav-item me-3 me-lg-1"><a
 								class="nav-link d-sm-flex align-items-sm-center" href="#"> <img
-									src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp"
+									src="${pageContext.request.contextPath}/${user.avatar}"
 									class="rounded-circle" height="22"
 									alt="Black and White Portrait of a Man" loading="lazy" /> <strong
-									class="d-none d-sm-block ms-1">${pageContext.request.userPrincipal.name}</strong>
+									class="d-none d-sm-block ms-1">${user.username}</strong>
 							</a></li>
 							<li><a class="dropdown-item"
 								href="${pageContext.request.contextPath}/editprofile">Thông
 									tin</a></li>
-							<li><a class="dropdown-item"
-								href="${pageContext.request.contextPath}/repass">Đổi mật
-									khẩu</a></li>
 							<li><a class="dropdown-item"
 								href="${pageContext.request.contextPath}/logout">Đăng xuất</a></li>
 						</ul></li>

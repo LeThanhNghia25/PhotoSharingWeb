@@ -61,7 +61,7 @@
 					</div>
 
 					<!-- Comment Form -->
-					<c:if test="${sessionScope.user != null}">
+					<c:if test="${not empty pageContext.request.userPrincipal}">
 						<div class="comment-form-wrapper">
 							<form:form modelAttribute="comment" action="submitComment?fromitem=${img.id}"
 								method="post">
@@ -79,7 +79,7 @@
 
 						</div>
 					</c:if>
-					<c:if test="${sessionScope.user == null}">
+					<c:if test="${empty pageContext.request.userPrincipal}">
 						<p>Bạn cần đăng nhập để có thể bình luận</p>
 						<button id="loginButton" data-mdb-ripple-init type="button"
 							class="btn btn-link px-3 me-2"

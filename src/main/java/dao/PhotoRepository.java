@@ -207,7 +207,7 @@ public class PhotoRepository {
 	}
 
 	public User findUserById(int id) {
-		String sql = "SELECT * from user WHERE user.id = ?";
+		String sql = "SELECT * from user WHERE id = ?";
 		return jdbcTemplate.queryForObject(sql, new Object[] { id }, new UserRowMapper());
 	}
 

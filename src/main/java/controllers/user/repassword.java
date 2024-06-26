@@ -1,5 +1,7 @@
 package controllers.user;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,39 +14,39 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import dao.PhotoService;
+import dao.UserService;
 import models.User;
 
 @Controller
 public class repassword {
 	@Autowired
 	private PhotoService photoService;
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/repass")
-	public String repas(Model model,HttpSession session) {
+	public String repas(Model model) {
 		model.addAttribute("user", new User());
-		User loggedInUser = (User) session.getAttribute("user");
-		if (loggedInUser == null) {
-			return "redirect:/login";
-		}
+
 		return "user/chagepassword";
 	}
 
 	@PostMapping("/repassword")
 	public @ResponseBody String repasswrod(@ModelAttribute("user") User user, @RequestParam String passwordnew,
-			@RequestParam String repasswordnew, Model model, HttpSession session) {
+			@RequestParam String repasswordnew, Model model, Principal principal) {
+		String email = principal.getName();
+		User users = userService.getUsers(email);
 
-		User loggedInUser = (User) session.getAttribute("user");
-	
-		user.setId(loggedInUser.getId()); // Ensure the ID is set
+		user.setId(users.getId()); // Ensure the ID is set
 		boolean check = photoService.checkPassword(user);
 
 		if (check) {
 			if (!passwordnew.equals(repasswordnew)) {
 				return "errorpass";
-			}	
+			}
 
-			loggedInUser.setPassword(passwordnew);
-			photoService.updatePassword(loggedInUser);
+			user.setPassword(passwordnew);
+			photoService.updatePassword(user);
 			return "success";
 		} else {
 

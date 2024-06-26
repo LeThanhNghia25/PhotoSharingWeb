@@ -13,12 +13,12 @@
 							<img src="${user.avatar}" alt="Generic placeholder image"
 								class="img-fluid img-thumbnail mt-4 mb-2"
 								style="width: 150px; z-index: 1">
-							<c:if test="${sessionScope.user.id == user.id}">
+							
 								<button type="button" class="btn btn-outline-dark"
 									data-mdb-ripple-color="dark" style="z-index: 1;"
 									onclick="window.location.href='${pageContext.request.contextPath}/editprofile'">
 									Chỉnh sửa</button>
-							</c:if>
+						
 						</div>
 						<div class="ms-3" style="margin-top: 130px;">
 							<h5>${user.username}</h5>
@@ -56,7 +56,7 @@
 						<div class="mb-5">
 							<p class="lead fw-normal mb-1">Về tôi</p>
 							<div class="p-4" style="background-color: #f8f9fa;">
-								<p class="font-italic mb-1">${user.describe}</p>
+								<p class="font-italic mb-1">${user.description}</p>
 
 							</div>
 						</div>

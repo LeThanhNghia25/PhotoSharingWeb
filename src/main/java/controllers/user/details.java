@@ -1,5 +1,6 @@
 package controllers.user;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -11,9 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dao.PhotoService;
+import dao.UserService;
 import models.Img;
 import models.comment;
 import models.User;
@@ -22,6 +25,8 @@ import models.User;
 public class details {
 	@Autowired
 	private PhotoService photoService;
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/detail")
 	public String replyTopic(@RequestParam(name = "fromitem") int fromitem, Model model) {
@@ -39,14 +44,18 @@ public class details {
 	}
 
 	@PostMapping("/submitComment")
-	public String submitComment(@ModelAttribute("comment") comment comment,@RequestParam(name = "fromitem") int fromitem, Model model, HttpSession session) {
+	public String submitComment(@ModelAttribute("comment") comment comment,
+			@RequestParam(name = "fromitem") int fromitem, Model model, Principal principal) {
+		User user = new User();
+		String email = principal.getName();
+		User users = userService.getUsers(email);
+		user.setId(users.getId());
 		comment.setIdpost(comment.getIdpost());
 		comment.setContent(comment.getContent());
 		comment.setCreatedTime(new SimpleDateFormat("dd-MM-yyyy").format(new java.util.Date()));
-		User user = (User) session.getAttribute("user");
 		comment.setCreator(user);
 		photoService.insertComment(comment);
 
-		 return "redirect:/detail?fromitem=" + fromitem;
+		return "redirect:/detail?fromitem=" + fromitem;
 	}
 }

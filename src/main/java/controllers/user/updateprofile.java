@@ -41,7 +41,7 @@ public class updateprofile {
 
 	@PostMapping("/updatepro")
 	public @ResponseBody String updateProfile(@RequestParam("id") String id, @RequestParam("username") String username,
-			@RequestParam("describe") String describe, @RequestParam("birthday") String birthday, HttpSession session)
+			@RequestParam("describe") String describe, @RequestParam("birthday") String birthday)
 			throws ParseException {
 		int userId = Integer.parseInt(id);
 		User user = photoService.findUserById(userId);
@@ -56,26 +56,39 @@ public class updateprofile {
 		Date birthdays = dateFormat.parse(birthday);
 		user.setBirthday(birthdays);
 		photoService.updateProfile(user);
-		User updatedUser = photoService.findUserById(userId);
-		session.setAttribute("user", updatedUser);
 		return "success";
 	}
 
 	@PostMapping("/updateavatar")
-	public @ResponseBody String uploadavatar(@RequestParam("id") String id, @RequestParam("avatar") MultipartFile file,
-			HttpSession session) throws IllegalStateException, IOException {
-		String uploadDir = "D:\\workspace\\Eclipse\\PhotoSharingWeb\\src\\main\\webapp\\resources\\avatar\\";
-		User user = new User();
-		int ids = Integer.parseInt(id);
-		File dest = new File(uploadDir + file.getOriginalFilename());
-		file.transferTo(dest);
-		user.setId(ids);
-		user.setAvatar("resources/avatar/" + file.getOriginalFilename());
-		photoService.updateavatar(user);
-		session.setAttribute("user", user);
-		User updatedUser = photoService.findUserById(ids);
-		session.setAttribute("user", updatedUser);
-		return "success";
+	public @ResponseBody String uploadavatar(@RequestParam("id") String id, 
+	                                         @RequestParam("avatar") MultipartFile file) 
+	                                         throws IllegalStateException, IOException {
+	    String uploadDir = "C:\\Users\\Quan Phan\\Desktop\\New folder (4)\\PhotoSharingWeb-master\\src\\main\\webapp\\resources\\avatar\\";
+	    int userId = Integer.parseInt(id);
 
+	    // Lấy thông tin người dùng
+	    User user = photoService.findUserById(userId);
+	    if (user == null) {
+	        return "error"; // Xử lý khi người dùng không tồn tại
+	    }
+
+	    // Đảm bảo thư mục tồn tại, nếu không có thì tạo mới
+	    File directory = new File(uploadDir);
+	    if (!directory.exists()) {
+	        directory.mkdirs(); // Tạo thư mục và tất cả các thư mục cha cần thiết
+	    }
+
+	    // Lưu tập tin vào đường dẫn được chỉ định
+	    String originalFileName = file.getOriginalFilename();
+	    String filePath = uploadDir + originalFileName;
+	    File dest = new File(filePath);
+	    file.transferTo(dest);
+
+	    // Cập nhật thông tin avatar của người dùng
+	    user.setAvatar("resources/avatar/" + originalFileName);
+	    photoService.updateavatar(user);
+
+	    return "success";
 	}
+
 }
