@@ -28,7 +28,7 @@ public class User {
 	@Column(name = "id")
 	private int id;
 
-	@NotEmpty(message = "Username không được trống")
+	@NotEmpty(message = "Ten khong duoc de trong")
 	@Column(name = "username", nullable = false)
 	private String username;
 
@@ -60,7 +60,7 @@ public class User {
 
 	}
 
-	public User(int id, @NotEmpty(message = "Username không được trống") String username,
+	public User(int id, @NotEmpty(message = "Ten khong duoc de trong") String username,
 			@NotEmpty(message = "Password không được trống") @Size(min = 6, message = "Password phải có ít nhất 6 ký tự") String password,
 			String description,
 			@NotEmpty(message = "Email không được trống") @Email(message = "Email không hợp lệ") String email,

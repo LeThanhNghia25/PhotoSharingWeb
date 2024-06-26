@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <section class="h-100 gradient-custom-2">
 	<div class="container-fluid">
 		<div
@@ -17,7 +18,7 @@
 								<button type="button" class="btn btn-outline-dark"
 									data-mdb-ripple-color="dark" style="z-index: 1;"
 									onclick="window.location.href='${pageContext.request.contextPath}/editprofile'">
-									Chỉnh sửa</button>
+									<spring:message code="edit"/></button>
 						
 						</div>
 						<div class="ms-3" style="margin-top: 130px;">
@@ -32,11 +33,11 @@
 
 							<div>
 								<p class="mb-1 h5">253</p>
-								<p class="small text-muted mb-0">Photos</p>
+								<p class="small text-muted mb-0"><spring:message code="photo"/></p>
 							</div>
 							<div class="px-3">
 								<p class="mb-1 h5">1026</p>
-								<p class="small text-muted mb-0">Followers</p>
+								<p class="small text-muted mb-0"><spring:message code="folow"/></p>
 							</div>
 							<div>
 								<p class="mb-1 h5">478</p>
@@ -54,7 +55,7 @@
 						</div>
 					<div class="card-body p-4 text-black">
 						<div class="mb-5">
-							<p class="lead fw-normal mb-1">Về tôi</p>
+							<p class="lead fw-normal mb-1"><spring:message code="abme"/></p>
 							<div class="p-4" style="background-color: #f8f9fa;">
 								<p class="font-italic mb-1">${user.description}</p>
 
@@ -62,9 +63,9 @@
 						</div>
 						<div
 							class="d-flex justify-content-between align-items-center mb-4">
-							<p class="lead fw-normal mb-0">Ảnh của tôi</p>
+							<p class="lead fw-normal mb-0"><spring:message code="myab"/></p>
 							<p class="mb-0">
-								<a href="#!" class="text-muted">Tất cả</a>
+								<a href="#!" class="text-muted"><spring:message code="all"/></a>
 							</p>
 						</div>
 						<!--boar index -->

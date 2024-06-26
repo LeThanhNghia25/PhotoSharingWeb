@@ -2,9 +2,8 @@ package controllers.user;
 
 import java.security.Principal;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,38 +18,43 @@ import models.User;
 
 @Controller
 public class repassword {
-	@Autowired
-	private PhotoService photoService;
-	@Autowired
-	private UserService userService;
 
-	@GetMapping("/repass")
-	public String repas(Model model) {
-		model.addAttribute("user", new User());
+    @Autowired
+    private PhotoService photoService;
 
-		return "user/chagepassword";
-	}
+    @Autowired
+    private UserService userService;
 
-	@PostMapping("/repassword")
-	public @ResponseBody String repasswrod(@ModelAttribute("user") User user, @RequestParam String passwordnew,
-			@RequestParam String repasswordnew, Model model, Principal principal) {
-		String email = principal.getName();
-		User users = userService.getUsers(email);
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
-		user.setId(users.getId()); // Ensure the ID is set
-		boolean check = photoService.checkPassword(user);
+    @GetMapping("/repass")
+    public String repass(Model model) {
+        model.addAttribute("user", new User());
+        return "user/chagepassword";
+    }
 
-		if (check) {
-			if (!passwordnew.equals(repasswordnew)) {
-				return "errorpass";
-			}
+    @PostMapping("/repassword")
+    public @ResponseBody String repasswrod(@ModelAttribute("user") User user,
+            @RequestParam String password, @RequestParam String passwordnew,
+            @RequestParam String repasswordnew, Model model, Principal principal) {
+        String email = principal.getName();
+        User users = userService.getUsers(email);
 
-			user.setPassword(passwordnew);
-			photoService.updatePassword(user);
-			return "success";
-		} else {
+        // Kiểm tra mật khẩu cũ
+        if (!passwordEncoder.matches(password, users.getPassword())) {
+            return "error-message";
+        }
 
-			return "error-message";
-		}
-	}
+        if (!passwordnew.equals(repasswordnew)) {
+            return "errorpass";
+        }
+
+        // Mã hóa mật khẩu mới trước khi lưu vào cơ sở dữ liệu
+        String encodedPassword = passwordEncoder.encode(passwordnew);
+        user.setId(users.getId()); 
+        user.setPassword(encodedPassword);
+        photoService.updatePassword(user);
+        return "success";
+    }
 }

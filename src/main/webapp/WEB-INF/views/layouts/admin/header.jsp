@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <header>
@@ -14,27 +15,23 @@
 				<a href="#" id="dashboardLink"
 					class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/' ? 'active' : ''}"
 					data-mdb-ripple-init aria-current="true"> <i
-					class="fas fa-tachometer-alt fa-fw me-3"></i><span>Bảng tin</span>
+					class="fas fa-tachometer-alt fa-fw me-3"></i><span><spring:message code="bt"/></span>
 				</a> <a href="${pageContext.request.contextPath}/admin/post"
 					id="postLink"
 					class="list-group-item list-group-item-action py-2  ${pageContext.request.servletPath == '/admin/post' ? 'active' : ''}"
-					data-mdb-ripple-init> <i class="fas fa-chart-area fa-fw me-3"></i><span>Bài
-						viết</span>
+					data-mdb-ripple-init> <i class="fas fa-chart-area fa-fw me-3"></i><span><spring:message code="bv"/></span>
 				</a> <a href="${pageContext.request.contextPath}/admin/cate"
 					id="categoryLink"
 					class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/admin/cate' ? 'active' : ''}"
-					data-mdb-ripple-init> <i class="fas fa-lock fa-fw me-3"></i><span>Chuyên
-						mục</span>
+					data-mdb-ripple-init> <i class="fas fa-lock fa-fw me-3"></i><span><spring:message code="cm"/></span>
 				</a> <a href="${pageContext.request.contextPath}/admin/feedback"
 					id="feedbackLink"
 					class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/admin/feedback' ? 'active' : ''}"
-					data-mdb-ripple-init> <i class="fas fa-calendar fa-fw me-3"></i><span>Phản
-						hồi</span>
+					data-mdb-ripple-init> <i class="fas fa-calendar fa-fw me-3"></i><span><spring:message code="ph"/></span>
 				</a> <a href="${pageContext.request.contextPath}/admin/user"
 					id="usersLink"
 					class="list-group-item list-group-item-action py-2 ${pageContext.request.servletPath == '/admin/user' ? 'active' : ''}"
-					data-mdb-ripple-init> <i class="fas fa-users fa-fw me-3"></i><span>Tác
-						giả</span>
+					data-mdb-ripple-init> <i class="fas fa-users fa-fw me-3"></i><span><spring:message code="td"/></span>
 				</a>
 			</div>
 		</div>
@@ -60,7 +57,7 @@
 				src="${pageContext.request.contextPath}/resources/avatar/icont.png"
 				height="30" alt="MDB Logo" loading="lazy" style="margin-top: 2px;" />
 			</a>
-			<h3>Trang quản trị</h3>
+			<h3><spring:message code="tqt"/></h3>
 			<!-- Right links -->
 			<ul class="navbar-nav flex-row d-none d-md-flex">
 				<!-- Search form -->
@@ -90,10 +87,9 @@
 									class="d-none d-sm-block ms-1">${user.username}</strong>
 							</a></li>
 							<li><a class="dropdown-item"
-								href="${pageContext.request.contextPath}/editprofile">Thông
-									tin</a></li>
+								href="${pageContext.request.contextPath}/editprofile"><spring:message code="myprofile"/></a></li>
 							<li><a class="dropdown-item"
-								href="${pageContext.request.contextPath}/logout">Đăng xuất</a></li>
+								href="${pageContext.request.contextPath}/logout"><spring:message code="logout"/></a></li>
 						</ul></li>
 				</c:if>
 			</ul>

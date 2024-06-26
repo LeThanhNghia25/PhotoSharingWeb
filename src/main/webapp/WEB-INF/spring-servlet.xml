@@ -89,15 +89,15 @@
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename" value="messages" />
-		<property name="defaultEncoding" value="UTF-8" />
+		<property name="basename" value="Language" />
+ 		<property name="defaultEncoding" value="UTF-8"/>
 	</bean>
-
+	<!-- tạo bean local default là tiếng anh -->
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 		<property name="defaultLocale" value="en_US" />
 	</bean>
-
+	<!-- tạo bean interceptor để xác định sự thay đổi ngôn ngữ -->
 	<mvc:interceptors>
 		<bean id="localeChangeInterceptor"
 			class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">

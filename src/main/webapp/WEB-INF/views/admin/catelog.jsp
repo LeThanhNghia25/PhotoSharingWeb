@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script type="text/javascript">
     $(document).ready(function() {
         $("#addcatelog").submit(function(e) {
@@ -93,14 +94,14 @@ $(document).ready(function() {
 			<div class="card">
 				<div class="card-header py-3">
 					<h5 class="mb-0 text-center">
-						<strong>Tất cả chuyên mục</strong>
+						<strong><spring:message code="allcate"/></strong>
 					</h5>
 				</div>
 
 				<!-- Button trigger modal -->
 				<button type="button" class="btn btn-primary btn-sm launch-button"
 					data-mdb-ripple-init data-mdb-modal-init
-					data-mdb-target="#exampleModal">Thêm chuyên mục</button>
+					data-mdb-target="#exampleModal"><spring:message code="addcate"/></button>
 				<div id="alert-success"></div>
 				<!-- Modal -->
 				<div class="modal fade" id="exampleModal" tabindex="-1"
@@ -108,8 +109,7 @@ $(document).ready(function() {
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Thêm chuyên
-									mục</h5>
+								<h5 class="modal-title" id="exampleModalLabel"><spring:message code="addcate"/></h5>
 								<button type="button" class="btn-close" data-mdb-ripple-init
 									data-mdb-dismiss="modal" aria-label="Close"></button>
 							</div>
@@ -123,9 +123,9 @@ $(document).ready(function() {
 								<div class="modal-footer">
 									<div id="emtycate" class="error-message" role="alert"></div>
 									<button type="button" class="btn btn-secondary"
-										data-mdb-ripple-init data-mdb-dismiss="modal">Đóng</button>
+										data-mdb-ripple-init data-mdb-dismiss="modal"><spring:message code="close"/></button>
 									<button type="submit" class="btn btn-primary"
-										data-mdb-ripple-init>Lưu</button>
+										data-mdb-ripple-init><spring:message code="save"/></button>
 									<div id="error-message" class="error-message" role="alert"></div>
 								</div>
 							</form:form>
@@ -137,8 +137,8 @@ $(document).ready(function() {
 					<table class="table align-middle mb-0 bg-white">
 						<thead class="bg-light">
 							<tr>
-								<th>Chuyên mục</th>
-								<th>Hành động</th>
+								<th><spring:message code="cate"/></th>
+								<th><spring:message code="action"/></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -150,7 +150,7 @@ $(document).ready(function() {
 											method="post" modelAttribute="catelog">
 											<form:input path="id" id="id" value="${cate.id}"
 												class="form-control" type="hidden" />
-											<button type="submit" class="btn btn-link btn-sm btn-rounded">Xóa</button>
+											<button type="submit" class="btn btn-link btn-sm btn-rounded"><spring:message code="delete"/></button>
 										</form:form></td>
 								</tr>
 							</c:forEach>

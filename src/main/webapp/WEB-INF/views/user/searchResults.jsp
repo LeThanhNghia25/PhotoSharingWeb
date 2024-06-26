@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 
 <!--boar index -->
 <div class="container py-2 topboar">
 <br>
 
-<h2>Kết quả tìm kiếm cho từ khóa "${search_name}" :</h2>
+<h2><spring:message code="Searchresultsforkeywords"/> "${search_name}" :</h2>
     <div class="row" data-masonry='{"percentPosition": true }'>
     <c:choose>
 				<c:when test="${not empty imgs}">
@@ -24,7 +26,7 @@
         </c:forEach>
         </c:when>
         <c:otherwise>
-					<h3>Không tìm thấy hình ảnh</h3>
+					<h3><spring:message code="Noimagesfound"/></h3>
 				</c:otherwise>
 			</c:choose>
     </div>

@@ -18,6 +18,7 @@ import dao.UserService;
 import models.Img;
 import models.admin;
 import models.catalog;
+import models.comment;
 import models.User;
 
 @Controller
@@ -67,6 +68,8 @@ public class homeAd {
 		String email = principal.getName();
 		User user = userService.getUsers(email);
 		model.addAttribute("user", user);
+		List<comment> comments = photoService.showAllComments();
+		model.addAttribute("comments", comments);
 		return "admin/comment";
 
 	}

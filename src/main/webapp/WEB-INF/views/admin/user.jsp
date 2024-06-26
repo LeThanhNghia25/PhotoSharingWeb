@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <main style="margin-top: 58px">
 	<div class="container pt-4">
 		<!-- Section: Main chart -->
@@ -9,17 +10,17 @@
 			<div class="card">
 				<div class="card-header py-3">
 					<h5 class="mb-0 text-center">
-						<strong>Tất cả người dùng</strong>
+						<strong><spring:message code="alluser"/></strong>
 					</h5>
 				</div>
 				<div class="table-responsive">
 					<table class="table align-middle mb-0 bg-white">
 						<thead class="bg-light">
 							<tr>
-								<th>Tên</th>
-								<th>Chức vụ</th>
-								<th>Trạng thái</th>
-								<th>Hành động</th>
+								<th><spring:message code="name"/></th>
+								<th><spring:message code="row"/></th>
+								<th><spring:message code="status"/></th>
+								<th><spring:message code="action"/></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -37,7 +38,7 @@
 										</div>
 									</td>
 									<td>
-										<p class="fw-normal mb-1">Người dùng</p>
+										<p class="fw-normal mb-1"><spring:message code="user"/></p>
 
 									</td>
 									<td><span
@@ -53,11 +54,11 @@
 											${user.status} </span></td>
 									<td>
 										<button type="button" class="btn btn-link btn-sm btn-rounded"
-											onclick="showForm(this)">Sửa</button> <form:form
+											onclick="showForm(this)"><spring:message code="edit"/></button> <form:form
 											action="${pageContext.request.contextPath}/admin/deleteuser"
 											method="get" modelAttribute="user">
 											<form:hidden path="id" value="${user.id}" />
-											<button type="submit" class="btn btn-link btn-sm btn-rounded">Xóa</button>
+											<button type="submit" class="btn btn-link btn-sm btn-rounded"><spring:message code="delete"/></button>
 										</form:form>
 									</td>
 								</tr>
@@ -76,11 +77,10 @@
 																	value="${user.id}" />
 																<form:input path="username" id="username"
 																	class="form-control" value="${user.username}" />
-																<label class="form-label" for="username">Tên</label>
+																<label class="form-label" for="username"><spring:message code="name"/></label>
 															</div>
 															<div class="col-md-6">
-																<label class="form-label" for="status">Trạng
-																	thái</label>
+																<label class="form-label" for="status"><spring:message code="status"/></label>
 																<form:select path="status" id="status"
 																	class="form-select mb-4"
 																	aria-label="Default select example">

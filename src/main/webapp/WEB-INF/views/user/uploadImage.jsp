@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script type="text/javascript">
 $(document).ready(function() {
     $("#uploadImg").submit(function(e) {
@@ -54,33 +55,35 @@ $(document).ready(function() {
 						<form:form id="uploadImg" action="uploadImg" method="post"
 							modelAttribute="img" enctype="multipart/form-data">
 							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Tải ảnh lên</h5>
+								<h5 class="modal-title" id="exampleModalLabel"><spring:message code="UploadPhotos"/></h5>
 							</div>
 							<div class="modal-body">
 								<div class="form-group mb-4">
-									<label for="title" class="form-label">Tiêu đề</label>
+									<label for="title" class="form-label"><spring:message code="title"/></label>
 									<form:input path="title" id="title" class="form-control" />
 								</div>
 								<!-- Error message -->
 								<div id="error-message" class="error-message" role="alert"></div>
 								<div class="form-group mb-4">
-								<input type="hidden" name="checkvalueimg" id="checkvalueimg">
-									<label for="file" class="form-label">Chọn ảnh</label> <input
+								<input type="hidden" name="Firearm" id="Firearm"> <input
+										type="hidden" name="Gore" id="Gore"> <input
+										type="hidden" name="Nudity" id="Nudity"> 
+									<label for="file" class="form-label"><spring:message code="Selectaphoto"/></label> <input
 										name="url" type="file" id="imageUpload" class="form-control"
 										onchange="previewImage(this)" />
 								</div>
-								<div id="noffi-probability">Kiểm tra...</div>
+								<div id="noffi-probability"><spring:message code="check"/>...</div>
 								<!-- Error message -->
 								<div id="emtyimg" class="error-message" role="alert"></div>
 								<div class="form-group mb-4">
-									<label for="content" class="form-label">Nội dung</label>
+									<label for="content" class="form-label"><spring:message code="content"/></label>
 									<form:textarea path="content" class="form-control" id="content"
 										rows="4"></form:textarea>
 								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-secondary"
-									data-mdb-ripple-init>Đăng bài</button>
+									data-mdb-ripple-init><spring:message code="Post"/></button>
 							</div>
 
 						</form:form>
@@ -147,7 +150,9 @@ async function moderationImg(file) {
         document.getElementById("noffi-probability").innerHTML = combinedMessage;
 
         // Set hidden input value for firearm probability
-        document.getElementById("checkvalueimg").value = adjustedFirearmProbability;
+        document.getElementById("Firearm").value = adjustedFirearmProbability;
+		document.getElementById("Gore").value = adjustedGoreProbability;
+		document.getElementById("Nudity").value = adjustedNudityProbability;
     } catch (error) {
         console.error('Error fetching data:', error);
         document.getElementById("firearm-probability").innerText = 'Lỗi vui lòng thử lại';

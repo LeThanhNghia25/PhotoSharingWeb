@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!--Main Navigation-->
 <!--Main layout-->
 <main style="margin-top: 58px">
@@ -12,7 +12,7 @@
 			<div class="card">
 				<div class="card-header py-3">
 					<h5 class="mb-0 text-center">
-						<strong>Tất cả bài viết</strong>
+						<strong><spring:message code="allpost"/></strong>
 					</h5>
 				</div>
 				<div class="card-body">
@@ -20,11 +20,11 @@
 						<table class="table align-middle mb-0 bg-white">
 							<thead class="bg-light">
 								<tr>
-									<th>Tiêu đề</th>
-									<th>Tác giả</th>
-									<th>Trạng thái</th>
-									<th>Chuyên mục</th>
-									<th>Thời gian</th>
+									<th><spring:message code="title"/></th>
+									<th><spring:message code="author"/></th>
+									<th><spring:message code="status"/></th>
+									<th><spring:message code="cate"/></th>
+									<th><spring:message code="time"/></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -41,9 +41,9 @@
 														<form:hidden path="id" value="${img.id}" />
 														<button type="button"
 															class="btn btn-link btn-sm btn-rounded"
-															onclick="showForm(this)">Sửa</button>
+															onclick="showForm(this)"><spring:message code="edit"/></button>
 														<button type="submit"
-															class="btn btn-link btn-sm btn-rounded">Xóa</button>
+															class="btn btn-link btn-sm btn-rounded"><spring:message code="delete"/></button>
 													</form:form>
 												</div>
 											</div>
@@ -78,14 +78,14 @@
 															<form:hidden path="id" value="${img.id}" />
 															<form:input path="title" id="title"
 																cssClass="form-control" value="${img.title}" />
-															<label class="form-label" for="title">Tên</label>
+															<label class="form-label" for="title"><spring:message code="nampost"/></label>
 														</div>
 													</div>
 												</div>
 
 												<!-- Message input -->
 												<div data-mdb-input-init class="form-outline mb-4">
-													<label class="form-label" for="content">Nội dung</label>
+													<label class="form-label" for="content"><spring:message code="content"/></label>
 													<textarea name="content" id="content" class="form-control"
 														rows="4">${img.content}</textarea>
 												</div>
@@ -97,13 +97,13 @@
 														<div data-mdb-input-init class="form-outline">
 															<form:input path="img" id="urlimg"
 																cssClass="form-control" value="${img.img}" />
-															<label class="form-label" for="urlimg">Ảnh</label>
+															<label class="form-label" for="urlimg"><spring:message code="photo"/></label>
 														</div>
 													</div>
 												</div>
 
 												<!-- Trạng thái -->
-												<label class="label" for="status">Trạng thái</label>
+												<label class="label" for="status"><spring:message code="status"/></label>
 												<form:select path="status" id="status"
 													cssClass="form-select mb-4"
 													aria-label="Default select example">
@@ -115,13 +115,12 @@
 												<div data-mdb-input-init class="form-outline mb-4">
 													<form:input path="createdTime" id="createdTime"
 														cssClass="form-control" value="${img.createdTime}" />
-													<label class="form-label" for="createdTime">Thời
-														gian</label>
+													<label class="form-label" for="createdTime"><spring:message code="time"/></label>
 												</div>
 
 												<!-- Submit button -->
 												<button data-mdb-ripple-init type="submit"
-													class="btn btn-primary btn-block mb-4">Cập nhật</button>
+													class="btn btn-primary btn-block mb-4"><spring:message code="update"/></button>
 											</form:form></td>
 									</tr>
 								</c:forEach>

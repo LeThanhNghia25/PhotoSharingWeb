@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!-- Add Font Awesome CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -37,13 +38,15 @@
 					<br>
 					<!-- Like and Share Buttons -->
 					<div class="mt-3">
-						<button class="btn btn-outline-primary" onclick="likeImage()">Thích</button>
-						<button class="btn btn-outline-secondary" onclick="shareImage()">Chia
-							sẻ</button>
+						<button class="btn btn-outline-primary" ><spring:message code="like"/></button>
+						<button class="btn btn-outline-secondary" ><spring:message code="share"/></button>
+						<a
+							href="${pageContext.request.contextPath}/download?imagePath=${img.img}"
+							class="btn btn-outline-secondary">Download</a>
 					</div>
 					<!-- Comments Section -->
 					<div id="comments" class="mt-3">
-						<h5>Bình luận</h5>
+						<h5><spring:message code="comment"/></h5>
 						<div class="comment-frame">
 							<c:forEach var="comment" items="${comments}">
 								<div class="media mb-3 media-comment">
@@ -83,8 +86,7 @@
 						<p>Bạn cần đăng nhập để có thể bình luận</p>
 						<button id="loginButton" data-mdb-ripple-init type="button"
 							class="btn btn-link px-3 me-2"
-							onclick="window.location.href='${pageContext.request.contextPath}/login'">Đăng
-							nhập</button>
+							onclick="window.location.href='${pageContext.request.contextPath}/login'"><spring:message code="login"/></button>
 					</c:if>
 				</div>
 			</div>

@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
@@ -23,8 +24,8 @@
 					height="30" alt="MDB Logo" loading="lazy" style="margin-top: 2px;" />
 				</a>
 				<button id="registerButton" data-mdb-ripple-init type="button"
-							class="btn btn-primary me-3"
-							onclick="window.location.href='${pageContext.request.contextPath}/searchquery'">Tìm kiếm nhanh</button>
+					class="btn btn-primary me-3"
+					onclick="window.location.href='${pageContext.request.contextPath}/searchquery'"><spring:message code="searchspeed"/></button>
 			</div>
 			<!-- Left elements -->
 
@@ -54,17 +55,15 @@
 			<!-- Right elements -->
 			<ul class="navbar-nav flex-row">
 				<!-- Button trigger modal -->
-				
+
 				<c:if test="${empty pageContext.request.userPrincipal}">
 					<div class="d-flex align-items-center">
 						<button id="loginButton" data-mdb-ripple-init type="button"
 							class="btn btn-link px-3 me-2"
-							onclick="window.location.href='${pageContext.request.contextPath}/login'">Đăng
-							nhập</button>
+							onclick="window.location.href='${pageContext.request.contextPath}/login'"><spring:message code="login"/></button>
 						<button id="registerButton" data-mdb-ripple-init type="button"
 							class="btn btn-primary me-3"
-							onclick="window.location.href='${pageContext.request.contextPath}/register'">Đăng
-							ký</button>
+							onclick="window.location.href='${pageContext.request.contextPath}/register'"><spring:message code="register"/></button>
 					</div>
 				</c:if>
 				<c:if test="${not empty pageContext.request.userPrincipal}">
@@ -97,17 +96,15 @@
 								href="${pageContext.request.contextPath}/profile?id=${user.id}">
 									<img src="${pageContext.request.contextPath}/${user.avatar}"
 									class="rounded-circle" height="22"
-									alt="Black and White Portrait of a Man" loading="lazy" /> <strong
+									alt="" loading="lazy" /> <strong
 									class="d-none d-sm-block ms-1">${user.username}</strong>
 							</a></li>
 							<li><a class="dropdown-item"
-								href="${pageContext.request.contextPath}/editprofile">Thông
-									tin</a></li>
+								href="${pageContext.request.contextPath}/editprofile"><spring:message code="myprofile"/></a></li>
 							<li><a class="dropdown-item"
-								href="${pageContext.request.contextPath}/repass">Đổi mật
-									khẩu</a></li>
+								href="${pageContext.request.contextPath}/repass"><spring:message code="chagepass"/></a></li>
 							<li><a class="dropdown-item"
-								href="${pageContext.request.contextPath}/logout">Đăng xuất</a></li>
+								href="${pageContext.request.contextPath}/logout"><spring:message code="logout"/></a></li>
 						</ul></li>
 				</c:if>
 				<!-- Updated Language Switcher with ?fromitem= -->
@@ -120,18 +117,11 @@
 					<ul class="dropdown-menu dropdown-menu-end"
 						aria-labelledby="languageDropdown">
 						<li><a class="dropdown-item"
-							href="?fromitem=${param.fromitem != null ? param.fromitem : 1}&id=${param.id != null ? param.id : 1}&lang=vi">
-								<spring:message code="language.vietnamese" />
-						</a></li>
+							href="?lang=vi_VN"><spring:message code="vi"/></a></li>
 						<li><a class="dropdown-item"
-							href="?fromitem=${param.fromitem != null ? param.fromitem : 1}&id=${param.id != null ? param.id : 1}&lang=en">
-								<spring:message code="language.english" />
-						</a></li>
-					</ul></li>
-
-
-			</ul>
-			<!-- Right elements -->
+							href="?lang=en_US"><spring:message code="en"/></a></li>
+					</ul>
+							
 		</div>
 	</nav>
 	<!-- Navbar -->

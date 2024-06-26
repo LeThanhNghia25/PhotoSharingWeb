@@ -1,169 +1,189 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unsplash Image Search</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-    }
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-    .container {
-      text-align: center;
-      width: 100%;
-    }
+<style>
+.custom-container {
+	max-width: 1000px;
+	margin: 50px auto;
+	padding: 20px;
+	background-color: #fff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+}
 
-    h1 {
-      margin-bottom: 20px;
-    }
+h3 {
+	text-align: center;
+}
 
-    .search-container {
-      margin-bottom: 20px;
-    }
+.search-box {
+	display: flex;
+	margin-bottom: 20px;
+}
+#show-more-button {
+	padding: 8px 12px; /* Giảm kích thước nút */
+	font-size: 14px; /* Giảm kích thước chữ */
+	border: none;
+	background-color: #007bff;
+	color: #fff;
+	border-radius: 0 5px 5px 0;
+	cursor: pointer;
+}
+#search-input {
+	flex: 1;
+	padding: 10px;
+	font-size: 16px;
+	border: 1px solid #ccc;
+	border-radius: 5px 0 0 5px;
+}
 
-    #search-input {
-      width: 300px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
+#search-button {
+	padding: 8px 12px; /* Giảm kích thước nút */
+	font-size: 14px; /* Giảm kích thước chữ */
+	border: none;
+	background-color: #007bff;
+	color: #fff;
+	border-radius: 0 5px 5px 0;
+	cursor: pointer;
+}
 
-    #search-button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      background-color: #007bff;
-      color: #fff;
-      cursor: pointer;
-    }
+.search-results {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	grid-gap: 20px;
+}
 
-    #search-button:hover {
-      background-color: #0056b3;
-    }
+.bg-image {
+	position: relative;
+	overflow: hidden;
+}
 
-    .search-results {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-      margin-top: 20px;
-    }
+.bg-image img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
 
-    .search-results img {
-      max-width: 200px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s;
-    }
+.mask {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	background-color: rgba(255, 255, 255, 0.5);
+}
 
-    .search-results img:hover {
-      transform: scale(1.05);
-    }
+.bg-image:hover .mask {
+	opacity: 1;
+}
 
-    #show-more-button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      background-color: #28a745;
-      color: #fff;
-      cursor: pointer;
-      margin-top: 20px;
-      margin: 20px auto 0;
-      display: block;
-    }
+.shadow-1-strong {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-    #show-more-button:hover {
-      background-color: #218838;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Unsplash Image Search</h1>
-    <div class="search-container">
-      <input type="text" id="search-input" placeholder="Search for images...">
-      <button id="search-button">Search</button>
-    </div>
-    <div class="search-results"></div>
-    <button id="show-more-button" style="display: none;">Show More</button>
-  </div>
+.rounded-15px {
+	border-radius: 15px;
+}
 
-  <script>
-    const accessKey = "6WT3YJ05_Xl2CtqBFv2SFCxFzHKh9sOiSFgN_waXjBQ";
-    const searchInput = document.getElementById("search-input");
-    const searchButton = document.getElementById("search-button");
-    const searchResults = document.querySelector(".search-results");
-    const showMoreButton = document.getElementById("show-more-button");
+@media ( max-width : 768px) {
+	.col-6, .col-md-4, .col-xl-3 {
+		width: calc(50% - 20px);
+	}
+}
 
-    let inputData = "";
-    let page = 1;
+@media ( max-width : 576px) {
+	.col-6, .col-md-4, .col-xl-3 {
+		width: 100%;
+	}
+}
+</style>
+<br>
+<div class="custom-container">
+	<h3><spring:message code="searchspeed"/></h3>
+	<div class="search-box">
+		<input type="text" id="search-input" placeholder="Nhập từ khóa...">
+		<button id="search-button"><spring:message code="search"/></button>
+	</div>
+	<div class="search-results"></div>
+	<button id="show-more-button" style="display: none;"><spring:message code="more"/></button>
+</div>
+<script>
+        const accessKey = "6WT3YJ05_Xl2CtqBFv2SFCxFzHKh9sOiSFgN_waXjBQ";
+        const searchInput = document.getElementById("search-input");
+        const searchButton = document.getElementById("search-button");
+        const searchResults = document.querySelector(".search-results");
+        const showMoreButton = document.getElementById("show-more-button");
 
-    const fetchData = async (reset = false) => {
-      if (reset) {
-        page = 1;
-        searchResults.innerHTML = "";
-      }
+        let inputData = "";
+        let page = 1;
 
-      if (!inputData.trim()) {
-        alert("Please enter a search term.");
-        return;
-      }
+        const fetchData = async (reset = false) => {
+            if (reset) {
+                page = 1;
+                searchResults.innerHTML = "";
+            }
 
-      const url = `https://api.unsplash.com/search/photos?page=${page}&query=${inputData}&client_id=${accessKey}`;
+            if (!inputData.trim()) {
+                alert("Vui lòng nhập từ khóa tìm kiếm.");
+                return;
+            }
 
-      try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error("Failed to fetch data");
-        const data = await response.json();
+            const url = `https://api.unsplash.com/search/photos?page=${page}&query=${inputData}&client_id=${accessKey}`;
 
-        if (data.results.length === 0) {
-          alert("No results found.");
-          return;
-        }
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error("Lỗi khi tải dữ liệu");
+                const data = await response.json();
 
-        data.results.forEach((result) => {
-          const image = document.createElement("img");
-          image.src = result.urls.regular;
-          image.alt = result.alt_description;
+                if (data.results.length === 0) {
+                    alert("Không tìm thấy kết quả.");
+                    return;
+                }
 
-          const link = document.createElement("a");
-          link.href = result.urls.full;
-          link.target = "_blank";
+                data.results.forEach((result) => {
+                    const colDiv = document.createElement("div");
+                    colDiv.className = "bg-image hover-overlay shadow-1-strong rounded";
 
-          link.appendChild(image);
-          searchResults.appendChild(link);
+                    const image = document.createElement("img");
+                    image.src = result.urls.regular;
+                    image.className = "w-100 rounded-15px";
+                    image.alt = result.alt_description || "";
+
+                    const link = document.createElement("a");
+                    link.href = result.urls.full;
+                    link.target = "_blank";
+
+                    const maskDiv = document.createElement("div");
+                    maskDiv.className = "mask";
+                    maskDiv.style.backgroundColor = "hsla(0, 0%, 98%, 0.2)";
+
+                    link.appendChild(maskDiv);
+                    colDiv.appendChild(image);
+                    colDiv.appendChild(link);
+                    searchResults.appendChild(colDiv);
+                });
+
+                if (data.total_pages === page) {
+                    showMoreButton.style.display = "none";
+                } else {
+                    showMoreButton.style.display = "block";
+                }
+
+                page++;
+            } catch (error) {
+                console.error(error);
+                alert("Đã xảy ra lỗi khi tải dữ liệu.");
+            }
+        };
+
+        searchButton.addEventListener("click", () => {
+            inputData = searchInput.value;
+            fetchData(true);
         });
 
-        if (data.total_pages === page) {
-          showMoreButton.style.display = "none";
-        } else {
-          showMoreButton.style.display = "block";
-        }
-
-        page++;
-      } catch (error) {
-        console.error(error);
-        alert("An error occurred while fetching the data.");
-      }
-    };
-
-    searchButton.addEventListener("click", () => {
-      inputData = searchInput.value;
-      fetchData(true);
-    });
-
-    showMoreButton.addEventListener("click", () => {
-      fetchData();
-    });
-  </script>
-</body>
-</html>
+        showMoreButton.addEventListener("click", () => {
+            fetchData();
+        });
+    </script>

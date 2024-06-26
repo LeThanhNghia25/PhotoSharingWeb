@@ -41,7 +41,8 @@ public class uploadimg {
 
     @PostMapping("/uploadImg")
     public @ResponseBody String uploadImage(@Valid @ModelAttribute("img") Img img, BindingResult bindingResult,
-            Model model, @RequestParam("url") MultipartFile file, @RequestParam("checkvalueimg") String checkvalueimg,
+            Model model, @RequestParam("url") MultipartFile file, @RequestParam("Firearm") String Firearm,@RequestParam("Gore") String Gore,
+            @RequestParam("Nudity") String Nudity,
             Principal principal) throws IllegalStateException, IOException {
 
         if (bindingResult.hasErrors()) {
@@ -53,7 +54,7 @@ public class uploadimg {
             return "fileempty";
         }
 
-        String uploadDir = "D:\\workspace\\Eclipse\\PhotoSharingWeb\\src\\main\\webapp\\resources\\img\\";
+        String uploadDir = "C:\\Users\\Quan Phan\\Desktop\\New folder (4)\\PhotoSharingWeb\\src\\main\\webapp\\resources\\img\\";
         File dest = new File(uploadDir + file.getOriginalFilename());
         file.transferTo(dest);
         img.setImg("resources/img/" + file.getOriginalFilename());
@@ -73,9 +74,11 @@ public class uploadimg {
         } else {
             ct.setId(1);
         }
-        int checkValue = Integer.parseInt(checkvalueimg);
+        int Firearms = Integer.parseInt(Firearm);
+        int Gores = Integer.parseInt(Gore);
+        int Nuditys = Integer.parseInt(Nudity);
         img.setCata(ct);
-        if (checkValue > 65) {
+        if (Firearms > 65 || Gores > 65 || Nuditys>65) {
             img.setStatus("off");
         } else {
             img.setStatus("ok");

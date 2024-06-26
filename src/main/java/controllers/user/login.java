@@ -31,13 +31,10 @@ public class login {
     
     @PostMapping("/register")
     public String register(Model model, @ModelAttribute(value="user") User user) {
-    	String errMsg = "";
     	if(user.getEmail().length() > 1) {
     		if(this.userDetailsService.addUser(user)==true)
     			return "redirect:/login";
-    		else errMsg = "Da co loi xay ra !";
-    	}else errMsg = "Da co account dang ky voi email nay";
-        model.addAttribute("errMsg", errMsg);
+    	}
         return "user/register";  
     }
 

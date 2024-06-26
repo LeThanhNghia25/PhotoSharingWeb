@@ -25,13 +25,11 @@ public class home {
 	private PhotoService photoService;
 	@Autowired
 	private UserService userService;
-
+	// Trang chủ
 	@RequestMapping(value = { "/", "home" }, method = RequestMethod.GET)
 	public ModelAndView index(Model model) {
-		
-		List<Img> imgs = photoService.getAllImg();
-		
-
+		// Gọi phương thức hiển thị tất cả ảnh trong csdl
+		List<Img> imgs = photoService.getAllImg();	
 		model.addAttribute("imgs", imgs);
 		return new ModelAndView("user/index");
 	}
@@ -39,6 +37,7 @@ public class home {
 	@GetMapping("/liveSearch")
 	@ResponseBody
 	public String liveSearch(@RequestParam("query") String query) {
+		// Gọi phương thức tìm kiếm hình ảnh trong csdl sử dụng ajax
 		List<Img> imgs = photoService.searchImgs(query);
 		StringBuilder output = new StringBuilder();
 
@@ -57,18 +56,19 @@ public class home {
 		return output.toString();
 	}
 
-	// Mapping for search results page
+	
 	@GetMapping("/searchResults")
 	public String searchResults(@RequestParam("query") String query, Model model) {
+		// Phương thức hiển thị ảnh sau khi tìm kiếm
 		List<Img> searchResults = photoService.searchImgs(query);
-		model.addAttribute("search_name", query); // Use query as search_name
+		model.addAttribute("search_name", query); 
 		model.addAttribute("imgs", searchResults);
-		return "user/searchResults"; // Return the view name
+		return "user/searchResults"; 
 	}
 
 	@GetMapping("/searchquery")
 	public String searchQuery(Model model) {
-		return "user/searchQuery"; // Return the view name
+		return "user/searchQuery"; // Tìm kiếm nhanh
 	}
 
 }

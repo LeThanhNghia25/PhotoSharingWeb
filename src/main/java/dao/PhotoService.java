@@ -10,7 +10,6 @@ import models.admin;
 import models.catalog;
 import models.comment;
 
-
 @Service
 public class PhotoService {
 	@Autowired
@@ -48,8 +47,10 @@ public class PhotoService {
 		return photoRepository.deleteCate(cateId);
 	}
 
-	public int deleteUser(int idUser) {
-		return photoRepository.deleteUser(idUser);
+	public void deleteUser(int idUser) {
+		photoRepository.deleteUserRole(idUser);
+		photoRepository.deleteUser(idUser);
+
 	}
 
 	public int updateUserAd(User user) {
@@ -85,16 +86,18 @@ public class PhotoService {
 		return photoRepository.findAllImgByUserId(userId);
 	}
 
-	public List<comment> showallcomment(int idpost) {
-		return photoRepository.showallcomment(idpost);
+	public List<comment> showAllComments() {
+		return photoRepository.showAllComments();
 	}
 
 	public int insertComment(comment comment) {
 		return photoRepository.insertComment(comment);
 	}
+
 	public int saveCate(catalog catalog) {
 		return photoRepository.saveCate(catalog);
 	}
+
 	public int updateavatar(User user) {
 		return photoRepository.updateavatar(user);
 	}
@@ -112,7 +115,11 @@ public class PhotoService {
 	}
 
 	public List<Img> searchImgs(String query) {
-        return photoRepository.searchImgs(query);
-    }
+		return photoRepository.searchImgs(query);
+	}
+
+	public List<comment> showallcommentpost(int fromitem) {
+		return photoRepository.showallcomment(fromitem);
+	}
 
 }

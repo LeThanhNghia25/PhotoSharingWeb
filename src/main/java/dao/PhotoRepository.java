@@ -162,7 +162,10 @@ public class PhotoRepository {
 		String sql = "DELETE FROM user WHERE id = ?";
 		return jdbcTemplate.update(sql, idUser);
 	}
-
+	public int deleteUserRole(int idUser) {
+		String sql = "DELETE FROM users_roles WHERE userId = ?";
+		return jdbcTemplate.update(sql, idUser);
+	}
 	public int updateUserAD(User user) {
 		String sql = "UPDATE user SET username = ?, status = ? WHERE id = ?";
 		return jdbcTemplate.update(sql, user.getUsername(), user.getStatus(), user.getId());
@@ -215,7 +218,12 @@ public class PhotoRepository {
 		String sql = "SELECT * FROM img WHERE userid = ?";
 		return jdbcTemplate.query(sql, new ImgRowMapper(), userId);
 	}
-
+	public List<comment> showAllComments() {
+	    String sql = "SELECT * FROM comment " +
+	                 "JOIN img ON comment.idpost = img.id " +
+	                 "JOIN user ON comment.userid = user.id;";
+	    return jdbcTemplate.query(sql, new CommentRowMapper());
+	}
 	public List<comment> showallcomment(int idpost) {
 		String sql = "SELECT img.id, user.*, comment.* FROM comment JOIN img ON comment.idpost = img.id JOIN user ON comment.userid = user.id WHERE comment.idpost = ?";
 		return jdbcTemplate.query(sql, new Object[] { idpost }, new CommentRowMapper());
@@ -233,9 +241,10 @@ public class PhotoRepository {
 	}
 
 	public int updateProfile(User user) {
-		String sql = "UPDATE user SET username = ?, `describe` = ?, birthday = ? WHERE id = ?";
-		return jdbcTemplate.update(sql, user.getUsername(), user.getDescription(), user.getBirthday(), user.getId());
+	    String sql = "UPDATE user SET username = ?, `description` = ? WHERE id = ?";
+	    return jdbcTemplate.update(sql, user.getUsername(), user.getDescription(), user.getId());
 	}
+
 
 	public boolean checkPassword(User user) {
 		String sql = "SELECT COUNT(*) FROM user WHERE id = ? AND password = ?";
@@ -256,4 +265,6 @@ public class PhotoRepository {
 	public static void main(String[] args) {
 
 	}
+
+	
 }
